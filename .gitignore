@@ -12,6 +12,11 @@
 !/union-catalog-work/build_list.py
 !/union-catalog-work/ia_lookup.py
 !/union-catalog-work/validate.py
+!/next-bib-work/
+/next-bib-work/*
+!/next-bib-work/merge.py
+!/next-bib-work/ia_lookup2.py
+!/next-bib-work/validate2.py
 *.pdf
 *.epub
 .DS_Store

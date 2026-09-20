@@ -81,6 +81,7 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
     <div class="row2">
       <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
       <label>Source <select id="source"><option value="">All</option></select></label>
+      <label>Type <select id="type"><option value="">All</option></select></label>
       <label><input id="hasia" type="checkbox"> on archive.org</label>
       <label><input id="noia" type="checkbox"> not on archive.org</label>
       <label><input id="undated" type="checkbox" checked> include undated</label>
@@ -143,7 +144,7 @@ async function load() {
   const ix = Object.fromEntries(res.columns.map((c, i) => [c, i]));
   ALL = res.values.map(v => {
     const r = {}; for (const c of res.columns) r[c] = v[ix[c]];
-    r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || "";
+    r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || ""; r.type = r.type || "book";
     r.linkList = (r.links || "").split("\n").filter(Boolean);
     r.nlinks = r.linkList.length;
     r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source);
@@ -153,6 +154,7 @@ async function load() {
   db.close();
   const srcs = [...new Set(ALL.flatMap(r => r.source.split(/\s*;\s*/)).filter(Boolean))].sort();
   for (const s of srcs) { const o = document.createElement("option"); o.value = s; o.textContent = s; $("source").appendChild(o); }
+  for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
   const withIA = ALL.filter(r => r.nlinks).length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with archive.org candidates · sources: ${srcs.join(", ") || "—"}`;
   $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions). " +
@@ -168,12 +170,13 @@ function parseQuery(q) {
 function apply(resetPage = true) {
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
-  const src = $("source").value, hasia = $("hasia").checked, noia = $("noia").checked, und = $("undated").checked;
+  const src = $("source").value, typ = $("type").value, hasia = $("hasia").checked, noia = $("noia").checked, und = $("undated").checked;
   const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : "fall";
   VIEW = ALL.filter(r => {
     if (r.year_num == null) { if (!und || y1 || y2) return false; }
     else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
     if (src && !r.source.split(/\s*;\s*/).includes(src)) return false;
+    if (typ && r.type !== typ) return false;
     if (hasia && !r.nlinks) return false;
     if (noia && r.nlinks) return false;
     for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
@@ -222,7 +225,7 @@ function show(i) {
   const links = r.nlinks ? r.linkList.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>`).join("<br>")
     : (r.links === null ? "not searched (undated entry)" : "no match found");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
-    ...other.map(([k, v]) => [esc(k), esc(v)]), ["Source", esc(r.source)], ["archive.org", links]]
+    ...other.map(([k, v]) => [esc(k), esc(v)]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["archive.org", links]]
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
@@ -233,7 +236,7 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("src", $("source").value, ""); put("ia", $("hasia").checked ? 1 : "", ""); put("noia", $("noia").checked ? 1 : "", "");
+  put("src", $("source").value, ""); put("type", $("type").value, ""); put("ia", $("hasia").checked ? 1 : "", ""); put("noia", $("noia").checked ? 1 : "", "");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
@@ -242,7 +245,7 @@ function writeHash() { history.replaceState(null, "", location.pathname + locati
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
-  if (p.get("src")) $("source").value = p.get("src"); $("hasia").checked = !!p.get("ia"); $("noia").checked = !!p.get("noia");
+  if (p.get("src")) $("source").value = p.get("src"); if (p.get("type")) $("type").value = p.get("type"); $("hasia").checked = !!p.get("ia"); $("noia").checked = !!p.get("noia");
   $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
   const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
 }
@@ -250,10 +253,10 @@ function openFromHash(id) { if (id) { const i = VIEW.findIndex(r => r.id === id)
 
 let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
 $("q").addEventListener("input", debounced);
-for (const id of ["field", "y1", "y2", "source", "undated", "pp"]) $(id).addEventListener("input", () => apply());
+for (const id of ["field", "y1", "y2", "source", "type", "undated", "pp"]) $(id).addEventListener("input", () => apply());
 $("hasia").addEventListener("input", () => { if ($("hasia").checked) $("noia").checked = false; apply(); });
 $("noia").addEventListener("input", () => { if ($("noia").checked) $("hasia").checked = false; apply(); });
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("hasia").checked = $("noia").checked = false; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = ""; $("hasia").checked = $("noia").checked = false; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
@@ -267,7 +270,7 @@ $("dcopy").onclick = e => copy(citation(VIEW[cur]), e.target);
 $("dlink").onclick = e => copy(location.origin + location.pathname + "#id=" + VIEW[cur].id, e.target);
 document.addEventListener("keydown", e => { if ($("dlg").open) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); } else if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); } });
 $("csv").onclick = () => {
-  const cols = ["id", "author", "title", "year", "edition", "volume", "links", "other", "source"];
+  const cols = ["id", "author", "title", "year", "edition", "volume", "type", "links", "other", "source"];
   const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""').replace(/\n/g, " ") + '"';
   const blob = new Blob(["\ufeff" + cols.join(",") + "\n" + VIEW.map(r => cols.map(c => q(r[c])).join(",")).join("\n")], { type: "text/csv" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
