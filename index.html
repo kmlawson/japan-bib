@@ -101,8 +101,8 @@ footer p{margin:0 0 8px}
       <label>Source <select id="source"><option value="">All</option></select></label>
       <label>Type <select id="type"><option value="">All</option></select></label>
       <label>Show <select id="show" title="Which entries to list">
-        <option value="ia" selected>On archive.org</option><option value="open">– open (read freely)</option><option value="borrow">– borrow only</option>
-        <option value="noia">Not on archive.org</option><option value="all">All entries</option></select></label>
+        <option value="ia" selected>With an online copy</option><option value="open">– read freely</option><option value="borrow">– borrow only</option>
+        <option value="noia">No online copy</option><option value="all">All entries</option></select></label>
       <label><input id="undated" type="checkbox" checked> include undated</label>
       <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option>1000</option><option value="all" selected>All</option></select></label>
     </div>
@@ -118,7 +118,7 @@ footer p{margin:0 0 8px}
         <th data-k="year_num">Year<span class="arrow"></span></th>
         <th data-k="edition">Edition<span class="arrow"></span></th>
         <th data-k="volume">Vol.<span class="arrow"></span></th>
-        <th data-k="nlinks">archive.org<span class="arrow"></span></th>
+        <th data-k="nlinks">Online copy<span class="arrow"></span></th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
@@ -127,7 +127,7 @@ footer p{margin:0 0 8px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only entries with an archive.org copy are listed (change <b>Show</b> to see all): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only entries with a copy online are listed (change <b>Show</b> to see all): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
 </footer>
 
@@ -179,8 +179,8 @@ async function load() {
   for (const s of srcs) { const o = document.createElement("option"); o.value = s; o.textContent = s; $("source").appendChild(o); }
   for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
-  $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} on archive.org` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
-  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions). " +
+  $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
+  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions); links marked ✓ were checked by hand, and National Diet Library links were supplied from its digital collections. " +
     "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
 }
@@ -229,13 +229,13 @@ function render(terms) {
   const pp = parseInt($("pp").value) || Math.max(1, VIEW.length), pages = Math.max(1, Math.ceil(VIEW.length / pp));
   page = Math.min(page, pages - 1);
   const slice = VIEW.slice(page * pp, (page + 1) * pp);
-  const badge = a => a ? `<span class="badge ${a}" title="${{open: "openly readable on archive.org", borrow: "can be borrowed on archive.org (free account)", restricted: "on archive.org, but only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
+  const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
     <td>${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
     <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}</td>
     <td class="year">${esc(r.year)}</td><td>${esc(r.edition)}</td><td>${esc(r.volume)}</td>
-    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "openly readable on archive.org" : "on archive.org"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
+    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
@@ -248,10 +248,10 @@ function show(i) {
   $("dtitle").textContent = r.title;
   const other = r.other.split(" | ").map(p => { const j = p.indexOf(": "); return j > 0 && j < 22 ? [p.slice(0, j), p.slice(j + 2)] : ["Info", p]; });
   const bdg = a => a ? `<span class="badge ${a}">${a === "restricted" ? "limited" : a}</span>` : "";
-  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
-    : (r.links === null ? "not searched (undated entry)" : "no match found");
+  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", "").replace("https://dl.ndl.go.jp/pid/", "National Diet Library, pid "))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
+    : (r.links === null ? "not searched (undated entry)" : "no copy found online");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
-    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["archive.org", links]]
+    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["Online copy", links]]
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;

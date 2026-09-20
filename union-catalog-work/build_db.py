@@ -31,6 +31,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "zotero-work"))
 import zotero_merge as Z  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
+import ndl_merge as N  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
@@ -144,6 +146,7 @@ if __name__ == "__main__":
     cache2 = M.load_cache2()
     rows += [M.new_row(r, cache2) for r in new]
     checked = Z.apply(rows)  # hand-checked links from the Zotero collection: always kept, listed first
+    checked.update(N.apply(rows, LAST_YEAR))  # National Diet Library items supplied by the user
     n_all = len(rows)
     rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
     print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))

@@ -16,11 +16,11 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 | `author`, `title` | as printed in the source bibliography |
 | `year` | as printed (`1874-75`, `n.d.`); `year_num` = first year as an integer (NULL if undated) |
 | `edition`, `volume` | edition statement; volume statement or designation |
-| `links` | archive.org URLs, one per line (`''` = searched, none found; NULL = undated, not searched) |
+| `links` | URLs of online copies (archive.org, or dl.ndl.go.jp for items from source 5), one per line (`''` = searched, none found; NULL = undated, not searched) |
 | `other` | imprint, extent, series, library holdings, catalogue page, journal reference, the bibliographer's annotation, cross-references to the other bibliographies, transcription notes |
 | `source` | the bibliographies that list the work, `; `-separated |
-| `access` | how the best linked archive.org copy can be read: `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
-| `links_checked` | `1` for a link checked by hand (source 4), else `0`, same order as `links`. Hand-checked links are always kept and listed first, with the access they were checked to have |
+| `access` | how the best linked copy can be read (National Diet Library items are freely readable): `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
+| `links_checked` | `1` for a link checked by hand or supplied directly (sources 4 and 5), else `0`, same order as `links`. Hand-checked links are always kept and listed first, with the access they were checked to have |
 | `type` | `book`, `periodical`, `article` (in a journal) or `chapter` (part of a book) |
 
 `books_fts` is an FTS5 index over author, title and other.
@@ -35,6 +35,8 @@ Sources so far:
    published 1850–1950 (including those cited from a modern reprint).
 4. *Japan Online*, a Zotero collection of books on Japan whose online copies (nearly all on archive.org) were
    checked by hand, exported in two parts: openly readable and borrow-only.
+5. Items from the **National Diet Library** digital collections (dl.ndl.go.jp), supplied as a list of links
+   and described from the NDL's own OAI-PMH metadata.
 
 Only works first published 1850–1950 (and undated ones) are in the database; later entries were
 transcribed but are left out at build time.
