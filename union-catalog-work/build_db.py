@@ -41,7 +41,13 @@ DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bib
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
 ANNOT = re.compile(r"\s*\|\s*Annotation: [^|]*")
 XREF_ANNOT = re.compile(r"(Also in [^|:]*\([^)]*\)[^|:]*): [^|]*")
-DROP_LANGUAGES = {"Vietnamese"}   # the collection is of Western-language works
+# Languages left out of the published database. The working copy (list-full.sqlite) keeps them, so
+# hiding is reversible: take a language out of this set and rebuild. Rows are deleted after insertion,
+# so that ids - and the language fixes keyed to them - do not shift.
+HIDE_LANGUAGES = {
+    "Vietnamese",   # not a Western language
+    "Latin",        # hidden for now at the user's request (scientific and church works)
+}
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
 VOL_TITLE = re.compile(r"\b(?:v\.|vol\.|Bd\.|Band|Tome|Tom|t\.|T\.|Deel|Pt\.|pt\.|Part|Book|Chast'|Heft|Fasciculus|no\.)\s*[IVX\d]+(?:\s*[-–,]\s*[IVX\d]+)*\b")
 
@@ -134,9 +140,11 @@ def write_db(path, rows, keep_annotations):
     out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
     fx = language_fixes()
     out = [r + [fx.get(i + 1) or guess_language(r[1], r[7])[0]] for i, r in enumerate(out)]
-    out = [r for r in out if r[-1] not in DROP_LANGUAGES]
     con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,"
                     "access,links_access,links_checked,language) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
+    if not keep_annotations:   # the working copy keeps everything; the published one hides these
+        con.execute("DELETE FROM books WHERE language IN (%s)" % ",".join("?" * len(HIDE_LANGUAGES)),
+                    sorted(HIDE_LANGUAGES))
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);

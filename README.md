@@ -26,6 +26,9 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 
 `books_fts` is an FTS5 index over author, title and other.
 
+Latin and Vietnamese entries are left out of the published `list.sqlite` (Latin only for the time being);
+the working copy keeps them, so the choice is reversible by editing `HIDE_LANGUAGES` in `build_db.py`.
+
 The annotations written by the compilers of the printed bibliographies (Borton's comments on each work,
 and the same text where it appears in an "Also in …" cross-reference) are **not published**: they are kept
 in the working copy of the database but stripped from `list.sqlite` and from the site.
