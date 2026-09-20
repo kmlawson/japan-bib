@@ -4,7 +4,7 @@ A browsable database of Western-language works on Japan published 1850–1950, c
 bibliographies, with candidate links to scans on archive.org.
 
 **Browse:** open the GitHub Pages site for this repository (`index.html`) — search (diacritics ignored),
-filter by year / source / type / archive.org availability (the list opens on the entries that have an
+filter by year / source / type / language / archive.org availability (the list opens on the entries that have an
 archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* for everything), sort, open an entry for full details, export CSV.
 
 ## Data
@@ -21,6 +21,7 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 | `source` | the bibliographies that list the work, `; `-separated |
 | `access` | how the best linked copy can be read (National Diet Library items are freely readable): `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
 | `links_checked` | `1` for a link checked by hand or supplied directly (sources 4 and 5), else `0`, same order as `links`. Hand-checked links are always kept and listed first, with the access they were checked to have |
+| `language` | language of the work: taken from the source's statement where there is one, otherwise worked out from the title (`union-catalog-work/language.py`; the decisions made by hand are in `language_fixes.tsv`) |
 | `type` | `book`, `periodical`, `article` (in a journal) or `chapter` (part of a book) |
 
 `books_fts` is an FTS5 index over author, title and other.

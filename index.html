@@ -102,6 +102,7 @@ footer ul.bib li{margin-bottom:4px}
       <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
       <label>Source <select id="source"><option value="">All</option></select></label>
       <label>Type <select id="type"><option value="">All</option></select></label>
+      <label>Language <select id="lang" title="Language of the work"><option value="">All</option></select></label>
       <label>Show <select id="show" title="Which entries to list">
         <option value="ia" selected>With an online copy</option><option value="open">– read freely</option><option value="borrow">– borrow only</option>
         <option value="noia">No online copy</option><option value="all">All entries</option></select></label>
@@ -133,8 +134,8 @@ footer ul.bib li{margin-bottom:4px}
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, the following texts were consulted for this bibliography:</p>
   <ul class="bib">
-    <li><cite>Union Catalog of Books on Japan in Western Languages</cite>. Reprint edition. Edited by Naomi Fukuda. International House Library, 1968.</li>
-    <li>Borton, Hugh, Serge Elisséeff, William W. Lockwood and John C. Pelzel, comps. <cite>A Selected List of Books and Articles on Japan in English, French and German</cite>. Revised and enlarged. Cambridge, Mass.: Published by the Harvard University Press for the Harvard-Yenching Institute, 1954.</li>
+    <li>Fukuda, Naomi, ed. <cite>Union Catalog of Books on Japan in Western Languages</cite>. International House Library, 1968.</li>
+    <li>Borton, Hugh, Serge Elisséeff, William W. Lockwood and John C. Pelzel, comps. <a href="https://archive.org/details/selectedlistofbo0000bort" target="_blank" rel="noopener"><cite>A Selected List of Books and Articles on Japan in English, French and German</cite></a>. Revised and enlarged. Cambridge, Mass.: Published by the Harvard University Press for the Harvard-Yenching Institute, 1954.</li>
     <li>Henshall, Kenneth. <cite>Historical Dictionary of Japan to 1945</cite>. Lanham, Toronto and Plymouth, UK: The Scarecrow Press, Inc., 2014.</li>
   </ul>
 </footer>
@@ -177,14 +178,19 @@ async function load() {
     r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || ""; r.type = r.type || "book";
     r.linkList = (r.links || "").split("\n").filter(Boolean);
     r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ");
-    r.access = r.access || ""; r.accList = (r.links_access || "").split("\n"); r.chkList = (r.links_checked || "").split("\n"); r.checked = r.chkList[0] === "1";
-    r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source);
+    r.access = r.access || ""; r.language = r.language || ""; r.accList = (r.links_access || "").split("\n"); r.chkList = (r.links_checked || "").split("\n"); r.checked = r.chkList[0] === "1";
+    r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source + " " + r.language);
     r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
     return r;
   });
   db.close();
   const srcs = [...new Set(ALL.flatMap(r => r.source.split(/\s*;\s*/)).filter(Boolean))].sort();
   for (const s of srcs) { const o = document.createElement("option"); o.value = s; o.textContent = s; $("source").appendChild(o); }
+  const langCount = {};
+  for (const r of ALL) langCount[r.language] = (langCount[r.language] || 0) + 1;
+  for (const l of Object.keys(langCount).sort((a, b) => langCount[b] - langCount[a])) {
+    const o = document.createElement("option"); o.value = l; o.textContent = `${l} (${langCount[l].toLocaleString()})`; $("lang").appendChild(o);
+  }
   for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
@@ -201,13 +207,14 @@ function parseQuery(q) {
 function apply(resetPage = true) {
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
-  const shw = $("show").value, src = $("source").value, typ = $("type").value, und = $("undated").checked;
+  const shw = $("show").value, src = $("source").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
   const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : "fall";
   VIEW = ALL.filter(r => {
     if (r.year_num == null) { if (!und || y1 || y2) return false; }
     else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
     if (src && !r.source.split(/\s*;\s*/).includes(src)) return false;
     if (typ && r.type !== typ) return false;
+    if (lng && r.language !== lng) return false;
     if (shw === "noia" ? r.nlinks : shw !== "all" && !r.nlinks) return false;
     if ((shw === "open" || shw === "borrow") && r.access !== shw) return false;
     for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
@@ -259,7 +266,7 @@ function show(i) {
   const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", "").replace("https://dl.ndl.go.jp/pid/", "National Diet Library, pid "))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
     : (r.links === null ? "not searched (undated entry)" : "no copy found online");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
-    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["Online copy", links]]
+    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Language", esc(r.language)], ["Source", esc(r.source)], ["Online copy", links]]
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
@@ -270,7 +277,7 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("src", $("source").value, ""); put("type", $("type").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
+  put("src", $("source").value, ""); put("type", $("type").value, ""); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
@@ -279,7 +286,7 @@ function writeHash() { history.replaceState(null, "", location.pathname + locati
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
-  if (p.get("src")) $("source").value = p.get("src"); if (p.get("type")) $("type").value = p.get("type"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
+  if (p.get("src")) $("source").value = p.get("src"); if (p.get("type")) $("type").value = p.get("type"); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
   $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
   const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
 }
@@ -292,8 +299,8 @@ function openFromHash(id) {
 
 let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
 $("q").addEventListener("input", debounced);
-for (const id of ["field", "y1", "y2", "source", "type", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+for (const id of ["field", "y1", "y2", "source", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = ""; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
@@ -307,7 +314,7 @@ $("dcopy").onclick = e => copy(citation(VIEW[cur]), e.target);
 $("dlink").onclick = e => copy(location.origin + location.pathname + "#id=" + VIEW[cur].id, e.target);
 document.addEventListener("keydown", e => { if ($("dlg").open) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); } else if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); } });
 $("csv").onclick = () => {
-  const cols = ["id", "author", "title", "year", "edition", "volume", "type", "access", "links", "links_access", "links_checked", "other", "source"];
+  const cols = ["id", "author", "title", "year", "edition", "volume", "type", "language", "access", "links", "links_access", "links_checked", "other", "source"];
   const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""').replace(/\n/g, " ") + '"';
   const blob = new Blob(["\ufeff" + cols.join(",") + "\n" + VIEW.map(r => cols.map(c => q(r[c])).join(",")).join("\n")], { type: "text/csv" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);

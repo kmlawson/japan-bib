@@ -12,6 +12,8 @@ Table books: id, author, title, year, year_num, edition, volume, links, other, s
             lending, free account) | unknown (not checked) | '' (no link). Items that can be neither read nor
             borrowed (print-disabled readers only, or gone) are not linked at all.
   links_access  the same flag for each URL in `links`, one per line, same order
+  language  language of the work, from the source's own statement where there is one, otherwise worked out
+            from the title (see language.py; decisions made by hand are in language_fixes.tsv)
   links_checked 1 for a link that was checked by hand (Zotero collection "Japan Online"), else 0, same order.
                 Hand-checked links come first, then open copies, then borrow-only ones.
   year      as printed ("1874-75", "n.d.", "19--")
@@ -31,6 +33,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "zotero-work"))
 import zotero_merge as Z  # noqa: E402
+from language import guess as guess_language, fixes as language_fixes  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
 import ndl_merge as N  # noqa: E402
 
@@ -120,15 +123,18 @@ def write_db(path, rows, keep_annotations):
             type TEXT NOT NULL,
             access TEXT NOT NULL,
             links_access TEXT NOT NULL,
-            links_checked TEXT NOT NULL
+            links_checked TEXT NOT NULL,
+            language TEXT NOT NULL
         );
         CREATE VIRTUAL TABLE books_fts USING fts5(
             author, title, other, content='books', content_rowid='id',
             tokenize="unicode61 remove_diacritics 2");
     """)
     out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
+    fx = language_fixes()
+    out = [r + [fx.get(i + 1) or guess_language(r[1], r[7])[0]] for i, r in enumerate(out)]
     con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,"
-                    "access,links_access,links_checked) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
+                    "access,links_access,links_checked,language) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);
@@ -136,6 +142,7 @@ def write_db(path, rows, keep_annotations):
         CREATE INDEX idx_year ON books(year_num);
         CREATE INDEX idx_type ON books(type);
         CREATE INDEX idx_access ON books(access);
+        CREATE INDEX idx_language ON books(language);
     """)
     con.commit()
     return con
@@ -187,6 +194,8 @@ if __name__ == "__main__":
     print("Union Catalog rows", n_uc, "| of which also in a later bibliography", len(attach), "| new rows", len(new))
     for t, n in con.execute("SELECT source, count(*) FROM books GROUP BY source ORDER BY 2 DESC"):
         print(f"  {n:5d}  {t}")
+    print("languages:", ", ".join(f"{l} {n}" for l, n in con.execute(
+        "SELECT language, count(*) FROM books GROUP BY language ORDER BY 2 DESC LIMIT 8")))
     for a, n in con.execute("SELECT access, count(*) FROM books WHERE links<>'' GROUP BY access ORDER BY 2 DESC"):
         print(f"  access {a or '-':10s} {n}")
     print("rows", q("SELECT count(*) FROM books"), "| with links", q("SELECT count(*) FROM books WHERE links<>''"),
