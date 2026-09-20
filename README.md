@@ -72,3 +72,7 @@ item dated within four years. Clear matches are taken automatically; edge cases 
 creator) were judged by hand. Rows linked this way say `IA match: loose` in `other`.
 
 The scans themselves and the per-page transcription files are not part of this repository.
+
+## Gallica
+
+`gallica-work/gallica_search.py` asks the BnF's SRU API for the French-language entries that have no copy yet (one query at a time, nothing identifying sent); `gallica_score.py` scores the candidates and `gallica_decisions.tsv` holds the verdicts made by hand. `gallica_merge.py` attaches the accepted copies when the database is built - they are public-domain scans, so they count as `open`.

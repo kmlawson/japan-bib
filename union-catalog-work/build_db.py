@@ -36,6 +36,8 @@ import zotero_merge as Z  # noqa: E402
 from language import guess as guess_language, fixes as language_fixes  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
 import ndl_merge as N  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "gallica-work"))
+import gallica_merge as GAL  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -196,6 +198,11 @@ if __name__ == "__main__":
     n_all = len(rows)
     rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
     print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
+    # Gallica copies for the French entries. Keyed by row position, so it has to come after the
+    # filtering above and before the access flags below.
+    n_gal, n_galed, moved = GAL.apply(rows)
+    print(f"Gallica: {n_gal} copies linked, {n_galed} other editions noted"
+          + (f", {len(moved)} skipped because the row had moved: {moved[:8]}" if moved else ""))
     acc = load_access()
     rows = [with_access(list(x), acc, checked) for x in rows]
     write_db(DB_FULL, rows, keep_annotations=True)

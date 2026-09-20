@@ -183,7 +183,7 @@ async function load() {
     const r = {}; for (const c of res.columns) r[c] = v[ix[c]];
     r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || ""; r.type = r.type || "book";
     r.linkList = (r.links || "").split("\n").filter(Boolean);
-    r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ");
+    r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ") || r.other.includes("Gallica, other editions: ");
     r.access = r.access || ""; r.language = r.language || ""; r.accList = (r.links_access || "").split("\n"); r.chkList = (r.links_checked || "").split("\n"); r.checked = r.chkList[0] === "1";
     r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source + " " + r.language);
     r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
@@ -200,7 +200,7 @@ async function load() {
   for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
-  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions); links marked ✓ were checked by hand, and National Diet Library links were supplied from its digital collections. " +
+  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions); links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, and French works were looked for on Gallica (Bibliothèque nationale de France), whose scans are public-domain and freely readable. " +
     "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
 }
@@ -279,10 +279,10 @@ function show(i) {
   $("dtitle").textContent = r.title;
   const other = r.other.split(" | ").map(p => { const j = p.indexOf(": "); return j > 0 && j < 22 ? [p.slice(0, j), p.slice(j + 2)] : ["Info", p]; });
   const bdg = a => a ? `<span class="badge ${a}">${a === "restricted" ? "limited" : a}</span>` : "";
-  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", "").replace("https://dl.ndl.go.jp/pid/", "National Diet Library, pid "))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
+  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", "").replace("https://dl.ndl.go.jp/pid/", "National Diet Library, pid ").replace("https://gallica.bnf.fr/", "Gallica, "))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
     : (r.links === null ? "not searched (undated entry)" : "no copy found online");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
-    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Language", esc(r.language) || "not determined"], ["Source", esc(r.source)], ["Online copy", links]]
+    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>').replace(/https:\/\/gallica\.bnf\.fr\/([^\s;|<]+)/g, '<a href="https://gallica.bnf.fr/$1" target="_blank" rel="noopener">Gallica, $1</a>')]), ["Type", esc(r.type)], ["Language", esc(r.language) || "not determined"], ["Source", esc(r.source)], ["Online copy", links]]
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
