@@ -28,19 +28,40 @@ def in_range(r):
     return min(ys) <= 1955 and max(ys) >= 1850
 
 
-def ia_matches(r, cache):
-    """Filtered archive.org candidates for a record: None = not searched, [] = no match."""
+TOL = 3  # archive.org items dated within 3 years of the catalogue entry are taken to be the same book
+
+
+def _split(r, cache):
     c = cache.get(key(r))
     if c is None:
-        return None
+        return None, []
     ys = set(years(r))
-    ms = c["matches"]
-    if not surname(r["author"]):
-        # no personal-author check was possible: keep only items whose year fits, or long exact titles
-        nwords = len(norm(r["title"]).split())
-        ms = [m for m in ms if (m["year"] is not None and any(abs(m["year"] - y) <= 2 for y in ys))
-              or (nwords >= 6 and m["score"] >= 0.97 and (m["year"] is None or m["year"] <= 1960))]
-    return sorted(ms, key=lambda m: (m["year"] not in ys, -m["score"]))[:6]
+    personal = bool(surname(r["author"]))
+    nwords = len(norm(r["title"]).split())
+    same, other = [], []
+    for m in c["matches"]:
+        y = m["year"]
+        if y is not None and any(abs(y - x) <= TOL for x in ys):
+            same.append(m)
+        elif y is None:
+            # undated item: the creator check (personal author) or a long exact title has to carry it
+            if personal or (nwords >= 6 and m["score"] >= 0.97):
+                same.append(m)
+        elif personal and m.get("creator"):
+            other.append(m)  # same author and title, another date: a different edition
+    same.sort(key=lambda m: (m["year"] not in ys, m["year"] is None, -m["score"]))
+    other.sort(key=lambda m: (-m["score"], m["year"]))
+    return same[:6], other[:6]
+
+
+def ia_matches(r, cache):
+    """archive.org items taken to be this book: None = not searched, [] = none."""
+    return _split(r, cache)[0]
+
+
+def ia_other_editions(r, cache):
+    """archive.org items with the same author and title but dated more than TOL years away."""
+    return _split(r, cache)[1]
 
 
 def fmt(r, cache, links=True):
@@ -74,6 +95,10 @@ def fmt(r, cache, links=True):
             s += "  \n  IA: " + " · ".join(
                 f"[{m['identifier']}](https://archive.org/details/{m['identifier']})"
                 + (f" ({m['year']})" if m["year"] else "") for m in ms)
+        oth = ia_other_editions(r, cache)
+        if oth:
+            s += "  \n  IA, other editions: " + " · ".join(
+                f"[{m['identifier']}](https://archive.org/details/{m['identifier']}) ({m['year']})" for m in oth)
     return s
 
 

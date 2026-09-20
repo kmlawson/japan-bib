@@ -10,6 +10,8 @@ STOP = set("the a an of and in on to for by with from its their his her de la le
            "der die das und von zu im dem den des el los las y del il di e da do dos das van het een "
            "au aux sur à zur zum ein eine or not ou oder och og".split())
 lock = threading.Lock()
+TOL = 3    # a candidate dated within 3 years of the record is taken to be the same book
+CAP = 24   # candidates kept per record (was 12)
 
 
 def fold(s):
@@ -107,7 +109,7 @@ def score(rec_title, mt, sn, c):
     return r
 
 
-def lookup(author, title):
+def lookup(author, title, years=()):
     mt = main_title(title)
     sn = surname(author)
     queries = []
@@ -136,8 +138,10 @@ def lookup(author, title):
                                 "year": cand_year(c), "score": round(s, 3)})
         if matches:
             break
-    matches.sort(key=lambda m: -m["score"])
-    return {"queries": used, "matches": matches[:12]}
+    # candidates dated within TOL years of the record come first, so that the cap never drops them
+    near = lambda m: m["year"] is not None and any(abs(m["year"] - y) <= TOL for y in years)
+    matches.sort(key=lambda m: (not near(m), -m["score"]))
+    return {"queries": used, "matches": matches[:CAP]}
 
 
 def key(r):
@@ -172,6 +176,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--redo-truncated", action="store_true",
+                    help="search again the records whose cached candidate list was cut at the old cap of 12")
     args = ap.parse_args()
     cache = load_cache()
     todo = {}
@@ -179,7 +185,10 @@ if __name__ == "__main__":
         if r["year_start"] is None and not re.search(r"\d{2}", r["year"]):
             continue  # undated: not looked up
         k = key(r)
-        if k not in cache and k not in todo:
+        if args.redo_truncated:
+            if k in cache and len(cache[k]["matches"]) == 12 and not cache[k].get("redone") and k not in todo:
+                todo[k] = r
+        elif k not in cache and k not in todo:
             todo[k] = r
     items = list(todo.items())
     if args.limit:
@@ -190,11 +199,14 @@ if __name__ == "__main__":
     def work(kr):
         k, r = kr
         try:
-            res = lookup(r["author"], r["title"])
+            from build_list import years as rec_years
+            res = lookup(r["author"], r["title"], rec_years(r))
         except Exception as e:
             print("ERR", e, flush=True)
             return
         res.update(key=k, author=r["author"], title=r["title"])
+        if args.redo_truncated:
+            res["redone"] = True
         with lock:
             with open(CACHE, "a", encoding="utf-8") as f:
                 f.write(json.dumps(res, ensure_ascii=False) + "\n")

@@ -12,14 +12,15 @@ Table books: id, author, title, year, year_num, edition, volume, links, other, s
   year_num  integer first year for range queries (NULL when undated)
   volume    volume statement from the extent ("2 v.", "3v. in 1.") or, failing that, a volume
             designation in the title ("v.1", "Bd.2", "Pt.1-3")
-  links     archive.org URLs, one per line ('' = searched, no match; NULL = undated, not searched)
+  links     archive.org URLs, one per line ('' = searched, no match; NULL = undated, not searched);
+            only items dated within 3 years of the entry - other dates are listed in `other` as other editions
   other     place, publisher, extent, series, holdings, rare flag, catalogue page, note
 books_fts: full-text index over author, title, other (FTS5, diacritics folded).
 """
 import os, re, sqlite3, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ia_lookup import load_records, load_cache, HERE
-from build_list import in_range, years, ia_matches
+from build_list import in_range, years, ia_matches, ia_other_editions
 sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 
@@ -83,14 +84,20 @@ if __name__ == "__main__":
         rng = in_range(r)
         if rng is False:
             continue
+        oth = []
         if rng is None:
             links, ynum = None, None
         else:
             ms = ia_matches(r, cache) or []
             links = "\n".join(f"https://archive.org/details/{m['identifier']}" for m in ms)
+            oth = ia_other_editions(r, cache)
             ys = [y for y in years(r) if 1850 <= y <= 1955] or years(r)
             ynum = r["year_start"] if r["year_start"] is not None else min(ys)
-        rows.append([r["author"].strip(), r["title"].strip(), r["year"], ynum, r["edition"], volume(r), links, other(r), "Union Catalog (Fukuda)", "book"])
+        o = other(r)
+        if oth:
+            o += " | IA other editions: " + "; ".join(
+                f"https://archive.org/details/{m['identifier']} ({m['year']})" for m in oth)
+        rows.append([r["author"].strip(), r["title"].strip(), r["year"], ynum, r["edition"], volume(r), links, o, "Union Catalog (Fukuda)", "book"])
     n_uc = len(rows)
     attach, new = M.merge([dict(author=x[0], title=x[1], year_num=x[3]) for x in rows])
     for i, rs in attach.items():

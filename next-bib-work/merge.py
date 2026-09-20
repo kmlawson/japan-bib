@@ -100,10 +100,17 @@ class Index:
     """Bucket rows by surname ('' bucket for anonymous) for candidate lookup."""
 
     def __init__(self):
-        self.b = {}
+        self.b, self.t = {}, {}
 
     def add(self, item):
         self.b.setdefault(item["sur"], []).append(item)
+        self.t.setdefault(item["tk"], []).append(item)
+
+    def exact(self, tk, full, year, kind):
+        dg = set(re.findall(r"\d+", full))
+        c = [it for it in self.t.get(tk, []) if it["kind"] == kind and years_close(year, it["year"])
+             and not (dg and set(re.findall(r"\d+", it["full"])) and dg != set(re.findall(r"\d+", it["full"])))]
+        return min(c, key=lambda it: abs(year - it["year"])) if c else None
 
     def find(self, sur_, tk, full, year, kind, strict=False):
         best = None
@@ -147,11 +154,21 @@ def merge(uc_rows):
     for r in load_new():
         k = kind_of(r)
         hit = idx.find(sur(r["author"]), tkey(r["title"]), norm(r["title"]), r["year_start"], k)
-        if hit is None and sur(r["author"]):
-            # corporate/anonymous cataloguing of the same work: retry without the author when the title is long
-            tk = tkey(r["title"])
-            if len(tk) >= 25:
-                hit = idx.find("", tk, norm(r["title"]), r["year_start"], k, strict=len(tk) < 40)
+        tk, full, su = tkey(r["title"]), norm(r["title"]), sur(r["author"])
+        if hit is None and su:
+            # the same person under a variant spelling (Uyehara/Uehara, Inouye/Inoue, Elisséev/Elisséeff)
+            for other in list(idx.b):
+                if other and other != su and other[0] == su[0] and difflib.SequenceMatcher(None, su, other).ratio() >= 0.8:
+                    hit = idx.find(other, tk, full, r["year_start"], k)
+                    if hit:
+                        break
+        if hit is None and su and len(tk) >= 25:
+            # corporate/anonymous cataloguing of the same work
+            hit = idx.find("", tk, full, r["year_start"], k, strict=len(tk) < 40)
+        if hit is None and len(tk) >= 20 and r["year_start"] is not None:
+            # entered under another heading (translator vs. original author, editor vs. diarist): identical
+            # title proper of some length + years within tolerance
+            hit = idx.exact(tk, full, r["year_start"], k)
         if hit is not None:
             kind, ref = hit["ref"]
             if kind == "uc":
@@ -239,7 +256,7 @@ def new_row(r, cache):
     for d in r["also"]:
         parts.append(xref(d))
     if others:
-        parts.append("Other editions on archive.org (dated more than 3 years apart): " +
+        parts.append("IA other editions: " +
                      "; ".join(f"{url(m)} ({m['year']})" for m in others[:8]))
     m = VOLS.search(r["extent"]) or VOLS.search(r["title"])
     src = "; ".join(dict.fromkeys([r["src"]] + [d["src"] for d in r["also"]]))

@@ -40,8 +40,8 @@ count as the same book. Such a record does not get a new row — the existing ro
 an "Also in …" cross-reference (with Borton's annotation) in `other`.
 
 **archive.org links** are title/author matches found with the `ia` command-line tool — candidates, not
-verified identical editions. For the two later sources a match dated within three years of the printed
-year is linked as the same book; matches further away are listed in `other` as other editions. Only
-books are looked up, not articles or chapters.
+verified identical editions. An item dated within three years of the printed year is linked as the same
+book (`links`); items with the same author and title but another date are listed in `other` as
+`IA other editions`. Only books are looked up, not articles or chapters.
 
 The scans themselves and the per-page transcription files are not part of this repository.

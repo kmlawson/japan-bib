@@ -146,7 +146,7 @@ async function load() {
     const r = {}; for (const c of res.columns) r[c] = v[ix[c]];
     r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || ""; r.type = r.type || "book";
     r.linkList = (r.links || "").split("\n").filter(Boolean);
-    r.nlinks = r.linkList.length;
+    r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ");
     r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source);
     r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
     return r;
@@ -210,7 +210,7 @@ function render(terms) {
     <td>${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
     <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}</td>
     <td class="year">${esc(r.year)}</td><td>${esc(r.edition)}</td><td>${esc(r.volume)}</td>
-    <td class="ia">${r.nlinks ? `<a class="ialink" href="${esc(r.linkList[0])}" target="_blank" rel="noopener">open ↗</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : "")}</td></tr>`).join("");
+    <td class="ia">${r.nlinks ? `<a class="ialink" href="${esc(r.linkList[0])}" target="_blank" rel="noopener">open ↗</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`;
@@ -225,7 +225,7 @@ function show(i) {
   const links = r.nlinks ? r.linkList.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>`).join("<br>")
     : (r.links === null ? "not searched (undated entry)" : "no match found");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
-    ...other.map(([k, v]) => [esc(k), esc(v)]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["archive.org", links]]
+    ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["archive.org", links]]
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
