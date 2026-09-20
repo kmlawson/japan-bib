@@ -6,17 +6,17 @@
 <title>Japan Bibliography Browser</title>
 <style>
 :root{
-  --bg:#f7f5f0;--panel:#fff;--ink:#1f2328;--muted:#667085;--line:#ddd8cc;--accent:#9b2c2c;--accent-ink:#fff;
-  --hit:#fff3bf;--chip:#efeade;--link:#1a5fb4;--row:#fbfaf7;
+  --bg:#f3f5f8;--panel:#fff;--ink:#16273d;--muted:#5d6f84;--line:#d9e0e8;--accent:#12539e;--accent-ink:#fff;
+  --hit:#cfe3ff;--chip:#e9eef5;--link:#1257a8;--row:#fafbfd;
   --open-bg:#dcf3e1;--open-ink:#17663a;--borrow-bg:#fdebc8;--borrow-ink:#8a5200;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#15171a;--panel:#1d2024;--ink:#e6e6e3;--muted:#9aa3ad;--line:#33383f;--accent:#e06c5b;--accent-ink:#15171a;
-  --hit:#5a4a00;--chip:#2a2e34;--link:#7db3ff;--row:#1a1d21;
+  --bg:#0f1621;--panel:#16202c;--ink:#e6edf5;--muted:#9ab0c6;--line:#2a3746;--accent:#5aa2ff;--accent-ink:#0f1621;
+  --hit:#204a7a;--chip:#1e2a38;--link:#8cc2ff;--row:#131c27;
   --open-bg:#143d25;--open-ink:#8fdcaa;--borrow-bg:#4a3205;--borrow-ink:#f3c56b;}}
 :root[data-theme="dark"]{
-  --bg:#15171a;--panel:#1d2024;--ink:#e6e6e3;--muted:#9aa3ad;--line:#33383f;--accent:#e06c5b;--accent-ink:#15171a;
-  --hit:#5a4a00;--chip:#2a2e34;--link:#7db3ff;--row:#1a1d21;
+  --bg:#0f1621;--panel:#16202c;--ink:#e6edf5;--muted:#9ab0c6;--line:#2a3746;--accent:#5aa2ff;--accent-ink:#0f1621;
+  --hit:#204a7a;--chip:#1e2a38;--link:#8cc2ff;--row:#131c27;
   --open-bg:#143d25;--open-ink:#8fdcaa;--borrow-bg:#4a3205;--borrow-ink:#f3c56b;}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
@@ -45,7 +45,7 @@ th .arrow{opacity:.9;margin-left:4px}
 tbody tr{cursor:pointer}
 tbody tr:nth-child(even){background:var(--row)}
 tbody tr:hover{outline:2px solid var(--accent);outline-offset:-2px}
-td.title{font-family:Georgia,"Times New Roman",serif}
+td.au,td.title,td.year,td.ed,td.vol{font-family:Georgia,"Times New Roman",serif}
 th:nth-child(1){width:19%}th:nth-child(2){width:47%}th:nth-child(3){width:8%}th:nth-child(4){width:10%}th:nth-child(5){width:5%}
 .pager[hidden]{display:none}
 td.year,td.ia{white-space:nowrap}
@@ -232,9 +232,9 @@ function render(terms) {
   const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
-    <td>${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
+    <td class="au">${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
     <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}</td>
-    <td class="year">${esc(r.year)}</td><td>${esc(r.edition)}</td><td>${esc(r.volume)}</td>
+    <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;

@@ -23,10 +23,14 @@
 !/next-bib-work/ia_access/
 /next-bib-work/ia_access/*
 !/next-bib-work/ia_access/check_access.py
+!/onlinebooks-work/
+/onlinebooks-work/*
+!/onlinebooks-work/ob_search.py
 !/ndl-work/
 /ndl-work/*
 !/ndl-work/ndl_fetch.py
 !/ndl-work/ndl_merge.py
+!/ndl-work/ndl_access.py
 !/zotero-work/
 /zotero-work/*
 !/zotero-work/zotero_parse.py

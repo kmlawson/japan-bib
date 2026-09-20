@@ -55,6 +55,17 @@ def _kanji_num(s):
     return KANJI.get(s, 0)
 
 
+ERA_RE = re.compile(r"(明治|大正|昭和|慶応|元治|文久|万延|安政)\s*([0-9]+|元|[一二三四五六七八九十]+)\s*年?")
+
+
+def to_western(text):
+    """'大正6' -> '1917', '昭和12.8' -> '1937.8'; anything that is not an era date is left alone."""
+    def sub(m):
+        n = _kanji_num(m.group(2))
+        return str(ERA[m.group(1)] + n) if n else m.group(0)
+    return ERA_RE.sub(sub, text or "")
+
+
 def year_of(r):
     """Gregorian year: from any of the dcterms:issued values, or converted from a Japanese era date."""
     for v in (r.get("issued_all") or []) + [r.get("issued", "")]:
@@ -70,8 +81,40 @@ def year_of(r):
     return None
 
 
+def access_map():
+    """pid -> open | limited, from ndl_access.py (checked against NDL Search, which words the rights plainly)."""
+    fn = os.path.join(HERE, "ndl_access.jsonl")
+    d = {}
+    if os.path.exists(fn):
+        for line in open(fn, encoding="utf-8"):
+            try:
+                r = json.loads(line)
+                d[r["pid"]] = r
+            except Exception:
+                pass
+    return d
+
+
+DESIG = re.compile(r"[^\w]*(?:巻|vol\.?|v\.|no\.|pt\.?|第)?\s*[\dIVXivx一二三四五六七八九十]+\s*(?:巻|編|輯|冊)?[^\w]*\Z", re.I)
+
+
+def split_volume(z):
+    """The NDL 'volume' field holds either a plain designation ('巻1', '1925') or the title of the part
+    ('MOMOTARO The Story of Peach-Boy'). Returns (designation, part title)."""
+    v = (z.get("volume") or "").strip()
+    if not v:
+        return "", ""
+    w = to_western(v)
+    if re.fullmatch(r"\[?\d{4}\]?年?", w) and (z["year_num"] is None or str(z["year_num"]) in to_western(z["year"])):
+        return "", ""  # only repeats the date
+    if DESIG.fullmatch(v):
+        return v, ""
+    return "", v
+
+
 def load():
     out, seen = [], set()
+    acc = access_map()
     fn = os.path.join(HERE, "ndl.jsonl")
     if not os.path.exists(fn):
         return out
@@ -82,7 +125,15 @@ def load():
         seen.add(r["pid"])
         r["author"] = author_of(r)
         r["year_num"] = year_of(r)
-        r["year"] = r.get("issued") or "n.d."
+        printed = r.get("issued") or ""
+        r["year"] = to_western(printed) or "n.d."
+        r["year_printed"] = printed if r["year"] != printed else ""
+        r["designation"], part = split_volume(r)
+        if part and M.norm(part) not in M.norm(r["title"]):
+            r["title"] = r["title"].rstrip(" .") + ". " + part
+        a = acc.get(r["pid"])
+        r["access"] = (a or {}).get("access", "unknown")
+        r["access_words"] = "; ".join((a or {}).get("rights", []))
         out.append(r)
     return out
 
@@ -107,6 +158,8 @@ def describe(r):
         parts.append("Statement of responsibility: " + "; ".join(extra[:3]))
     if r.get("descriptions"):
         parts.append("Note: " + "; ".join(r["descriptions"][:4]))
+    if r.get("year_printed"):
+        parts.append("Date as printed: " + r["year_printed"])
     parts.append(f"{SRC} pid {r['pid']}")
     return parts
 
@@ -123,10 +176,14 @@ def apply(rows, last_year=None):
     for i, r in enumerate(rows):
         if r[9] in ("book", "periodical"):
             idx.add(M.item(M.sur(r[0]), r[1], r[3], "book", i))
-    checked, stats, skipped = {}, {"merged": 0, "new": 0, "ndl_fuller": 0}, []
+    checked, stats, skipped, skipped_limited = {}, {"merged": 0, "new": 0, "ndl_fuller": 0}, [], []
     for z in load():
         if last_year is not None and z["year_num"] is not None and not (1850 <= z["year_num"] <= last_year):
             skipped.append((z["pid"], z["year"], z["title"][:60]))
+            continue
+        if z["access"] == "limited":
+            # readable only inside the library or by registered transmission: not offered as an online copy
+            skipped_limited.append((z["pid"], z["access_words"], z["title"][:50]))
             continue
         checked[z["url"]] = "open"
         su, tk, full = M.sur(z["author"]), M.tkey(z["title"]), M.norm(z["title"])
@@ -143,7 +200,7 @@ def apply(rows, last_year=None):
             h = None
         desc = describe(z)
         if h is None:
-            rows.append([z["author"], z["title"], z["year"], z["year_num"], z.get("edition", ""), z.get("volume", ""),
+            rows.append([z["author"], z["title"], z["year"], z["year_num"], z.get("edition", ""), z["designation"],
                          z["url"], " | ".join(desc), SRC, "book"])
             idx.add(M.item(su, z["title"], z["year_num"], "book", len(rows) - 1))
             stats["new"] += 1
@@ -161,13 +218,16 @@ def apply(rows, last_year=None):
             r[0] = z["author"] if z["author"] and (latin(z["author"]) or not latin(r[0])) else r[0]
             r[1], r[2] = z["title"], z["year"]
             r[3] = z["year_num"] if z["year_num"] is not None else r[3]
-            r[5] = r[5] or z.get("volume", "")
+            r[5] = r[5] or z["designation"]
             r[7] = " | ".join(desc + [f"Description from {SRC}; entered elsewhere as: {old}", r[7]])
             stats["ndl_fuller"] += 1
         else:
             r[7] += f" | Also in {SRC} (pid {z['pid']}): {line}"
         stats["merged"] += 1
-    print("NDL:", stats, "| links", len(checked), "| outside 1850-%s: %d" % (last_year, len(skipped)))
+    print("NDL:", stats, "| links", len(checked), "| outside 1850-%s: %d" % (last_year, len(skipped)),
+          "| not readable online: %d" % len(skipped_limited))
+    for s in skipped_limited:
+        print("   limited", s)
     for s in skipped:
         print("   skipped", s)
     return checked
