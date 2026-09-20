@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge Borton (1954) and Henshall (2014) records into the Union Catalog rows, minimising duplicates.
+"""Merge Borton et al. (1954) and Henshall (2014) records into the Union Catalog rows, minimising duplicates.
 
 Same work = same author surname (or both anonymous) + matching title proper + publication years no
 more than TOL (3) years apart. A new record that matches an existing row adds its source name and a
@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
 from ia_lookup import norm, main_title  # noqa: E402
 
 TOL = 3
-SRC_BORTON = "Borton (1954)"
+SRC_BORTON = "Borton et al. (1954)"
 SRC_HENSHALL = "Henshall (2014)"
 CACHE2 = os.path.join(HERE, "ia_cache2.jsonl")
 EXCLUDE_HENSHALL = [("duus", "abacus")]  # Henshall misprints 1955 for 1995

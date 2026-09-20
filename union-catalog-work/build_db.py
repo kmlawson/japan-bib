@@ -34,7 +34,10 @@ import zotero_merge as Z  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
 import ndl_merge as N  # noqa: E402
 
-DB = os.path.join(HERE, "..", "list.sqlite")
+DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
+DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
+ANNOT = re.compile(r"\s*\|\s*Annotation: [^|]*")
+XREF_ANNOT = re.compile(r"(Also in [^|:]*\([^)]*\)[^|:]*): [^|]*")
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
 VOL_TITLE = re.compile(r"\b(?:v\.|vol\.|Bd\.|Band|Tome|Tom|t\.|T\.|Deel|Pt\.|pt\.|Part|Book|Chast'|Heft|Fasciculus|no\.)\s*[IVX\d]+(?:\s*[-–,]\s*[IVX\d]+)*\b")
 
@@ -70,6 +73,14 @@ def volume(r):
     return m.group(0).strip() if m else ""
 
 
+def strip_annotations(text):
+    """Remove the annotations written by the compilers of the printed bibliographies (their own words):
+    the "Annotation: ..." parts and the comment that follows an "Also in ..." cross-reference."""
+    t = ANNOT.sub("", text)
+    t = XREF_ANNOT.sub(r"\1", t)
+    return re.sub(r"\s*\|\s*\|", " |", t).strip(" |")
+
+
 def other(r):
     parts = []
     imprint = ", ".join(x for x in (r["place"], r["publisher"]) if x)
@@ -89,11 +100,11 @@ def other(r):
     return " | ".join(parts)
 
 
-if __name__ == "__main__":
-    recs, cache = load_records(), load_cache()
-    if os.path.exists(DB):
-        os.remove(DB)
-    con = sqlite3.connect(DB)
+def write_db(path, rows, keep_annotations):
+    """Write one SQLite file. The published copy leaves out the bibliographers' own annotations."""
+    if os.path.exists(path):
+        os.remove(path)
+    con = sqlite3.connect(path)
     con.executescript("""
         CREATE TABLE books (
             id INTEGER PRIMARY KEY,
@@ -115,6 +126,24 @@ if __name__ == "__main__":
             author, title, other, content='books', content_rowid='id',
             tokenize="unicode61 remove_diacritics 2");
     """)
+    out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
+    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,"
+                    "access,links_access,links_checked) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
+    con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
+    con.executescript("""
+        CREATE INDEX idx_author ON books(author COLLATE NOCASE);
+        CREATE INDEX idx_title ON books(title COLLATE NOCASE);
+        CREATE INDEX idx_year ON books(year_num);
+        CREATE INDEX idx_type ON books(type);
+        CREATE INDEX idx_access ON books(access);
+    """)
+    con.commit()
+    return con
+
+
+if __name__ == "__main__":
+    recs, cache = load_records(), load_cache()
+
     rows = []
     for r in recs:
         rng = in_range(r)
@@ -152,16 +181,8 @@ if __name__ == "__main__":
     print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
     acc = load_access()
     rows = [with_access(list(x), acc, checked) for x in rows]
-    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,access,links_access,links_checked) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
-    con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
-    con.executescript("""
-        CREATE INDEX idx_author ON books(author COLLATE NOCASE);
-        CREATE INDEX idx_title ON books(title COLLATE NOCASE);
-        CREATE INDEX idx_year ON books(year_num);
-        CREATE INDEX idx_type ON books(type);
-        CREATE INDEX idx_access ON books(access);
-    """)
-    con.commit()
+    write_db(DB_FULL, rows, keep_annotations=True)
+    con = write_db(DB, rows, keep_annotations=False)
     q = lambda s: con.execute(s).fetchone()[0]
     print("Union Catalog rows", n_uc, "| of which also in a later bibliography", len(attach), "| new rows", len(new))
     for t, n in con.execute("SELECT source, count(*) FROM books GROUP BY source ORDER BY 2 DESC"):

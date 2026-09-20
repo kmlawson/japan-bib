@@ -25,10 +25,15 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 
 `books_fts` is an FTS5 index over author, title and other.
 
+The annotations written by the compilers of the printed bibliographies (Borton's comments on each work,
+and the same text where it appears in an "Also in …" cross-reference) are **not published**: they are kept
+in the working copy of the database but stripped from `list.sqlite` and from the site.
+
 Sources so far:
 
 1. *Union Catalog of Books on Japan in Western Languages* (ed. Naomi Fukuda) — book entries (transcribed to 1955).
-2. Hugh Borton et al., *A Selected List of Books and Articles on Japan in English, French and German*
+2. Hugh Borton, Serge Elisséeff, William W. Lockwood and John C. Pelzel, *A Selected List of Books and
+   Articles on Japan in English, French and German*
    (rev. ed., 1954) — all numbered entries (transcribed to 1960): books, journal articles and chapters, with
    Borton's annotations.
 3. The bibliography of Kenneth Henshall, *Historical Dictionary of Japan to 1945* (2014) — works first

@@ -35,6 +35,7 @@
 /zotero-work/*
 !/zotero-work/zotero_parse.py
 !/zotero-work/zotero_merge.py
+/union-catalog-work/list-full.sqlite
 *.pdf
 *.epub
 .DS_Store
