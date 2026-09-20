@@ -4,7 +4,8 @@ A browsable database of Western-language works on Japan published 1850–1960, c
 bibliographies, with candidate links to scans on archive.org.
 
 **Browse:** open the GitHub Pages site for this repository (`index.html`) — search (diacritics ignored),
-filter by year / source / type / archive.org availability, sort, open an entry for full details, export CSV.
+filter by year / source / type / archive.org availability (the list opens on the entries that have an
+archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* for everything), sort, open an entry for full details, export CSV.
 
 ## Data
 
@@ -18,6 +19,7 @@ filter by year / source / type / archive.org availability, sort, open an entry f
 | `links` | archive.org URLs, one per line (`''` = searched, none found; NULL = undated, not searched) |
 | `other` | imprint, extent, series, library holdings, catalogue page, journal reference, the bibliographer's annotation, cross-references to the other bibliographies, transcription notes |
 | `source` | the bibliographies that list the work, `; `-separated |
+| `access` | how the best linked archive.org copy can be read: `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
 | `type` | `book`, `periodical`, `article` (in a journal) or `chapter` (part of a book) |
 
 `books_fts` is an FTS5 index over author, title and other.

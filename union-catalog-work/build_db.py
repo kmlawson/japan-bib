@@ -8,6 +8,10 @@ title, years within 3) only adds its source name and a cross-reference to the ex
 Table books: id, author, title, year, year_num, edition, volume, links, other, source, type
   source    bibliographies listing the work, "; "-separated
   type      book | periodical | article | chapter
+  access    best way any linked archive.org copy can be read: open (freely readable) | borrow (controlled
+            lending, free account) | unknown (not checked) | '' (no link). Items that can be neither read nor
+            borrowed (print-disabled readers only, or gone) are not linked at all.
+  links_access  the same flag for each URL in `links`, one per line, same order (open copies are listed first)
   year      as printed ("1874-75", "n.d.", "19--")
   year_num  integer first year for range queries (NULL when undated)
   volume    volume statement from the extent ("2 v.", "3v. in 1.") or, failing that, a volume
@@ -27,6 +31,28 @@ import merge as M  # noqa: E402
 DB = os.path.join(HERE, "..", "list.sqlite")
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
 VOL_TITLE = re.compile(r"\b(?:v\.|vol\.|Bd\.|Band|Tome|Tom|t\.|T\.|Deel|Pt\.|pt\.|Part|Book|Chast'|Heft|Fasciculus|no\.)\s*[IVX\d]+(?:\s*[-–,]\s*[IVX\d]+)*\b")
+
+
+ACCESS_DIR = os.path.join(HERE, "..", "next-bib-work", "ia_access")
+RANK = {"open": 0, "borrow": 1, "restricted": 2, "unknown": 3}
+
+
+def load_access():
+    from build_list import access_of
+    return access_of
+
+
+def with_access(row, acc):
+    """Sort a row's links open-first and append the per-link and the row-level access flags."""
+    links = row[6]
+    if not links:
+        return row + ["", ""]
+    urls = links.split("\n")
+    st = [acc(u.rsplit("/", 1)[1]) for u in urls]
+    order = sorted(range(len(urls)), key=lambda i: (RANK[st[i]], i))
+    urls, st = [urls[i] for i in order], [st[i] for i in order]
+    row[6] = "\n".join(urls)
+    return row + [st[0], "\n".join(st)]
 
 
 def volume(r):
@@ -73,7 +99,9 @@ if __name__ == "__main__":
             links TEXT,
             other TEXT NOT NULL,
             source TEXT NOT NULL,
-            type TEXT NOT NULL
+            type TEXT NOT NULL,
+            access TEXT NOT NULL,
+            links_access TEXT NOT NULL
         );
         CREATE VIRTUAL TABLE books_fts USING fts5(
             author, title, other, content='books', content_rowid='id',
@@ -109,19 +137,24 @@ if __name__ == "__main__":
             rows[i][7] += " | " + M.xref(r)
     cache2 = M.load_cache2()
     rows += [M.new_row(r, cache2) for r in new]
-    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type) VALUES (?,?,?,?,?,?,?,?,?,?)", rows)
+    acc = load_access()
+    rows = [with_access(list(x), acc) for x in rows]
+    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,access,links_access) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", rows)
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);
         CREATE INDEX idx_title ON books(title COLLATE NOCASE);
         CREATE INDEX idx_year ON books(year_num);
         CREATE INDEX idx_type ON books(type);
+        CREATE INDEX idx_access ON books(access);
     """)
     con.commit()
     q = lambda s: con.execute(s).fetchone()[0]
     print("Union Catalog rows", n_uc, "| of which also in a later bibliography", len(attach), "| new rows", len(new))
     for t, n in con.execute("SELECT source, count(*) FROM books GROUP BY source ORDER BY 2 DESC"):
         print(f"  {n:5d}  {t}")
+    for a, n in con.execute("SELECT access, count(*) FROM books WHERE links<>'' GROUP BY access ORDER BY 2 DESC"):
+        print(f"  access {a or '-':10s} {n}")
     print("rows", q("SELECT count(*) FROM books"), "| with links", q("SELECT count(*) FROM books WHERE links<>''"),
           "| undated", q("SELECT count(*) FROM books WHERE year_num IS NULL"),
           "| with edition", q("SELECT count(*) FROM books WHERE edition<>''"),

@@ -20,6 +20,9 @@
 !/next-bib-work/merge.py
 !/next-bib-work/ia_lookup2.py
 !/next-bib-work/validate2.py
+!/next-bib-work/ia_access/
+/next-bib-work/ia_access/*
+!/next-bib-work/ia_access/check_access.py
 *.pdf
 *.epub
 .DS_Store

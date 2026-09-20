@@ -221,7 +221,10 @@ def split_matches(r, cache):
         return None, []
     ys, links, others = rec_years(r), [], []
     short = len(tkey(r["title"]).split()) < 4
+    from build_list import usable
     for m in d["matches"]:
+        if not usable(m):
+            continue  # can be neither read nor borrowed
         y = m.get("year")
         if short and not m.get("creator"):
             continue  # "Le Japon", "Japan": a bare short title with no creator proves nothing

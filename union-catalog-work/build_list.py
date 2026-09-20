@@ -28,6 +28,33 @@ def in_range(r):
     return min(ys) <= 1955 and max(ys) >= 1850
 
 
+_ACC = None
+
+
+def access_of(identifier):
+    """open | borrow | restricted | unknown - from the access check in next-bib-work/ia_access/part*.jsonl"""
+    global _ACC
+    if _ACC is None:
+        import glob
+        _ACC = {}
+        for fn in sorted(glob.glob(os.path.join(HERE, "..", "next-bib-work", "ia_access", "part*.jsonl"))):
+            for line in open(fn, encoding="utf-8"):
+                try:
+                    d = json.loads(line)
+                except Exception:
+                    continue
+                a = {"open": "open", "borrow": "borrow"}.get(d.get("access"), "restricted")
+                if a == "restricted" and d.get("inlibrary"):
+                    a = "borrow"  # in the lending collection; the search index just had no lending status for it
+                _ACC[d["identifier"]] = a
+    return _ACC.get(identifier, "unknown")
+
+
+def usable(m):
+    """An item that can be neither read nor borrowed (print-disabled only, dark, removed) is not offered at all."""
+    return access_of(m["identifier"]) != "restricted"
+
+
 TOL = 3  # archive.org items dated within 3 years of the catalogue entry are taken to be the same book
 
 
@@ -40,6 +67,8 @@ def _split(r, cache):
     nwords = len(norm(r["title"]).split())
     same, other = [], []
     for m in c["matches"]:
+        if not usable(m):
+            continue
         y = m["year"]
         if y is not None and any(abs(y - x) <= TOL for x in ys):
             same.append(m)
@@ -63,7 +92,7 @@ def loose_matches(k):
     if _LOOSE is None:
         from loose_classify import accepted
         _LOOSE = accepted()
-    return _LOOSE.get(k, [])
+    return [m for m in _LOOSE.get(k, []) if usable(m)]
 
 
 def ia_matches(r, cache):
