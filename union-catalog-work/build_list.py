@@ -54,9 +54,29 @@ def _split(r, cache):
     return same[:6], other[:6]
 
 
+_LOOSE = None
+
+
+def loose_matches(k):
+    """Items accepted from the looser second pass (title key words, +-4 years; see loose_classify.py)."""
+    global _LOOSE
+    if _LOOSE is None:
+        from loose_classify import accepted
+        _LOOSE = accepted()
+    return _LOOSE.get(k, [])
+
+
 def ia_matches(r, cache):
     """archive.org items taken to be this book: None = not searched, [] = none."""
-    return _split(r, cache)[0]
+    same, other = _split(r, cache)
+    if same is not None and not same and not other:
+        return loose_matches("uc|" + key(r))
+    return same
+
+
+def is_loose(r, cache):
+    same, other = _split(r, cache)
+    return same is not None and not same and not other and bool(loose_matches("uc|" + key(r)))
 
 
 def ia_other_editions(r, cache):
@@ -92,7 +112,7 @@ def fmt(r, cache, links=True):
         elif not ms:
             s += "  \n  IA: no match found"
         else:
-            s += "  \n  IA: " + " · ".join(
+            s += ("  \n  IA (loose title match): " if is_loose(r, cache) else "  \n  IA: ") + " · ".join(
                 f"[{m['identifier']}](https://archive.org/details/{m['identifier']})"
                 + (f" ({m['year']})" if m["year"] else "") for m in ms)
         oth = ia_other_editions(r, cache)

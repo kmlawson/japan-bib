@@ -238,6 +238,11 @@ def split_matches(r, cache):
 def new_row(r, cache):
     url = lambda m: f"https://archive.org/details/{m['identifier']}"
     links, others = split_matches(r, cache) if wants_lookup(r) else (None, [])
+    loose = False
+    if links is not None and not links and not others:
+        from build_list import loose_matches
+        links = loose_matches("new|" + lkey(r))
+        loose = bool(links)
     parts = []
     if r["type"] != "book":
         parts.append("Type: " + r["type"])
@@ -257,6 +262,8 @@ def new_row(r, cache):
         parts.append("Note: " + r["note"])
     for d in r["also"]:
         parts.append(xref(d))
+    if loose:
+        parts.append("IA match: loose (title key words, date within 4 years; author not compared)")
     if others:
         parts.append("IA other editions: " +
                      "; ".join(f"{url(m)} ({m['year']})" for m in others[:8]))

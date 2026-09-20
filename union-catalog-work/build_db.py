@@ -20,7 +20,7 @@ books_fts: full-text index over author, title, other (FTS5, diacritics folded).
 import os, re, sqlite3, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ia_lookup import load_records, load_cache, HERE
-from build_list import in_range, years, ia_matches, ia_other_editions
+from build_list import in_range, years, ia_matches, ia_other_editions, is_loose
 sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 
@@ -94,6 +94,8 @@ if __name__ == "__main__":
             ys = [y for y in years(r) if 1850 <= y <= 1955] or years(r)
             ynum = r["year_start"] if r["year_start"] is not None else min(ys)
         o = other(r)
+        if rng and is_loose(r, cache):
+            o += " | IA match: loose (title key words, date within 4 years; author not compared)"
         if oth:
             o += " | IA other editions: " + "; ".join(
                 f"https://archive.org/details/{m['identifier']} ({m['year']})" for m in oth)

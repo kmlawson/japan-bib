@@ -12,6 +12,9 @@
 !/union-catalog-work/build_list.py
 !/union-catalog-work/ia_lookup.py
 !/union-catalog-work/validate.py
+!/union-catalog-work/loose_lookup.py
+!/union-catalog-work/loose_classify.py
+!/union-catalog-work/loose_decide.py
 !/next-bib-work/
 /next-bib-work/*
 !/next-bib-work/merge.py

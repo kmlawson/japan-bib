@@ -43,5 +43,8 @@ an "Also in …" cross-reference (with Borton's annotation) in `other`.
 verified identical editions. An item dated within three years of the printed year is linked as the same
 book (`links`); items with the same author and title but another date are listed in `other` as
 `IA other editions`. Only books are looked up, not articles or chapters.
+Entries with no candidate at all get a second, looser pass: key words of the title proper only, no author,
+item dated within four years. Clear matches are taken automatically; edge cases (short titles, another
+creator) were judged by hand. Rows linked this way say `IA match: loose` in `other`.
 
 The scans themselves and the per-page transcription files are not part of this repository.
