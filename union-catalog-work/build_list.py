@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build ../list.md (dated 1850-1955 books, with IA links) and ../list-undated.md from batches/*.jsonl."""
+"""Build ../list.md (dated 1850-1950 books, with IA links) and ../list-undated.md from batches/*.jsonl."""
 import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ia_lookup import load_records, load_cache, key, fold, HERE, surname, norm
@@ -7,6 +7,7 @@ from ia_lookup import load_records, load_cache, key, fold, HERE, surname, norm
 OUT = os.path.join(HERE, "..", "list.md")
 OUT_ND = os.path.join(HERE, "..", "list-undated.md")
 FIRST, LAST = 11, 553
+LAST_YEAR = 1950  # works first published 1850-1950 (the sources were transcribed to 1955/1960)
 
 
 def years(r):
@@ -25,7 +26,7 @@ def in_range(r):
     ys = years(r)
     if not ys:
         return None  # undated
-    return min(ys) <= 1955 and max(ys) >= 1850
+    return min(ys) <= LAST_YEAR and max(ys) >= 1850
 
 
 _ACC = None

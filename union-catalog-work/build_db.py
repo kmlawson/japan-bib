@@ -24,7 +24,7 @@ books_fts: full-text index over author, title, other (FTS5, diacritics folded).
 import os, re, sqlite3, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ia_lookup import load_records, load_cache, HERE
-from build_list import in_range, years, ia_matches, ia_other_editions, is_loose
+from build_list import LAST_YEAR, in_range, years, ia_matches, ia_other_editions, is_loose
 sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 
@@ -119,7 +119,7 @@ if __name__ == "__main__":
             ms = ia_matches(r, cache) or []
             links = "\n".join(f"https://archive.org/details/{m['identifier']}" for m in ms)
             oth = ia_other_editions(r, cache)
-            ys = [y for y in years(r) if 1850 <= y <= 1955] or years(r)
+            ys = [y for y in years(r) if 1850 <= y <= LAST_YEAR] or years(r)
             ynum = r["year_start"] if r["year_start"] is not None else min(ys)
         o = other(r)
         if rng and is_loose(r, cache):
@@ -137,6 +137,9 @@ if __name__ == "__main__":
             rows[i][7] += " | " + M.xref(r)
     cache2 = M.load_cache2()
     rows += [M.new_row(r, cache2) for r in new]
+    n_all = len(rows)
+    rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
+    print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
     acc = load_access()
     rows = [with_access(list(x), acc) for x in rows]
     con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,access,links_access) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", rows)

@@ -1,6 +1,6 @@
 # japan-bib
 
-A browsable database of Western-language works on Japan published 1850–1960, compiled from printed
+A browsable database of Western-language works on Japan published 1850–1950, compiled from printed
 bibliographies, with candidate links to scans on archive.org.
 
 **Browse:** open the GitHub Pages site for this repository (`index.html`) — search (diacritics ignored),
@@ -26,12 +26,15 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 
 Sources so far:
 
-1. *Union Catalog of Books on Japan in Western Languages* (ed. Naomi Fukuda) — book entries dated 1850–1955.
+1. *Union Catalog of Books on Japan in Western Languages* (ed. Naomi Fukuda) — book entries (transcribed to 1955).
 2. Hugh Borton et al., *A Selected List of Books and Articles on Japan in English, French and German*
-   (rev. ed., 1954) — all numbered entries dated 1850–1960: books, journal articles and chapters, with
+   (rev. ed., 1954) — all numbered entries (transcribed to 1960): books, journal articles and chapters, with
    Borton's annotations.
 3. The bibliography of Kenneth Henshall, *Historical Dictionary of Japan to 1945* (2014) — works first
-   published 1850–1960 (including those cited from a modern reprint).
+   published 1850–1950 (including those cited from a modern reprint).
+
+Only works first published 1850–1950 (and undated ones) are in the database; later entries were
+transcribed but are left out at build time.
 
 Scanned sources were transcribed by eye from page images (no OCR); unreadable details are left blank and
 noted. Henshall's bibliography is a born-digital text and was parsed from it.
