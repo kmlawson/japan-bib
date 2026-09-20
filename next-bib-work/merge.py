@@ -32,6 +32,8 @@ def load_new():
                 if r.get("empty") or "skipped" in r:
                     continue
                 r["src"] = SRC_BORTON
+                if r["section"].startswith("III. Periodicals") and r["type"] == "book":
+                    r["type"] = "periodical"  # the whole chapter lists journals and serials
                 out.append(r)
     for line in open(os.path.join(HERE, "henshall", "entries.jsonl"), encoding="utf-8"):
         if line.strip():
@@ -226,8 +228,8 @@ def split_matches(r, cache):
         if y is None:
             if sur(r["author"]):
                 links.append(m)
-        elif any(abs(y - x) <= TOL for x in ys):
-            links.append(m)
+        elif any(abs(y - x) <= TOL for x in ys) or (r["type"] == "periodical" and ys and y >= min(ys) - TOL):
+            links.append(m)  # a serial: any volume from its first year on
         elif sur(r["author"]) and m.get("creator") and m["score"] >= 0.95:
             others.append(m)
     return links, others
@@ -282,7 +284,7 @@ def lkey(r):
 
 
 def wants_lookup(r):
-    return r["type"] == "book" and (r["year_start"] is not None or re.search(r"\d{4}", r["year"]))
+    return r["type"] in ("book", "periodical") and (r["year_start"] is not None or re.search(r"\d{4}", r["year"]))
 
 
 def uc_rows_from_db():

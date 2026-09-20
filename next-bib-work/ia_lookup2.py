@@ -9,7 +9,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
 from ia_lookup import lookup  # noqa: E402
-from merge import merge, uc_rows_from_db, load_cache2, lkey, wants_lookup, CACHE2  # noqa: E402
+from merge import merge, uc_rows_from_db, load_cache2, lkey, wants_lookup, rec_years, CACHE2  # noqa: E402
 
 lock = threading.Lock()
 CUT = re.compile(r",\s+(?:trs?\.|ed\.|rev\.|illus\.|with |foreword|introduction|preface|préface|compiled|adapted|authorized|pub\.|"
@@ -30,7 +30,11 @@ if __name__ == "__main__":
     cache = load_cache2()
     todo = {}
     for r in new:
-        if wants_lookup(r) and lkey(r) not in cache:
+        if not wants_lookup(r):
+            continue
+        c = cache.get(lkey(r))
+        # not looked up yet, or looked up when only 12 candidates were kept (nearest dates might have been cut)
+        if c is None or (len(c["matches"]) == 12 and not c.get("redone")):
             todo.setdefault(lkey(r), r)
     print(f"cached {len(cache)}, to do {len(todo)}", flush=True)
     done = [0]
@@ -38,11 +42,11 @@ if __name__ == "__main__":
     def work(kr):
         k, r = kr
         try:
-            res = lookup(re.sub(r"\s*\([^)]*\)", "", r["author"]), clean_title(r["title"]))
+            res = lookup(re.sub(r"\s*\([^)]*\)", "", r["author"]), clean_title(r["title"]), rec_years(r))
         except Exception as e:
             print("ERR", e, flush=True)
             return
-        res.update(key=k, author=r["author"], title=r["title"])
+        res.update(key=k, author=r["author"], title=r["title"], redone=True)
         with lock:
             with open(CACHE2, "a", encoding="utf-8") as f:
                 f.write(json.dumps(res, ensure_ascii=False) + "\n")
