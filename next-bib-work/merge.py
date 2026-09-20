@@ -18,6 +18,7 @@ from ia_lookup import norm, main_title  # noqa: E402
 TOL = 3
 SRC_BORTON = "Borton et al. (1954)"
 SRC_HENSHALL = "Henshall (2014)"
+SRC_DOWER = "Dower & George (1995)"
 CACHE2 = os.path.join(HERE, "ia_cache2.jsonl")
 EXCLUDE_HENSHALL = [("duus", "abacus")]  # Henshall misprints 1955 for 1995
 
@@ -191,6 +192,8 @@ def where(r):
     if r["src"] == SRC_BORTON:
         m = SUFFIX.search(r.get("note") or "")
         return f"{SRC_BORTON} no. {r['entry_no']}{m.group(1) if m else ''}, p. {r['pdf_page']}"
+    if r["src"] == SRC_DOWER:
+        return f"{SRC_DOWER} p. {r.get('printed_page') or '?'}"   # Dower numbers no entries
     return f"{SRC_HENSHALL} bibliography, p. {r['pdf_page']}"
 
 
@@ -277,10 +280,10 @@ def new_row(r, cache):
             m.group(0).strip() if m else "", linktxt, " | ".join(parts), src, r["type"]]
 
 
-def load_cache2():
+def load_cache2(path=CACHE2):
     c = {}
-    if os.path.exists(CACHE2):
-        for line in open(CACHE2, encoding="utf-8"):
+    if os.path.exists(path):
+        for line in open(path, encoding="utf-8"):
             try:
                 d = json.loads(line)
                 c[d["key"]] = d

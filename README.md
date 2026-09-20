@@ -76,3 +76,7 @@ The scans themselves and the per-page transcription files are not part of this r
 ## Gallica
 
 `gallica-work/gallica_search.py` asks the BnF's SRU API for the French-language entries that have no copy yet (one query at a time, nothing identifying sent); `gallica_score.py` scores the candidates and `gallica_decisions.tsv` holds the verdicts made by hand. `gallica_merge.py` attaches the accepted copies when the database is built - they are public-domain scans, so they count as `open`.
+
+## Dower & George
+
+`dower-work/` holds the entries read by eye from Dower & George, *Japanese History and Culture from Ancient to Modern Times* (2nd ed., 1995), one JSONL file per page (kept local), the validator, and `dower_merge.py`, which puts them into the database. It runs after every other source so that existing row ids do not move; `ia_lookup3.py` looks the new books up on archive.org. Six pages of the scan are failed exposures and could not be read - see `dower-work/DOWER_NOTES.md`.

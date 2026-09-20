@@ -17,8 +17,9 @@ import time
 import internetarchive as ia
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IDS = os.path.join(HERE, "ids_part1.txt")
-OUT = os.path.join(HERE, "part1.jsonl")
+PART = sys.argv[1] if len(sys.argv) > 1 else "1"      # check_access.py [part]  -> ids_partN.txt / partN.jsonl
+IDS = os.path.join(HERE, f"ids_part{PART}.txt")
+OUT = os.path.join(HERE, f"part{PART}.jsonl")
 
 FIELDS = [
     "identifier",

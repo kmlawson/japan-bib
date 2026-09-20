@@ -38,6 +38,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
 import ndl_merge as N  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "gallica-work"))
 import gallica_merge as GAL  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "dower-work"))
+import dower_merge as D  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -195,6 +197,10 @@ if __name__ == "__main__":
     rows += [M.new_row(r, cache2) for r in new]
     checked = Z.apply(rows)  # hand-checked links from the Zotero collection: always kept, listed first
     checked.update(N.apply(rows, LAST_YEAR))  # National Diet Library items supplied by the user
+    # Dower & George comes last, so that the ids of every row above it stay where they are (the
+    # language fixes and the Gallica / Online Books results are keyed to them).
+    n_dup, n_new, _ = D.apply(rows)
+    print(f"Dower & George: {n_dup} entries already in the database, {n_new} added")
     n_all = len(rows)
     rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
     print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
