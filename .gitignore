@@ -1,0 +1,18 @@
+# Whitelist: only the browser, the database and the build scripts are published.
+# PDFs/EPUBs, page transcriptions (raw data from the books), caches and work logs stay local.
+/*
+!/.gitignore
+!/README.md
+!/index.html
+!/list.sqlite
+!/vendor/
+!/union-catalog-work/
+/union-catalog-work/*
+!/union-catalog-work/build_db.py
+!/union-catalog-work/build_list.py
+!/union-catalog-work/ia_lookup.py
+!/union-catalog-work/validate.py
+*.pdf
+*.epub
+.DS_Store
+__pycache__/

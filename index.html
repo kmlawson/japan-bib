@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Japan Bibliography Browser</title>
+<style>
+:root{
+  --bg:#f7f5f0;--panel:#fff;--ink:#1f2328;--muted:#667085;--line:#ddd8cc;--accent:#9b2c2c;--accent-ink:#fff;
+  --hit:#fff3bf;--chip:#efeade;--link:#1a5fb4;--row:#fbfaf7;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15171a;--panel:#1d2024;--ink:#e6e6e3;--muted:#9aa3ad;--line:#33383f;--accent:#e06c5b;--accent-ink:#15171a;
+  --hit:#5a4a00;--chip:#2a2e34;--link:#7db3ff;--row:#1a1d21;}}
+:root[data-theme="dark"]{
+  --bg:#15171a;--panel:#1d2024;--ink:#e6e6e3;--muted:#9aa3ad;--line:#33383f;--accent:#e06c5b;--accent-ink:#15171a;
+  --hit:#5a4a00;--chip:#2a2e34;--link:#7db3ff;--row:#1a1d21;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--link)}
+header{padding:18px 16px 8px;max-width:1280px;margin:0 auto}
+h1{font:600 22px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px}
+main{max-width:1280px;margin:0 auto;padding:0 16px 40px}
+.controls{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.row1{display:flex;gap:8px;flex-wrap:wrap}
+#q{flex:1 1 320px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font-size:16px}
+select,input[type=number],button{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font-size:14px}
+button{cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.row2{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:14px}
+.row2 label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+input[type=number]{width:84px}
+.status{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 6px;color:var(--muted);font-size:13px}
+.pager{display:flex;gap:6px;align-items:center}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{padding:8px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{position:sticky;top:0;background:var(--panel);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
+th .arrow{opacity:.9;margin-left:4px}
+tbody tr{cursor:pointer}
+tbody tr:nth-child(even){background:var(--row)}
+tbody tr:hover{outline:2px solid var(--accent);outline-offset:-2px}
+td.title{font-family:Georgia,"Times New Roman",serif}
+td.year,td.ia{white-space:nowrap}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--muted);margin-right:4px}
+mark{background:var(--hit);color:inherit;border-radius:2px;padding:0 1px}
+.ialink{font-size:13px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);max-width:760px;width:calc(100% - 32px);padding:0}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dhead{display:flex;justify-content:space-between;gap:12px;padding:16px 18px 8px}
+.dhead button{align-self:flex-start}
+.dhead h2{font:600 19px/1.3 Georgia,serif;margin:0}
+.dbody{padding:0 18px 18px}
+.dbody dl{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;margin:8px 0 0}
+.dbody dt{color:var(--muted);font-size:13px}
+.dbody dd{margin:0;overflow-wrap:anywhere}
+.dfoot{display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--line)}
+.help{font-size:13px;color:var(--muted);margin-top:6px}
+code{background:var(--chip);padding:0 4px;border-radius:4px}
+footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:12px}
+@media (max-width:640px){.dbody dl{grid-template-columns:1fr}.dbody dt{margin-top:6px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Western-language works on Japan, 1850–1960</h1>
+  <div class="sub" id="subtitle">Loading database…</div>
+</header>
+<main>
+  <div class="controls">
+    <div class="row1">
+      <input id="q" type="search" placeholder='Search author, title, publisher… (e.g.  hearn kwaidan   "tourist library"   author:satow   -german)' autocomplete="off" autofocus>
+      <select id="field" title="Where to search">
+        <option value="all">All fields</option><option value="author">Author</option><option value="title">Title</option><option value="other">Imprint / notes</option>
+      </select>
+      <button id="reset" title="Clear all filters">Reset</button>
+      <button id="theme" title="Toggle light / dark">◐</button>
+    </div>
+    <div class="row2">
+      <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
+      <label>Source <select id="source"><option value="">All</option></select></label>
+      <label><input id="hasia" type="checkbox"> on archive.org</label>
+      <label><input id="noia" type="checkbox"> not on archive.org</label>
+      <label><input id="undated" type="checkbox" checked> include undated</label>
+      <label>Per page <select id="pp"><option>50</option><option selected>100</option><option>250</option><option>1000</option></select></label>
+      <button id="csv" title="Download the current result list as CSV">Export CSV</button>
+    </div>
+    <div class="help">Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details.</div>
+  </div>
+  <div class="status"><div id="count"></div>
+    <div class="pager"><button id="prev">‹ Prev</button><span id="pageinfo"></span><button id="next">Next ›</button></div></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th data-k="author">Author<span class="arrow"></span></th>
+        <th data-k="title">Title<span class="arrow"></span></th>
+        <th data-k="year_num">Year<span class="arrow"></span></th>
+        <th data-k="edition">Edition<span class="arrow"></span></th>
+        <th data-k="volume">Vol.<span class="arrow"></span></th>
+        <th data-k="nlinks">archive.org<span class="arrow"></span></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>No entries match.</div>
+  </div>
+</main>
+<footer id="foot"></footer>
+
+<dialog id="dlg">
+  <div class="dhead"><h2 id="dtitle"></h2><button id="dclose" aria-label="Close">✕</button></div>
+  <div class="dbody"><dl id="ddl"></dl></div>
+  <div class="dfoot"><button id="dprev">‹ Previous</button><button id="dnext">Next ›</button><button id="dcopy">Copy citation</button><button id="dlink">Copy link to this entry</button>
+    <a id="dsearch" target="_blank" rel="noopener"><button type="button">Search archive.org</button></a></div>
+</dialog>
+
+<script src="vendor/sql-wasm.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const fold = s => (s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const esc = s => (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let ALL = [], VIEW = [], page = 0, sortKey = null, sortDir = 1, cur = -1;
+
+// theme
+const th = (() => { try { return localStorage.getItem("jb-theme"); } catch (e) { return null; } })();
+if (th) document.documentElement.dataset.theme = th;
+$("theme").onclick = () => {
+  const now = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const nxt = now === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = nxt;
+  try { localStorage.setItem("jb-theme", nxt); } catch (e) {}
+};
+
+async function load() {
+  const SQL = await initSqlJs({ locateFile: f => "vendor/" + f });
+  const buf = await (await fetch("list.sqlite", { cache: "no-cache" })).arrayBuffer();
+  const db = new SQL.Database(new Uint8Array(buf));
+  const cols = db.exec("PRAGMA table_info(books)")[0].values.map(v => v[1]);
+  const res = db.exec("SELECT * FROM books ORDER BY id")[0];
+  const ix = Object.fromEntries(res.columns.map((c, i) => [c, i]));
+  ALL = res.values.map(v => {
+    const r = {}; for (const c of res.columns) r[c] = v[ix[c]];
+    r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || "";
+    r.linkList = (r.links || "").split("\n").filter(Boolean);
+    r.nlinks = r.linkList.length;
+    r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source);
+    r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
+    return r;
+  });
+  db.close();
+  const srcs = [...new Set(ALL.flatMap(r => r.source.split(/\s*;\s*/)).filter(Boolean))].sort();
+  for (const s of srcs) { const o = document.createElement("option"); o.value = s; o.textContent = s; $("source").appendChild(o); }
+  const withIA = ALL.filter(r => r.nlinks).length;
+  $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with archive.org candidates · sources: ${srcs.join(", ") || "—"}`;
+  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions). " +
+    "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
+  const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
+}
+
+function parseQuery(q) {
+  const terms = []; const re = /(-?)(?:(author|title|other):)?(?:"([^"]+)"|(\S+))/gi; let m;
+  while ((m = re.exec(q))) { const t = fold(m[3] || m[4]); if (t) terms.push({ neg: !!m[1], field: (m[2] || "").toLowerCase(), t }); }
+  return terms;
+}
+function apply(resetPage = true) {
+  const terms = parseQuery($("q").value), fld = $("field").value;
+  const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
+  const src = $("source").value, hasia = $("hasia").checked, noia = $("noia").checked, und = $("undated").checked;
+  const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : "fall";
+  VIEW = ALL.filter(r => {
+    if (r.year_num == null) { if (!und || y1 || y2) return false; }
+    else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
+    if (src && !r.source.split(/\s*;\s*/).includes(src)) return false;
+    if (hasia && !r.nlinks) return false;
+    if (noia && r.nlinks) return false;
+    for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
+    return true;
+  });
+  if (sortKey) {
+    const k = sortKey, d = sortDir;
+    VIEW.sort((a, b) => {
+      let x = a[k], y = b[k];
+      if (k === "author") { x = a.fa || "\uffff"; y = b.fa || "\uffff"; } else if (k === "title") { x = a.ft; y = b.ft; }
+      if (x == null) return 1; if (y == null) return -1;
+      return (x < y ? -1 : x > y ? 1 : a.id - b.id) * d;
+    });
+  }
+  if (resetPage) page = 0;
+  render(terms); writeHash();
+}
+function hl(text, terms) {
+  let out = text; if (!terms.length) return esc(out);
+  // highlight on the folded string, mapping positions back (fold keeps length for NFKD-stripped chars only approximately, so match per word)
+  for (const t of terms) { if (t.neg || t.t.length < 2) continue;
+    const parts = text.split(/(\s+)/); out = parts.map(w => fold(w).includes(t.t) ? "\u0002" + w + "\u0003" : w).join(""); text = out; }
+  return esc(out).replace(/\u0002+/g, "<mark>").replace(/\u0003+/g, "</mark>");
+}
+function render(terms) {
+  terms = terms || parseQuery($("q").value);
+  const pp = parseInt($("pp").value), pages = Math.max(1, Math.ceil(VIEW.length / pp));
+  page = Math.min(page, pages - 1);
+  const slice = VIEW.slice(page * pp, (page + 1) * pp);
+  $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}">
+    <td>${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
+    <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}</td>
+    <td class="year">${esc(r.year)}</td><td>${esc(r.edition)}</td><td>${esc(r.volume)}</td>
+    <td class="ia">${r.nlinks ? `<a class="ialink" href="${esc(r.linkList[0])}" target="_blank" rel="noopener">open ↗</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : "")}</td></tr>`).join("");
+  $("empty").hidden = VIEW.length > 0;
+  $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
+  $("pageinfo").textContent = `Page ${page + 1} / ${pages}`;
+  $("prev").disabled = page === 0; $("next").disabled = page >= pages - 1;
+  document.querySelectorAll("th").forEach(th => th.querySelector(".arrow").textContent = th.dataset.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : "");
+}
+function citation(r) { return [r.author, r.title + (/[.?!]$/.test(r.title) ? "" : "."), r.edition, (r.other.match(/Imprint: ([^|]+)/) || [,""])[1].trim(), r.year].filter(Boolean).join(" ").replace(/\s+/g, " ") + "."; }
+function show(i) {
+  if (i < 0 || i >= VIEW.length) return; cur = i; const r = VIEW[i];
+  $("dtitle").textContent = r.title;
+  const other = r.other.split(" | ").map(p => { const j = p.indexOf(": "); return j > 0 && j < 22 ? [p.slice(0, j), p.slice(j + 2)] : ["Info", p]; });
+  const links = r.nlinks ? r.linkList.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>`).join("<br>")
+    : (r.links === null ? "not searched (undated entry)" : "no match found");
+  $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
+    ...other.map(([k, v]) => [esc(k), esc(v)]), ["Source", esc(r.source)], ["archive.org", links]]
+    .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
+  $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
+  if (!$("dlg").open) $("dlg").showModal();
+  history.replaceState(null, "", location.pathname + location.search + hashString(r.id));
+}
+function hashString(id) {
+  const p = new URLSearchParams();
+  const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
+  put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
+  put("src", $("source").value, ""); put("ia", $("hasia").checked ? 1 : "", ""); put("noia", $("noia").checked ? 1 : "", "");
+  put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
+  if (id) p.set("id", id);
+  const s = p.toString(); return s ? "#" + s : "";
+}
+function writeHash() { history.replaceState(null, "", location.pathname + location.search + hashString()); }
+function readHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
+  if (p.get("src")) $("source").value = p.get("src"); $("hasia").checked = !!p.get("ia"); $("noia").checked = !!p.get("noia");
+  $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
+  const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
+}
+function openFromHash(id) { if (id) { const i = VIEW.findIndex(r => r.id === id); if (i >= 0) { page = Math.floor(i / parseInt($("pp").value)); render(); show(i); } } }
+
+let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
+$("q").addEventListener("input", debounced);
+for (const id of ["field", "y1", "y2", "source", "undated", "pp"]) $(id).addEventListener("input", () => apply());
+$("hasia").addEventListener("input", () => { if ($("hasia").checked) $("noia").checked = false; apply(); });
+$("noia").addEventListener("input", () => { if ($("noia").checked) $("hasia").checked = false; apply(); });
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("hasia").checked = $("noia").checked = false; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+$("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
+$("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
+document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
+$("rows").addEventListener("click", e => { if (e.target.closest("a")) return; const tr = e.target.closest("tr"); if (tr) show(parseInt(tr.dataset.i)); });
+$("dclose").onclick = () => $("dlg").close();
+$("dlg").addEventListener("close", writeHash);
+$("dlg").addEventListener("click", e => { if (e.target === $("dlg")) $("dlg").close(); });
+$("dprev").onclick = () => show(cur - 1); $("dnext").onclick = () => show(cur + 1);
+const copy = (t, b) => navigator.clipboard.writeText(t).then(() => { const o = b.textContent; b.textContent = "Copied ✓"; setTimeout(() => b.textContent = o, 1200); });
+$("dcopy").onclick = e => copy(citation(VIEW[cur]), e.target);
+$("dlink").onclick = e => copy(location.origin + location.pathname + "#id=" + VIEW[cur].id, e.target);
+document.addEventListener("keydown", e => { if ($("dlg").open) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); } else if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); } });
+$("csv").onclick = () => {
+  const cols = ["id", "author", "title", "year", "edition", "volume", "links", "other", "source"];
+  const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""').replace(/\n/g, " ") + '"';
+  const blob = new Blob(["\ufeff" + cols.join(",") + "\n" + VIEW.map(r => cols.map(c => q(r[c])).join(",")).join("\n")], { type: "text/csv" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+load().catch(err => { $("subtitle").textContent = "Could not load the database: " + err; });
+})();
+</script>
+</body>
+</html>
