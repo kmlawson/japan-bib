@@ -23,6 +23,10 @@
 !/next-bib-work/ia_access/
 /next-bib-work/ia_access/*
 !/next-bib-work/ia_access/check_access.py
+!/zotero-work/
+/zotero-work/*
+!/zotero-work/zotero_parse.py
+!/zotero-work/zotero_merge.py
 *.pdf
 *.epub
 .DS_Store

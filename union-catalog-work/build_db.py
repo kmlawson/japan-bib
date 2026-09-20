@@ -11,7 +11,9 @@ Table books: id, author, title, year, year_num, edition, volume, links, other, s
   access    best way any linked archive.org copy can be read: open (freely readable) | borrow (controlled
             lending, free account) | unknown (not checked) | '' (no link). Items that can be neither read nor
             borrowed (print-disabled readers only, or gone) are not linked at all.
-  links_access  the same flag for each URL in `links`, one per line, same order (open copies are listed first)
+  links_access  the same flag for each URL in `links`, one per line, same order
+  links_checked 1 for a link that was checked by hand (Zotero collection "Japan Online"), else 0, same order.
+                Hand-checked links come first, then open copies, then borrow-only ones.
   year      as printed ("1874-75", "n.d.", "19--")
   year_num  integer first year for range queries (NULL when undated)
   volume    volume statement from the extent ("2 v.", "3v. in 1.") or, failing that, a volume
@@ -27,6 +29,8 @@ from ia_lookup import load_records, load_cache, HERE
 from build_list import LAST_YEAR, in_range, years, ia_matches, ia_other_editions, is_loose
 sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "zotero-work"))
+import zotero_merge as Z  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
@@ -42,17 +46,18 @@ def load_access():
     return access_of
 
 
-def with_access(row, acc):
-    """Sort a row's links open-first and append the per-link and the row-level access flags."""
+def with_access(row, acc, checked):
+    """Sort a row's links (hand-checked first, then open, then borrow) and append the row-level access flag,
+    the per-link access flags and the per-link checked flags."""
     links = row[6]
     if not links:
-        return row + ["", ""]
+        return row + ["", "", ""]
     urls = links.split("\n")
-    st = [acc(u.rsplit("/", 1)[1]) for u in urls]
-    order = sorted(range(len(urls)), key=lambda i: (RANK[st[i]], i))
+    st = [checked.get(u) or (acc(u.rsplit("/", 1)[1]) if "archive.org/details/" in u else "open") for u in urls]
+    order = sorted(range(len(urls)), key=lambda i: (urls[i] not in checked, RANK[st[i]], i))
     urls, st = [urls[i] for i in order], [st[i] for i in order]
     row[6] = "\n".join(urls)
-    return row + [st[0], "\n".join(st)]
+    return row + [st[0], "\n".join(st), "\n".join("1" if u in checked else "0" for u in urls)]
 
 
 def volume(r):
@@ -101,7 +106,8 @@ if __name__ == "__main__":
             source TEXT NOT NULL,
             type TEXT NOT NULL,
             access TEXT NOT NULL,
-            links_access TEXT NOT NULL
+            links_access TEXT NOT NULL,
+            links_checked TEXT NOT NULL
         );
         CREATE VIRTUAL TABLE books_fts USING fts5(
             author, title, other, content='books', content_rowid='id',
@@ -137,12 +143,13 @@ if __name__ == "__main__":
             rows[i][7] += " | " + M.xref(r)
     cache2 = M.load_cache2()
     rows += [M.new_row(r, cache2) for r in new]
+    checked = Z.apply(rows)  # hand-checked links from the Zotero collection: always kept, listed first
     n_all = len(rows)
     rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
     print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
     acc = load_access()
-    rows = [with_access(list(x), acc) for x in rows]
-    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,access,links_access) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+    rows = [with_access(list(x), acc, checked) for x in rows]
+    con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,access,links_access,links_checked) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);

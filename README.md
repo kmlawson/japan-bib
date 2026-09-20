@@ -20,6 +20,7 @@ archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* fo
 | `other` | imprint, extent, series, library holdings, catalogue page, journal reference, the bibliographer's annotation, cross-references to the other bibliographies, transcription notes |
 | `source` | the bibliographies that list the work, `; `-separated |
 | `access` | how the best linked archive.org copy can be read: `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
+| `links_checked` | `1` for a link checked by hand (source 4), else `0`, same order as `links`. Hand-checked links are always kept and listed first, with the access they were checked to have |
 | `type` | `book`, `periodical`, `article` (in a journal) or `chapter` (part of a book) |
 
 `books_fts` is an FTS5 index over author, title and other.
@@ -32,12 +33,19 @@ Sources so far:
    Borton's annotations.
 3. The bibliography of Kenneth Henshall, *Historical Dictionary of Japan to 1945* (2014) — works first
    published 1850–1950 (including those cited from a modern reprint).
+4. *Japan Online*, a Zotero collection of books on Japan whose online copies (nearly all on archive.org) were
+   checked by hand, exported in two parts: openly readable and borrow-only.
 
 Only works first published 1850–1950 (and undated ones) are in the database; later entries were
 transcribed but are left out at build time.
 
 Scanned sources were transcribed by eye from page images (no OCR); unreadable details are left blank and
 noted. Henshall's bibliography is a born-digital text and was parsed from it.
+
+**Hand-checked links.** A Zotero item that is already in the database (its archive.org item is already linked
+from an entry describing the same work, or same author and title with years within three) is merged into that
+entry: the fuller of the two descriptions is shown, the other is kept as a note, and the hand-checked link goes
+first. Where the hand-made record shows that an automatic link pointed at a different work, that link is removed.
 
 **Duplicates.** Before a record from a later source is added it is compared with what is already in the
 database: same author surname, same title proper, and publication years no more than three years apart

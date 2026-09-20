@@ -127,7 +127,7 @@ footer p{margin:0 0 8px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only entries with an archive.org copy are listed (change <b>Show</b> to see all): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only entries with an archive.org copy are listed (change <b>Show</b> to see all): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
 </footer>
 
@@ -169,7 +169,7 @@ async function load() {
     r.source = r.source || ""; r.edition = r.edition || ""; r.volume = r.volume || ""; r.type = r.type || "book";
     r.linkList = (r.links || "").split("\n").filter(Boolean);
     r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ");
-    r.access = r.access || ""; r.accList = (r.links_access || "").split("\n");
+    r.access = r.access || ""; r.accList = (r.links_access || "").split("\n"); r.chkList = (r.links_checked || "").split("\n"); r.checked = r.chkList[0] === "1";
     r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source);
     r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
     return r;
@@ -235,7 +235,7 @@ function render(terms) {
     <td>${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
     <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}</td>
     <td class="year">${esc(r.year)}</td><td>${esc(r.edition)}</td><td>${esc(r.volume)}</td>
-    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "openly readable on archive.org" : "on archive.org"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
+    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "openly readable on archive.org" : "on archive.org"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
@@ -248,7 +248,7 @@ function show(i) {
   $("dtitle").textContent = r.title;
   const other = r.other.split(" | ").map(p => { const j = p.indexOf(": "); return j > 0 && j < 22 ? [p.slice(0, j), p.slice(j + 2)] : ["Info", p]; });
   const bdg = a => a ? `<span class="badge ${a}">${a === "restricted" ? "limited" : a}</span>` : "";
-  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>${bdg(r.accList[j])}`).join("<br>")
+  const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", ""))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
     : (r.links === null ? "not searched (undated entry)" : "no match found");
   $("ddl").innerHTML = [["Author", esc(r.author) || "—"], ["Year", esc(r.year)], ["Edition", esc(r.edition)], ["Volume", esc(r.volume)],
     ...other.map(([k, v]) => [esc(k), esc(v).replace(/https:\/\/archive\.org\/details\/([^\s;|<]+)/g, '<a href="https://archive.org/details/$1" target="_blank" rel="noopener">$1</a>')]), ["Type", esc(r.type)], ["Source", esc(r.source)], ["archive.org", links]]
@@ -299,7 +299,7 @@ $("dcopy").onclick = e => copy(citation(VIEW[cur]), e.target);
 $("dlink").onclick = e => copy(location.origin + location.pathname + "#id=" + VIEW[cur].id, e.target);
 document.addEventListener("keydown", e => { if ($("dlg").open) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); } else if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); } });
 $("csv").onclick = () => {
-  const cols = ["id", "author", "title", "year", "edition", "volume", "type", "access", "links", "links_access", "other", "source"];
+  const cols = ["id", "author", "title", "year", "edition", "volume", "type", "access", "links", "links_access", "links_checked", "other", "source"];
   const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""').replace(/\n/g, " ") + '"';
   const blob = new Blob(["\ufeff" + cols.join(",") + "\n" + VIEW.map(r => cols.map(c => q(r[c])).join(",")).join("\n")], { type: "text/csv" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
