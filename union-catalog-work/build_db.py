@@ -41,6 +41,7 @@ DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bib
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
 ANNOT = re.compile(r"\s*\|\s*Annotation: [^|]*")
 XREF_ANNOT = re.compile(r"(Also in [^|:]*\([^)]*\)[^|:]*): [^|]*")
+DROP_LANGUAGES = {"Vietnamese"}   # the collection is of Western-language works
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
 VOL_TITLE = re.compile(r"\b(?:v\.|vol\.|Bd\.|Band|Tome|Tom|t\.|T\.|Deel|Pt\.|pt\.|Part|Book|Chast'|Heft|Fasciculus|no\.)\s*[IVX\d]+(?:\s*[-–,]\s*[IVX\d]+)*\b")
 
@@ -133,6 +134,7 @@ def write_db(path, rows, keep_annotations):
     out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
     fx = language_fixes()
     out = [r + [fx.get(i + 1) or guess_language(r[1], r[7])[0]] for i, r in enumerate(out)]
+    out = [r for r in out if r[-1] not in DROP_LANGUAGES]
     con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,"
                     "access,links_access,links_checked,language) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")

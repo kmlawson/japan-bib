@@ -2,6 +2,11 @@
 """Work out the language of each entry from its title (and, where the source gives one, from the
 language statement in `other`).
 
+Japanese is deliberately not one of the answers. Most of the entries a rule would call Japanese are
+English translations of Japanese classics ("... monogatari", "Nippon ...") or works catalogued by a
+Japanese library whose text is English; the few that really are in Japanese are left undetermined ("")
+rather than labelled wrongly.
+
 The test is deliberately conservative: a title is called English unless there is positive evidence of
 another language. Evidence is (a) letters that English does not use, and (b) function words and endings
 that are common in one language and rare in the others. Every decision keeps a confidence, so the
@@ -45,9 +50,6 @@ MARKERS = {
     "Norwegian": "og til fra paa japansk reise".split(),
     "Russian": """iaponiia iaponii yaponiya yaponii zhenshchina sbornik rasskazy ocherki puteshestvie
         voina izdanie izd perevod russkaia russkii sovetskaia""".split(),
-    "Japanese": """nihon nippon zenshu zenshū shusei shūsei taikei taikan jiten jisho jishō kenkyu
-        kenkyū shiryo shiryō monogatari nikki zuroku gaisetsu ronshu ronshū shakai keizai seiji bunka
-        rekishi kokumin shinbun shimbun zasshi kaisha kabushiki hensan""".split(),
 }
 # a word claimed by more than one language counts for none of them
 _seen = {}
@@ -68,7 +70,6 @@ DECISIVE = {
     "Russian": "iaponiia iaponii yaponiya zhenshchina putevoditel sbornik rasskazy ocherki puteshestvie".split(),
     "Swedish": "öfversikt ofversikt japanska".split(),
     "Danish": "japanske skildringer".split(),
-    "Japanese": "monogatari zenshū zenshu kenkyū kenkyu shiryō shiryo zuroku ronshū ronshu taikei jiten hensan".split(),
 }
 DECISIVE = {l: set(ws) for l, ws in DECISIVE.items()}
 
@@ -83,7 +84,7 @@ CJK = re.compile(r"[\u3040-\u30ff\u4e00-\u9fff]")
 CYR = re.compile(r"[\u0400-\u04ff]")
 STATED = re.compile(r"Language: ([A-Za-z]+)")
 CODES = {"eng": "English", "english": "English", "ger": "German", "deu": "German", "german": "German",
-         "fre": "French", "fra": "French", "french": "French", "jpn": "Japanese", "japanese": "Japanese",
+         "fre": "French", "fra": "French", "french": "French", "jpn": "", "japanese": "",  # Japanese is not offered: see the note in the module docstring
          "ita": "Italian", "italian": "Italian", "spa": "Spanish", "spanish": "Spanish",
          "dut": "Dutch", "nld": "Dutch", "dutch": "Dutch", "rus": "Russian", "russian": "Russian",
          "lat": "Latin", "latin": "Latin", "por": "Portuguese", "portuguese": "Portuguese",
@@ -108,7 +109,7 @@ def guess(title, other=""):
         if lang:
             return lang, 1.0, "stated by the source"
     if CJK.search(title):
-        return "Japanese", 0.9, "Japanese script"
+        return "", 0.9, "Japanese script: language left undetermined"
     if CYR.search(title):
         return "Russian", 0.95, "Cyrillic script"
     ws = words_of(title)

@@ -96,9 +96,9 @@
 1806	German
 408	Norwegian
 1368	Norwegian
-418	Japanese
-419	Japanese
-912	Japanese
+418	
+419	
+912	
 529	Dutch
 530	Dutch
 1157	Dutch
@@ -116,7 +116,7 @@
 1223	Latin
 513	French
 962	Dutch
-1477	Japanese
+1477	
 1843	Swedish
 1923	English
 1929	English
@@ -239,7 +239,7 @@
 2698	Russian
 3275	Russian
 3457	Russian
-3315	Japanese
+3315	
 3019	Esperanto
 3213	Esperanto
 3244	Swedish
@@ -375,7 +375,7 @@
 5821	Swedish
 5083	Czech
 5423	Hungarian
-5146	Japanese
+5146	
 5916	English
 5917	English
 6010	English
@@ -497,10 +497,10 @@
 6749	Spanish
 6889	Danish
 7064	Czech
-8140	Japanese
-8145	Japanese
-8155	Japanese
-8163	Japanese
+8140	
+8145	
+8155	
+8163	
 2745	French
 3637	French
 8125	English
@@ -512,3 +512,20 @@
 8747	English
 7078	English
 4579	English
+1735	English
+1736	English
+1737	English
+1738	English
+1739	English
+2079	Volapük
+7162	French
+3194	Italian
+5058	
+8871	English
+1465	Portuguese
+3474	Portuguese
+3512	Portuguese
+3844	Portuguese
+4513	Portuguese
+6335	Portuguese
+433	Spanish
