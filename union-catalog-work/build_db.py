@@ -48,6 +48,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "extra-work"))
 import extra_merge as X  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "libraries-work"))
 import lib_merge as LIB  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "asj-work"))
+import asj_merge as ASJ  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -292,6 +294,8 @@ if __name__ == "__main__":
     l_checked, l_att, l_new = LIB.apply(rows)  # items from other libraries, also picked by hand
     print(f"Hand-picked library items: {l_att} attached to an entry already there, {l_new} added")
     checked.update(l_checked)
+    a_dup, a_new = ASJ.apply(rows)            # the Asiatic Society of Japan's 1888 library catalogue
+    print(f"Asiatic Society of Japan (1888): {a_dup} entries already in the database, {a_new} added")
     n_later = sum(1 for x in rows if x[3] is not None and x[3] > LAST_YEAR)
     print(f"dated later than {LAST_YEAR} (kept in the working copy, left out of the published one): {n_later}")
     # Gallica copies for the French entries. Keyed by row position, so it has to come after the

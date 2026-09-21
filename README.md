@@ -102,3 +102,7 @@ Rows dated later than `LAST_YEAR` are now deleted from the published database *a
 `libraries-work/ids.txt` lists items chosen by hand at the National Library of Norway, Europeana and Alvin (Uppsala). `lib_fetch.py` reads each catalogue through its public interface - api.nb.no, data.europeana.eu as JSON-LD, and the Alvin record page, since Alvin answers no API for a single record - and `lib_merge.py` attaches or adds them, with source `KML Additions` and the link marked as checked by hand. Corrections to a catalogue record are listed in `FIX` in that file, each with its reason.
 
 HathiTrust is not used: it answers automated requests with 403.
+
+## The Asiatic Society of Japan's library catalogue (1888)
+
+`asj-work/` holds the entries read by eye from the *Catalogue of the Books and Manuscripts in the Library of the Asiatic Society of Japan* (Tōkyō, 1888), pages 5-34 of the scan: one JSONL file per page (kept local), the validator, and `asj_merge.py`, which chooses what goes into the database - no periodicals, nothing undated, only works dated 1850-1955 and only those to do with Japan. The transcriber marked each entry true/false/uncertain; the uncertain ones are settled in `japan_decided.tsv`, with the reason. `ia_lookup4.py` looks the new books up on archive.org.

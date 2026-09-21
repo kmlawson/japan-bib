@@ -41,6 +41,13 @@
 !/libraries-work/lib_fetch.py
 !/libraries-work/lib_merge.py
 !/libraries-work/ids.txt
+!/asj-work/
+/asj-work/*
+!/asj-work/asj_merge.py
+!/asj-work/ia_lookup4.py
+!/asj-work/validate4.py
+!/asj-work/AGENT_BRIEF.md
+!/asj-work/japan_decided.tsv
 !/union-catalog-work/title_fixes.tsv
 !/ndl-work/
 /ndl-work/*
