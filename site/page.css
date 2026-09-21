@@ -8,7 +8,11 @@ body.page { font-family: var(--serif); }
 header.site { padding: 26px 0 6px; }
 header.site h1 { font: 700 30px/1.15 var(--serif); margin: 0 0 6px; cursor: default; display: block; }
 header.site h1:hover { color: inherit; }
-header.site p.lede { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+header.site p.lede { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
+header.site p.also { margin: 0 0 14px; font-size: 14px; }
+header.site p.also .also-label { color: var(--muted); }
+header.site p.also a { color: var(--link); }
+header.site p.also .sep { color: var(--line); padding: 0 2px; }
 
 /* the row of buttons: one per section of the page, the last one for the search */
 /* the section buttons wrap across as many lines as they need; the search button sits on its own line under them */

@@ -12,6 +12,7 @@ See also:
 
 - [Primary Sources: Modern Korean History](https://www.froginawell.net/frog/sources/primary-sources-modern-korean-history/)
 - [Primary Sources: History of Taiwan](https://www.froginawell.net/frog/sources/primary-sources-history-of-taiwan/)
+- [Other Frog in a Well Resources](https://froginawell.net/frog/sources/)
 
 # English Language Periodicals
 

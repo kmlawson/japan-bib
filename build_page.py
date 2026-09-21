@@ -15,8 +15,8 @@ Each `# heading` in the markdown becomes a section of the page with a button of 
 in the order they are written; a last button leads to the search. Nothing but the buttons and the
 search is shown when the page opens: pressing a button reveals that section, pressing it again - or
 clicking the section's own heading - hides it. The first `# heading` is the page title; the list of
-sections underneath it is left out, since the buttons say the same thing, and anything after it (the
-"See also" links) goes to the foot of the page.
+sections underneath it is left out, since the buttons say the same thing, and the "See also" links
+after it are set as one line under the title.
 """
 import argparse, html, os, re, shutil, sys
 
@@ -146,6 +146,24 @@ def slug(s):
     return "s-" + re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+def also_line(lines):
+    """The "See also:" list under the title, as one line of links for the head of the page."""
+    label, links = "", []
+    for line in lines:
+        t = line.strip()
+        if not t:
+            continue
+        m = re.match(r"^[-*+]\s+(.*)$", t)
+        if m:
+            links.append(inline(m.group(1)))
+        elif not label:
+            label = t.rstrip(":")
+    if not links:
+        return ""
+    return (f'<p class="also"><span class="also-label">{html.escape(label) or "See also"}:</span> '
+            + ' <span class="sep">·</span> '.join(links) + "</p>")
+
+
 def split_intro(lines):
     """The title section: its leading bullet list repeats the buttons, so it is dropped; the rest
     (the "See also" links) is kept for the foot of the page."""
@@ -195,6 +213,7 @@ def build(md_path, out_path):
     <h1>{html.escape(title)}</h1>
     <p class="lede">A list of primary sources for the study of modern Japanese history, with a searchable
       database of digitized books. Choose a heading to open it.</p>
+    {also_line(rest)}
   </header>
   <nav class="jumps">
     <div class="sections">
@@ -214,11 +233,6 @@ def build(md_path, out_path):
     parts.append(f'''  <section id="search">
 {app_html}
   </section>''')
-
-    if rest and any(l.strip() for l in rest):
-        parts.append(f'''  <footer class="site">
-{render(rest)}
-  </footer>''')
 
     parts.append('''</div>
 <script src="vendor/sql-wasm.js"></script>

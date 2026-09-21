@@ -102,7 +102,11 @@ body.page { font-family: var(--serif); }
 header.site { padding: 26px 0 6px; }
 header.site h1 { font: 700 30px/1.15 var(--serif); margin: 0 0 6px; cursor: default; display: block; }
 header.site h1:hover { color: inherit; }
-header.site p.lede { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+header.site p.lede { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
+header.site p.also { margin: 0 0 14px; font-size: 14px; }
+header.site p.also .also-label { color: var(--muted); }
+header.site p.also a { color: var(--link); }
+header.site p.also .sep { color: var(--line); padding: 0 2px; }
 
 /* the row of buttons: one per section of the page, the last one for the search */
 /* the section buttons wrap across as many lines as they need; the search button sits on its own line under them */
@@ -180,6 +184,7 @@ footer.site ul { padding-left: 20px; }
     <h1>Primary Sources: Modern Japanese History</h1>
     <p class="lede">A list of primary sources for the study of modern Japanese history, with a searchable
       database of digitized books. Choose a heading to open it.</p>
+    <p class="also"><span class="also-label">See also:</span> <a href="https://www.froginawell.net/frog/sources/primary-sources-modern-korean-history/" target="_blank" rel="noopener">Primary Sources: Modern Korean History</a> <span class="sep">·</span> <a href="https://www.froginawell.net/frog/sources/primary-sources-history-of-taiwan/" target="_blank" rel="noopener">Primary Sources: History of Taiwan</a> <span class="sep">·</span> <a href="https://froginawell.net/frog/sources/" target="_blank" rel="noopener">Other Frog in a Well Resources</a></p>
   </header>
   <nav class="jumps">
     <div class="sections">
@@ -424,13 +429,6 @@ footer.site ul { padding-left: 20px; }
     <a id="dsearch" target="_blank" rel="noopener"><button type="button">Search archive.org</button></a></div>
 </dialog>
   </section>
-  <footer class="site">
-<p>See also:</p>
-<ul>
-<li><a href="https://www.froginawell.net/frog/sources/primary-sources-modern-korean-history/" target="_blank" rel="noopener">Primary Sources: Modern Korean History</a></li>
-<li><a href="https://www.froginawell.net/frog/sources/primary-sources-history-of-taiwan/" target="_blank" rel="noopener">Primary Sources: History of Taiwan</a></li>
-</ul>
-  </footer>
 </div>
 <script src="vendor/sql-wasm.js"></script>
 <script>
