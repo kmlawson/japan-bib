@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Japan Bibliography Browser</title>
+<title>Primary Sources: Modern Japanese History</title>
+<meta name="description" content="A searchable database of Western-language books on Japan published 1850-1955, drawn from printed bibliographies, library catalogues and my own reading, with links to copies online.">
 <style>
 :root{
   --bg:#f3f5f8;--panel:#fff;--ink:#16273d;--muted:#5d6f84;--line:#d9e0e8;--accent:#12539e;--accent-ink:#fff;
@@ -91,16 +92,247 @@ footer ul.bib li{margin-bottom:4px}
   table{min-width:0}th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){display:none}
   th:nth-child(1){width:26%}th:nth-child(2){width:auto}th:nth-child(3){width:14%}td.ia .chip{display:none}
   #q{flex-basis:100%}.row1 select{flex:1 1 auto;min-width:0}.row2 label{flex-wrap:wrap}.controls{position:static}}
+/* The landing page around the search: serif, quiet, and readable at any width.
+   app.css is loaded first and keeps its own sans-serif face for the search itself. */
+:root { --serif: Georgia, "Iowan Old Style", "Times New Roman", serif; }
+
+body.page { font-family: var(--serif); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+
+header.site { padding: 26px 0 6px; }
+header.site h1 { font: 700 30px/1.15 var(--serif); margin: 0 0 6px; cursor: default; display: block; }
+header.site h1:hover { color: inherit; }
+header.site p.lede { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+
+/* the row of buttons: one per section of the page, the last one for the search */
+nav.jumps { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 18px; border-bottom: 1px solid var(--line); }
+nav.jumps button {
+  font: 600 14px/1.2 var(--serif); padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--panel); color: var(--ink); cursor: pointer;
+}
+nav.jumps button:hover { border-color: var(--link); color: var(--link); }
+/* an open section: a light blue fill, so it reads as pressed without competing with the search button */
+nav.jumps button[aria-expanded="true"] { background: var(--hit); border-color: var(--link); color: var(--link); }
+/* the way into the search: the one solid, bolder button on the page */
+nav.jumps button.search {
+  margin-left: auto; background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
+  font-weight: 700; letter-spacing: .01em; box-shadow: 0 1px 2px rgba(18, 83, 158, .25);
+}
+nav.jumps button.search:hover { filter: brightness(1.08); color: var(--accent-ink); border-color: var(--accent); }
+
+/* a section of the list: hidden until its button is pressed */
+section.md { padding: 6px 0 4px; border-bottom: 1px solid var(--line); }
+section.md > h2 {
+  font: 700 22px/1.25 var(--serif); margin: 18px 0 10px; cursor: pointer; display: flex; align-items: baseline; gap: 10px;
+}
+section.md > h2:hover { color: var(--link); }
+section.md > h2::after { content: "▲"; font-size: 11px; color: var(--muted); }
+section.md .body { font-size: 16px; line-height: 1.55; padding-bottom: 14px; }
+section.md .body ul { margin: 8px 0; padding-left: 22px; }
+section.md .body li { margin: 4px 0; }
+section.md .body li ul { margin: 2px 0; }
+section.md .body a { color: var(--link); }
+section.md .body p { margin: 10px 0; }
+section.md .body em { font-style: italic; }
+
+/* the search engine, always on the page */
+section#search { padding-top: 10px; }
+section#search h2#home { font: 700 22px/1.25 var(--serif); margin: 18px 0 4px; }
+
+footer.site { padding: 18px 0 40px; font-size: 14px; color: var(--muted); }
+footer.site a { color: var(--link); }
+footer.site ul { padding-left: 20px; }
+
+@media (max-width: 640px) {
+  header.site h1 { font-size: 24px; }
+  nav.jumps button.search { margin-left: 0; }
+}
 </style>
 </head>
-<body>
+<body class="page">
+<div class="wrap">
+  <header class="site">
+    <h1>Primary Sources: Modern Japanese History</h1>
+    <p class="lede">A list of primary sources for the study of modern Japanese history, with a searchable
+      database of digitized books. Choose a heading to open it.</p>
+  </header>
+  <nav class="jumps">
+    <button type="button" class="jump" data-target="s-english-language-periodicals" aria-expanded="false">English Language Periodicals</button>
+    <button type="button" class="jump" data-target="s-year-books-and-directories" aria-expanded="false">Year Books and Directories</button>
+    <button type="button" class="jump" data-target="s-guidebooks-and-travel" aria-expanded="false">Guidebooks and Travel</button>
+    <button type="button" class="jump" data-target="s-maps" aria-expanded="false">Maps</button>
+    <button type="button" class="jump" data-target="s-film" aria-expanded="false">Film</button>
+    <button type="button" class="jump" data-target="s-other-digital-resources" aria-expanded="false">Other Digital Resources</button>
+    <button type="button" class="jump" data-target="s-japanese-language-sources" aria-expanded="false">Japanese Language Sources</button>
+    <button type="button" class="jump search" data-target="search">Digitized Books</button>
+  </nav>
+  <section class="md" id="s-english-language-periodicals" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">English Language Periodicals</h2>
+    <div class="body">
+<ul>
+<li><a href="https://archive.org/search.php?query=title%3A%28The+Japan+Weekly+Mail%29+AND+creator%3A%28The+Japan+Weekly+Mail%29&amp;sort=date" target="_blank" rel="noopener">Japan Weekly Mail 1870-1900</a></li>
+<li><a href="https://froginawell.net/indexes/japan-magazine/" target="_blank" rel="noopener">Japan Magazine 1910-1931</a></li>
+<li><em>Japan Gazette</em> <a href="https://archive.org/details/japan-gazette-1873sept" target="_blank" rel="noopener">1873.9 - 1874.10</a>, <a href="https://archive.org/details/japan-gazette-1877" target="_blank" rel="noopener">1877</a>, <a href="https://archive.org/details/bub_gb_WSopAAAAYAAJ" target="_blank" rel="noopener">1880</a> | <a href="https://archive.org/details/japan-gazette-1880v25" target="_blank" rel="noopener">1880.1-6</a> | <a href="https://archive.org/details/japan-gazette-1881v28" target="_blank" rel="noopener">1880.7-12</a> 1902-3 <a href="https://babel.hathitrust.org/cgi/pt?id=hvd.32044103244620&amp;seq=7" target="_blank" rel="noopener">https://babel.hathitrust.org/cgi/pt?id=hvd.32044103244620&amp;seq=7</a></li>
+<li><a href="https://archive.org/details/pub_japan-times" target="_blank" rel="noopener">Japan Times</a> - Only a selection, but lots of issues from 1942-1945 available. Plus: <a href="https://archive.org/details/1878.1-6-Japan-Times" target="_blank" rel="noopener">1878.1-6</a></li>
+<li><em>Japan: An Illustrated Magazine of Oriental Travel</em> <a href="https://archive.org/details/japan-illustrated-magazine-1917.10-v6.15" target="_blank" rel="noopener">1917.10 v6.15</a> | <a href="https://archive.org/details/japan-illustrated-magazine-1917.12-v6.17" target="_blank" rel="noopener">1917.12 v6.17</a> | <a href="https://archive.org/details/japan-illustrated-magazine-1920.8-v9.12" target="_blank" rel="noopener">1920 v9.12</a> | <a href="https://archive.org/details/japan-1922.1/mode/2up" target="_blank" rel="noopener">1922.1</a> <a href="https://archive.org/details/japan-illustrated-magazine-1922-v11.4-9-11-12" target="_blank" rel="noopener">1922 v11.4-9</a></li>
+<li><em>The Anglo-Japanese Gazette</em> <a href="https://archive.org/details/hvd_32044103244620_2784" target="_blank" rel="noopener">1902-3</a></li>
+<li><a href="https://froginawell.net/tokyo-gazette/" target="_blank" rel="noopener">Tokyo Gazette 1937-42</a></li>
+<li><a href="https://froginawell.net/frog/sources/primary-source-nuggets/contemporary-japan/" target="_blank" rel="noopener">Contemporary Japan 1941-5</a></li>
+<li><a href="https://manoa.hawaii.edu/library/research/collections/russia/russian-northeast-asia-collection/the-xxth-century-shanghai-1941-1945-a-guide/" target="_blank" rel="noopener">XXth Century 1941-1945</a>  - An unusual magazine from Japanese occupied Shanghai</li>
+<li><a href="https://froginawell.net/azad-hind/" target="_blank" rel="noopener">Azad Hind</a> - Wartime pro-Japanese Indian National Army Newspaper 1944-5 reporting on wartime Burma and India.</li>
+<li><a href="https://archive.org/search.php?query=title%3A(The+Far+Eastern+Review" target="_blank" rel="noopener">The Far Eastern Review 1904-1941</a>+AND+creator%3A(George+Bronson+Rea)&amp;sort=date)</li>
+<li><a href="https://dl.ndl.go.jp/pid/1112291/1/1" target="_blank" rel="noopener">Nippon today &amp; tomorrow 2603</a> (1943)</li>
+<li><a href="https://digital.wolfsonian.org/node/67986" target="_blank" rel="noopener">Japan Today &amp; Tomorrow</a> (1938)</li>
+<li><a href="https://dl.ndl.go.jp/pid/1028324/1/9" target="_blank" rel="noopener">Glimpses of East Asia</a> (1943)</li>
+<li><em>Present-Day Japan</em> <a href="https://archive.org/details/present-day-japan-1927" target="_blank" rel="noopener">1927</a> <a href="https://archive.org/details/present-day-japan-1928" target="_blank" rel="noopener">1928</a>, <a href="https://archive.org/details/present-day-japan-1929" target="_blank" rel="noopener">1929</a>, <a href="https://archive.org/details/present-day-japan-1930" target="_blank" rel="noopener">1930</a>, <a href="https://archive.org/details/present-day-japan-1931" target="_blank" rel="noopener">1931</a> - English annual supplement for Asahi newspaper.</li>
+<li><a href="https://archive.org/search.php?query=title%3A%28North+China+Herald%29+AND+creator%3A%28North-China+Herald%29&amp;sort=date" target="_blank" rel="noopener">The North China Herald 1850-1941</a> - China-based newspaper but frequently has news related to Japan and Japanese expansion in China.</li>
+<li><a href="https://archive.org/details/@jwunl?and%5B%5D=subject%3A%22Digitized+newspapers%22" target="_blank" rel="noopener">The North China Daily News 1937-1941</a> - A collection of scans from the wartime daily version of the <em>North China Herald</em></li>
+<li><a href="https://archive.org/search.php?query=description%3A%28Millard%27s%20Review%20of%20the%20Far%20East%29" target="_blank" rel="noopener">Millard&#x27;s Review 1917-1940</a> - Changed names several times. Also a China-based periodical but also frequently has articles related to Japan and Japanese imperialism.</li>
+<li><a href="https://archive.org/details/@suichin?sort=-date&amp;and%5B%5D=subject%3A%22Hong+Kong+Telegraph%22" target="_blank" rel="noopener">Hong Kong Telegraph 1881-1951</a> - Hong Kong newspaper but also lots of Japan related coverage.</li>
+<li><a href="https://archive.org/details/@suichin?sort=-date&amp;and%5B%5D=subject%3A%22Hong+Kong+Daily+Press%22" target="_blank" rel="noopener">Hong Kong Daily Press 1864-1941</a> - Hong Kong newspaper but also lots of Japan related coverage.</li>
+<li><a href="https://archive.org/search?query=subject%3A%22China+Mail%22&amp;sort=-date" target="_blank" rel="noopener">China Mail 1866-1961</a> - Hong Kong newspaper but also lots of Japan related coverage.</li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-year-books-and-directories" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Year Books and Directories</h2>
+    <div class="body">
+<ul>
+<li><em>Japan Year Book</em></li>
+<ul>
+<li><a href="https://archive.org/details/japan-year-book-1905" target="_blank" rel="noopener">1905</a> | <a href="https://archive.org/details/japan-year-book-1906" target="_blank" rel="noopener">1906</a> | <a href="https://archive.org/details/japan-year-book-1907" target="_blank" rel="noopener">1907</a> | <a href="https://archive.org/details/japan-year-book-1908-1909" target="_blank" rel="noopener">1907-9</a> | <a href="https://archive.org/details/japan-year-book-1910" target="_blank" rel="noopener">1910</a>, <a href="https://archive.org/details/japan-year-book-1911" target="_blank" rel="noopener">1911</a> | <a href="https://archive.org/details/japan-year-book-1912" target="_blank" rel="noopener">1912</a> | <a href="https://archive.org/details/japan-year-book-1913" target="_blank" rel="noopener">1913</a> |  <a href="https://archive.org/details/japan-year-book-1914" target="_blank" rel="noopener">1914</a> | <a href="https://archive.org/details/japan-year-book-1913-1914" target="_blank" rel="noopener">1913-4</a> |  <a href="https://archive.org/details/japan-year-book-1915" target="_blank" rel="noopener">1915</a> |  <a href="https://archive.org/details/japan-year-book-1916" target="_blank" rel="noopener">1916</a> | <a href="https://archive.org/details/japan-year-book-1917" target="_blank" rel="noopener">1917</a> |  <a href="https://archive.org/details/japan-year-book-1918" target="_blank" rel="noopener">1918</a> |  <a href="https://archive.org/details/japan-year-book-1919-1920" target="_blank" rel="noopener">1919-20</a>, <a href="https://archive.org/details/japan-year-book-1920" target="_blank" rel="noopener">1920</a> |  <a href="https://archive.org/details/japan-year-book-1921-1922" target="_blank" rel="noopener">1921-2</a> |  <a href="https://archive.org/details/japan-year-book-1923" target="_blank" rel="noopener">1923</a> |  <a href="https://archive.org/details/japan-year-book-1924-1925" target="_blank" rel="noopener">1924-5</a> |  <a href="https://archive.org/details/japan-year-book-1926" target="_blank" rel="noopener">1926</a> |  <a href="https://archive.org/details/japan-year-book-1927" target="_blank" rel="noopener">1927</a> |  <a href="https://archive.org/details/japan-year-book-1928" target="_blank" rel="noopener">1928</a> |  <a href="https://archive.org/details/japanyearbook00unkngoog/page/n37/mode/2up" target="_blank" rel="noopener">1929</a> |  <a href="https://archive.org/details/japan-year-book-1930" target="_blank" rel="noopener">1930</a> |  <a href="https://archive.org/details/japan-year-book-1931-partial" target="_blank" rel="noopener">1931</a> |  <a href="https://archive.org/details/japan-year-book-1935" target="_blank" rel="noopener">1935</a> <a href="https://archive.org/details/the-japan-year-book-1937" target="_blank" rel="noopener">1937</a> |  <a href="https://archive.org/details/japan-year-book-1939-1940" target="_blank" rel="noopener">1939-40</a> |  <a href="https://archive.org/details/japan-year-book-1946-1948" target="_blank" rel="noopener">1946-8</a></li>
+</ul>
+<li><em>Japan-Manchoukuo Year Book</em> <a href="https://archive.org/details/japan-manchoukuo-year-book-1940" target="_blank" rel="noopener">1940</a></li>
+<li><em>The Directory and Chronicle for China, Japan, Corea ...</em> <a href="https://archive.org/details/chronicle-directory-china-1870" target="_blank" rel="noopener">1870</a> | <a href="https://archive.org/details/chronicle-directory-china-1873" target="_blank" rel="noopener">1873</a> | <a href="https://archive.org/details/chronicledirectorychina1875" target="_blank" rel="noopener">1875</a> | <a href="https://archive.org/details/b29351479" target="_blank" rel="noopener">1885</a> | <a href="https://archive.org/details/Directorychronicle1889" target="_blank" rel="noopener">1889</a> | <a href="https://archive.org/details/chronicledirecto00unse/page/n5/mode/2up" target="_blank" rel="noopener">1892</a> | <a href="https://archive.org/details/Directorychronicle1894" target="_blank" rel="noopener">1894</a> | <a href="https://archive.org/details/Directorychronicle1899" target="_blank" rel="noopener">1899</a> | <a href="https://archive.org/details/Directorychronicle1905" target="_blank" rel="noopener">1905</a> | <a href="https://archive.org/details/Directorychronicle1908/Directorychronicle1908/" target="_blank" rel="noopener">1908</a> | <a href="https://archive.org/details/directorychroniclechina1915" target="_blank" rel="noopener">1915</a> | <a href="https://archive.org/details/Directorychronicle1917" target="_blank" rel="noopener">1917</a> | <a href="https://archive.org/details/directorychina1919" target="_blank" rel="noopener">1919</a> | <a href="https://archive.org/details/Directorychronicle1920" target="_blank" rel="noopener">1920</a> |  <a href="http://archive.org/details/directorychina1923" target="_blank" rel="noopener">1923</a> | <a href="http://archive.org/details/chinadirectory1924" target="_blank" rel="noopener">1924</a> | <a href="https://archive.org/details/the-directory-and-chronicle-for-china-etc-1938" target="_blank" rel="noopener">1938</a></li>
+<ul>
+<li>See the <a href="https://www.asia-directories.org/focal/" target="_blank" rel="noopener">Asia Directories Database</a></li>
+</ul>
+<li><em>Japan Gazette Hong List and Directory</em> <a href="https://archive.org/details/directories-Japan-Gazette-Hong-List-and-Directory-1874" target="_blank" rel="noopener">1874</a></li>
+<li><em>Commercial Guide and Trade Directory of Japan</em> <a href="https://archive.org/details/commercialguidet00tayu" target="_blank" rel="noopener">1895</a></li>
+<li><em>The Indian Directory of Japan</em> <a href="https://archive.org/details/directories-1936-The-Indian-Directory-of-Japan" target="_blank" rel="noopener">1936</a></li>
+<li><em>Who&#x27;s Who Hakushi in Great Japan</em> <a href="http://archive.org/details/whoswhohakushiin01tokyuoft" target="_blank" rel="noopener">1921</a></li>
+<li><em>Who&#x27;s Who in Japan</em> <a href="https://archive.org/details/WhosWhoInJapan1913" target="_blank" rel="noopener">1913</a> | <a href="https://archive.org/details/japanwhoswho0000unse" target="_blank" rel="noopener">1951</a> (Borrow)</li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-guidebooks-and-travel" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Guidebooks and Travel</h2>
+    <div class="body">
+<ul>
+<li><em>Terry&#x27;s Japanese Empire</em> <a href="http://archive.org/details/terrysjapaneseem00terr" target="_blank" rel="noopener">1914</a> | <a href="http://archive.org/details/terrysguidetojap00terr_0" target="_blank" rel="noopener">1920</a> | <a href="http://archive.org/details/terry_terrysguidetothejapaneseempireincludingkoreaandformosawithchaptersonmanchuriathetrans-si_1927" target="_blank" rel="noopener">1927</a> | <a href="http://archive.org/details/terry_terrysguidetothejapaneseempire_1928" target="_blank" rel="noopener">1928</a></li>
+<li>Chamberlain, Basil Hall. <em>A Handbook For Travellers In Japan, Including Formosa</em> <a href="https://archive.org/details/ahandbookfortra04firgoog/page/n12/mode/2up" target="_blank" rel="noopener">1891</a> | <a href="https://archive.org/details/ahandbookfortra14firgoog/page/n6/mode/2up" target="_blank" rel="noopener">1893</a> | <a href="https://archive.org/details/ahandbookfortra00masogoog/page/n4/mode/2up" target="_blank" rel="noopener">1894</a> | <a href="https://archive.org/details/handbookfortrave00murr/page/n7/mode/2up" target="_blank" rel="noopener">1898</a> | <a href="https://archive.org/details/ahandbookfortra00masogoog/page/n4/mode/2up" target="_blank" rel="noopener">1899</a> | <a href="https://archive.org/details/handbookfortrav00cham/page/n8/mode/2up" target="_blank" rel="noopener">1901</a> | <a href="https://archive.org/details/handbookfortravejohn/page/n10/mode/2up" target="_blank" rel="noopener">1903</a> | <a href="https://archive.org/details/ahandbookfortra00chamgoog/page/n7/mode/2up" target="_blank" rel="noopener">1907</a> | <a href="https://archive.org/details/handbookfortrave01john/page/n16/mode/2up" target="_blank" rel="noopener">1913</a></li>
+<li><em>Useful Notes and Itineraries for Travelling in Japan</em> <a href="https://dl.ndl.go.jp/pid/1085123" target="_blank" rel="noopener">1907</a> | <a href="https://dl.ndl.go.jp/pid/1085124/1/20" target="_blank" rel="noopener">1909</a> | <a href="https://dl.ndl.go.jp/pid/1085126" target="_blank" rel="noopener">1910</a></li>
+<li><em>Pocket Guide to Japan</em> <a href="https://catalog.hathitrust.org/Record/102619708" target="_blank" rel="noopener">1925</a> | <a href="https://dl.ndl.go.jp/pid/1904554" target="_blank" rel="noopener">1926</a> | <a href="http://archive.org/details/in.ernet.dli.2015.142604" target="_blank" rel="noopener">1935</a> | <a href="https://archive.org/details/japanpocketguide00niho" target="_blank" rel="noopener">1955</a> (Borrow)</li>
+<li><em>Japan: The Pocket Guide</em> <a href="http://archive.org/details/japan-the-pocket-guide-1946" target="_blank" rel="noopener">1946</a> | <a href="https://archive.org/details/japan-the-pocket-guide-1947" target="_blank" rel="noopener">1947</a> <a href="https://archive.org/details/japan-the-pocket-guide-1953" target="_blank" rel="noopener">1953</a></li>
+<li><em>An Official Guide to Japan</em> <a href="https://dl.ndl.go.jp/pid/1900032" target="_blank" rel="noopener">1933</a></li>
+<li><em>An Official Guide to Eastern Asia</em> <a href="https://archive.org/details/ahz0075.0001.001.umich.edu" target="_blank" rel="noopener">1913 vol. III North-Eastern Japan</a> | <a href="https://archive.org/details/in.ernet.dli.2015.96772/page/n3/mode/2up" target="_blank" rel="noopener">1914 vol. II South-Western Japan</a> | <a href="https://archive.org/details/chosen-manchuria-siberia-2/page/n1/mode/2up" target="_blank" rel="noopener">1920 vol. I Chōsen &amp; Manchuria</a></li>
+<li><em>Cook&#x27;s Japan Handbook</em> <a href="https://archive.org/details/in.ernet.dli.2015.113585/mode/2up" target="_blank" rel="noopener">1935</a></li>
+<li><em>A Short Guide-book for Tourists in Japan</em> <a href="http://archive.org/details/ashortguidebook00tokygoog" target="_blank" rel="noopener">1905</a></li>
+<li><em>N.Y.K. Japan-Europe Sailing Schedule</em> <a href="http://archive.org/details/nyk-japan-europe-1938" target="_blank" rel="noopener">1938.03</a> <a href="https://archive.org/details/nyk-japan-europe-1938" target="_blank" rel="noopener">1938.03 v2</a></li>
+<li><em>N.Y.K. Trans-Pacific Sailings</em> <a href="https://archive.org/details/nyk-feb-1937" target="_blank" rel="noopener">1937.2</a></li>
+<li><a href="http://archive.org/details/hotels-in-japan" target="_blank" rel="noopener">Hotels in Japan</a> (1935)</li>
+<li><a href="https://archive.org/details/changing-and-unchangeable-japan" target="_blank" rel="noopener">Changing and Unchangeable Japan</a> (1937?)</li>
+<li><a href="http://archive.org/details/visit-japan-1933" target="_blank" rel="noopener">Visit Japan</a> (1933)</li>
+<li><a href="https://archive.org/details/japan-brochure" target="_blank" rel="noopener">Japan</a> (1937?)</li>
+<li><a href="https://archive.org/details/how-to-see-kyoto-and-nara" target="_blank" rel="noopener">How to See Kyoto &amp; Nara</a> (1955?)</li>
+<li><a href="https://archive.org/details/the-hot-springs-of-japan-including-formosa/page/ii/mode/2up" target="_blank" rel="noopener">The Hot Springs Of Japan (including Formosa)</a> (1922)</li>
+<li><em>Japan Imperial Government Railways Travelers&#x27; Handy Guide</em> <a href="https://archive.org/details/coo_31924012293662_3426" target="_blank" rel="noopener">1915</a></li>
+<li><em>Seaports of the Far East</em> <a href="https://archive.org/details/seaports-of-the-far-east" target="_blank" rel="noopener">1907</a></li>
+<li><em>Glimpses of the East</em> <a href="https://archive.org/details/bwb_KV-169-774" target="_blank" rel="noopener">1936-1937</a> (Borrow) | <a href="https://archive.org/details/glimpses-of-the-east" target="_blank" rel="noopener">1938-1939</a></li>
+<li><a href="https://archive.org/details/notes-on-japanese-cuisine-jtb-1946" target="_blank" rel="noopener">Notes on Japanese Cuisine</a> (1946)</li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-maps" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Maps</h2>
+    <div class="body">
+<ul>
+<li><a href="https://froginawell.net/reference/japanese-empire/" target="_blank" rel="noopener">An Interactive Map of Japanese Empire</a></li>
+<li><a href="https://lapis.nichibun.ac.jp/chizu/index.html" target="_blank" rel="noopener">Nichibunken Digital Map Collection</a></li>
+<li><a href="https://www.davidrumsey.com/" target="_blank" rel="noopener">David Rumsey Map Collection</a></li>
+<li>University of Texas at Austin Map Library:</li>
+<ul>
+<li><a href="https://maps.lib.utexas.edu/maps/japan.html" target="_blank" rel="noopener">Japan</a></li>
+<li><a href="https://maps.lib.utexas.edu/maps/ams/japan_city_plans/" target="_blank" rel="noopener">Japan City Plans</a></li>
+</ul>
+<li><a href="https://guides.library.stanford.edu/gaihozu" target="_blank" rel="noopener">Japanese Imperial Maps: Gaihōzu: A Resource Guide</a></li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-film" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Film</h2>
+    <div class="body">
+<ul>
+<li><a href="https://gpos.omeka.net/watch-the-film" target="_blank" rel="noopener">Global Politics on Screen</a> - Website dedicated to the Japanese film &quot;Investigation of the Lord Lytton Mission into the Manchurian Incident&quot; on the 1932 Lytton Commision.</li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-other-digital-resources" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Other Digital Resources</h2>
+    <div class="body">
+<p>Your first stop should be the <a href="https://prcurtis.com/DH/resources/" target="_blank" rel="noopener">Digital Resources and Projects on East Asia</a> by Paula R. Curtis. There is an extensive table there which can be sourced by time period and area, among other things.</p>
+<ul>
+<li><a href="https://japaneseempire.info/" target="_blank" rel="noopener">Grassroots Operations of the Japanese Empire</a></li>
+<li><a href="https://scalar.usc.edu/works/unpinning-history-japanese-posters-in-the-age-of-commercialism-imperialism-and-modernism/index" target="_blank" rel="noopener">Unpinning History: Japanese Posters in the Age of Commercialism, Imperialism, and Modernism</a></li>
+<li><a href="https://froginawell.net/reference/empire-chronicle/" target="_blank" rel="noopener">Chronicles of Japanese Empire</a></li>
+<li><a href="https://visualizingcultures.mit.edu/home/index.html" target="_blank" rel="noopener">Visualizing Cultures</a></li>
+<li><a href="https://bodiesandstructures.org/bodies-and-structures-2/index" target="_blank" rel="noopener">Bodies and Structures 2.0: Deep-Mapping Modern Eastd Asian History</a></li>
+<li><a href="https://meijiat150dtr.arts.ubc.ca/" target="_blank" rel="noopener">Meiji at 150 Digital Teaching Resource</a></li>
+<li><a href="https://froginawell.net/nagasaki/" target="_blank" rel="noopener">Nagasaki Foreign Settlement</a></li>
+<li><a href="https://www.japanairraids.org/" target="_blank" rel="noopener">Japan Air Raids</a></li>
+<li><a href="https://hiroshima.mapping.jp/index_en.html" target="_blank" rel="noopener">Hiroshima Archive</a></li>
+<li><a href="https://www.asahi.com/hibakusha/english/" target="_blank" rel="noopener">Memories of Hiroshima and Nagasaki</a></li>
+<li><a href="https://hojishinbun.hoover.org/" target="_blank" rel="noopener">Hoji Shinbun Digital Collection</a></li>
+<li><a href="https://fanningtheflames.hoover.org/" target="_blank" rel="noopener">Fanning the Flames: Propaganda in Modern Japan</a></li>
+<li><a href="https://dss.lafayette.edu/collections/east-asia-image-collection/" target="_blank" rel="noopener">Lafayette East Asia Image Collection</a></li>
+<li><a href="https://rej.lib.rochester.edu/" target="_blank" rel="noopener">ReEnvisioning Japan</a></li>
+<li><a href="http://www.dartmouth.edu/~library/digital/collections/manuscripts/jpt/index.html?mswitch-redir=classic" target="_blank" rel="noopener">Press Translations, Japan 1945-1946</a></li>
+<li><a href="https://exhibitions.library.columbia.edu/exhibits/show/kio" target="_blank" rel="noopener">Korean Independence Outbreak Movement</a></li>
+<li><a href="https://untitled.showa.com.au/" target="_blank" rel="noopener">Untitled.Showa</a></li>
+<li><a href="https://www.jacar.go.jp/english/exhibition/jacarbl-fsjwar-e/index.html" target="_blank" rel="noopener">The Sino-Japanese War of 1894-1895: As Seen in Prints and Archives</a></li>
+<li><a href="https://repository.duke.edu/dc/kantoearthquake" target="_blank" rel="noopener">Kanto Earthquake Materials - Duke University</a></li>
+<li><a href="https://imagingkanto.trinity.duke.edu/" target="_blank" rel="noopener">Imagining Kantō</a></li>
+<li><a href="https://www.japan-guide.com/a/earthquake/" target="_blank" rel="noopener">Great Kanto Earthquake 1923 - Photographs by August Kengelbacher</a></li>
+<li><a href="https://digital.library.manoa.hawaii.edu/bell" target="_blank" rel="noopener">Bell Historical Postcard Collection</a></li>
+<li><a href="https://www.loc.gov/collections/ainu-and-ezochi-rare-collection/" target="_blank" rel="noopener">Ainu and Ezochi Rare Collection - Library of Congress</a></li>
+<li><a href="https://www.meijishowa.com/" target="_blank" rel="noopener">MeijiShowa - Historical Images of Japan between the 1860s and 1930s</a></li>
+<li><a href="https://digital.library.manoa.hawaii.edu/collections/show/66" target="_blank" rel="noopener">Emery D. Middleton Collection: Photos During the Allied Occupation of Japan</a></li>
+<li><a href="http://oldphoto.lb.nagasaki-u.ac.jp/top/en_top.php" target="_blank" rel="noopener">Japanese Old Photographs in Bakumatsu-Meiji Period</a></li>
+<li><a href="https://www.ndl.go.jp/en/landmarks" target="_blank" rel="noopener">Exploring Japanese Landmarks</a></li>
+<li><a href="https://jdarchive.org/en" target="_blank" rel="noopener">Japan Disasters Digital Archive</a></li>
+<li><a href="https://afe.easia.columbia.edu/index.html" target="_blank" rel="noopener">Asia for Educators</a></li>
+<li><a href="http://evols.library.manoa.hawaii.edu/handle/10524/11835" target="_blank" rel="noopener">Puka Puka Parade</a> - Post-1945 Newsletter of 100th Infantry Battalion of Japanese-American veterans</li>
+<li><a href="https://www.oldphotosjapan.com/" target="_blank" rel="noopener">Old Photos of Japan</a></li>
+</ul>
+<p><em>Personal Papers Digitized:</em></p>
+<ul>
+<li><a href="https://www.travelwriting.amdigital.co.uk/documents/filter/field_96/RGUgUGlsbGlzLCBGcmVkYSBNYWUgKFJ1c3RlbWV5ZXIp/True" target="_blank" rel="noopener">De Pillis, Freda Mae (Rustemeyer)</a> - part of SCAP during occupation. Her diaries and letters.</li>
+</ul>
+    </div>
+  </section>
+  <section class="md" id="s-japanese-language-sources" hidden>
+    <h2 tabindex="0" role="button" title="Hide this section">Japanese Language Sources</h2>
+    <div class="body">
+<ul>
+<li><a href="https://dl.ndl.go.jp/" target="_blank" rel="noopener">国立図書館デジタルコレクション</a></li>
+<li><a href="https://www.jacar.go.jp/" target="_blank" rel="noopener">Japan Center for Asian Historical Records</a></li>
+<li><a href="https://jpsearch.go.jp/" target="_blank" rel="noopener">Japan Search</a></li>
+<li><a href="https://jaa2100.org/index.html" target="_blank" rel="noopener">ジャパンアーカイブズ</a></li>
+<li><a href="https://toyo-bunko.or.jp/" target="_blank" rel="noopener">東洋文庫</a></li>
+<li><a href="https://www.mofa.go.jp/mofaj/annai/honsho/shiryo/archives/index.html" target="_blank" rel="noopener">日本外交文書デジタルコレクション</a></li>
+<li><a href="https://digital.lib.umd.edu/search?f[digital_collection]=Prange+Children%27s+Books" target="_blank" rel="noopener">Prange Children&#x27;s Books</a></li>
+<li><a href="https://www.digital.archives.go.jp" target="_blank" rel="noopener">国立公文書館</a></li>
+</ul>
+    </div>
+  </section>
+  <section id="search">
 <header>
-  <h1 id="home" tabindex="0" role="button" title="Back to the opening view">Western-language works on Japan, 1850–1955</h1>
+  <h2 id="home" tabindex="0" role="button" title="Back to the opening view">Western-language works on Japan, 1850–1955</h2>
 </header>
 <main>
   <div class="controls">
     <div class="row1">
-      <input id="q" type="search" placeholder='Search author, title, publisher… (e.g.  hearn kwaidan   "tourist library"   author:satow   -german)' autocomplete="off" autofocus>
+      <input id="q" type="search" placeholder='Search author, title, publisher… (e.g.  hearn kwaidan   "tourist library"   author:satow   -german)' autocomplete="off">
       <select id="field" title="Where to search">
         <option value="all">All fields</option><option value="author">Author</option><option value="title">Title</option><option value="other">Imprint / notes</option><option value="source">Bibliography</option>
       </select>
@@ -159,8 +391,41 @@ footer ul.bib li{margin-bottom:4px}
   <div class="dfoot"><button id="dprev">‹ Previous</button><button id="dnext">Next ›</button><button id="dcopy">Copy citation</button><button id="dlink">Copy link to this entry</button>
     <a id="dsearch" target="_blank" rel="noopener"><button type="button">Search archive.org</button></a></div>
 </dialog>
-
+  </section>
+  <footer class="site">
+<p>See also:</p>
+<ul>
+<li><a href="https://www.froginawell.net/frog/sources/primary-sources-modern-korean-history/" target="_blank" rel="noopener">Primary Sources: Modern Korean History</a></li>
+<li><a href="https://www.froginawell.net/frog/sources/primary-sources-history-of-taiwan/" target="_blank" rel="noopener">Primary Sources: History of Taiwan</a></li>
+</ul>
+  </footer>
+</div>
 <script src="vendor/sql-wasm.js"></script>
+<script>
+// Each button opens or closes its section; a section's own heading closes it. The search is always
+// on the page, so its button only scrolls to it.
+for (const b of document.querySelectorAll("nav.jumps button")) {
+  b.addEventListener("click", () => {
+    const sec = document.getElementById(b.dataset.target);
+    if (!sec) return;
+    if (b.dataset.target === "search") { sec.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+    const open = sec.hidden;
+    sec.hidden = !open;
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+for (const h of document.querySelectorAll("section.md > h2")) {
+  const close = () => {
+    const sec = h.parentElement;
+    sec.hidden = true;
+    const b = document.querySelector(`nav.jumps button[data-target="${sec.id}"]`);
+    if (b) { b.setAttribute("aria-expanded", "false"); b.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  };
+  h.addEventListener("click", close);
+  h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); close(); } });
+}
+</script>
 <script>
 (() => {
 "use strict";

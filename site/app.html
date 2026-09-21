@@ -1,0 +1,67 @@
+<header>
+  <h1 id="home" tabindex="0" role="button" title="Back to the opening view">Western-language works on Japan, 1850–1955</h1>
+</header>
+<main>
+  <div class="controls">
+    <div class="row1">
+      <input id="q" type="search" placeholder='Search author, title, publisher… (e.g.  hearn kwaidan   "tourist library"   author:satow   -german)' autocomplete="off" autofocus>
+      <select id="field" title="Where to search">
+        <option value="all">All fields</option><option value="author">Author</option><option value="title">Title</option><option value="other">Imprint / notes</option><option value="source">Bibliography</option>
+      </select>
+      <button id="reset" title="Clear all filters">Reset</button>
+      <button id="theme" title="Toggle light / dark">◐</button>
+    </div>
+    <div class="row2">
+      <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
+      <label>Host <select id="host" title="Where the online copy is held">
+        <option value="">All</option><option value="IA" data-short="IA">Internet Archive</option><option value="G" data-short="G">Gallica</option><option value="NDL" data-short="NDL">National Diet Library</option><option value="EU" data-short="EU">Europeana</option><option value="NB" data-short="NB">National Library of Norway</option><option value="H" data-short="H">HathiTrust</option></select></label>
+      <label>Type <select id="type"><option value="">All</option></select></label>
+      <label>Language <select id="lang" title="Language of the work"><option value="">All</option></select></label>
+      <label>Show <select id="show" title="Which entries to list">
+        <option value="ia" selected>With an online copy</option><option value="open">– read freely</option><option value="borrow">– borrow only</option>
+        <option value="noia">No online copy</option><option value="all">All entries</option></select></label>
+      <label hidden><input id="undated" type="checkbox" checked> include undated</label>
+      <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option selected>1000</option><option value="all">All</option></select></label>
+    </div>
+  </div>
+  <div id="warn" class="warn" hidden></div>
+  <div class="status"><div id="count">Loading database…</div>
+    <div class="right"><button id="csv" title="Download the current result list as CSV">Export CSV</button>
+    <div class="pager"><button id="prev">‹ Prev</button><span id="pageinfo"></span><button id="next">Next ›</button></div></div></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th data-k="author">Author<span class="arrow"></span></th>
+        <th data-k="title">Title<span class="arrow"></span></th>
+        <th data-k="year_num">Year<span class="arrow"></span></th>
+        <th data-k="edition">Edition<span class="arrow"></span></th>
+        <th data-k="volume">Vol.<span class="arrow"></span></th>
+        <th data-k="nlinks">Online copy<span class="arrow"></span></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>No entries match.</div>
+  </div>
+</main>
+<footer>
+  <p id="subtitle">Loading database…</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, H HathiTrust, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p id="foot"></p>
+  <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
+  <ul class="bib">
+    <li>Fukuda, Naomi, ed. <cite>Union Catalog of Books on Japan in Western Languages</cite>. International House Library, 1968.</li>
+    <li>Borton, Hugh, Serge Elisséeff, William W. Lockwood and John C. Pelzel, comps. <a href="https://archive.org/details/selectedlistofbo0000bort" target="_blank" rel="noopener"><cite>A Selected List of Books and Articles on Japan in English, French and German</cite></a>. Revised and enlarged. Cambridge, Mass.: Published by the Harvard University Press for the Harvard-Yenching Institute, 1954.</li>
+    <li>Dower, John W., with Timothy S. George. <a href="https://archive.org/details/japanesehistoryc0000dowe" target="_blank" rel="noopener"><cite>Japanese History and Culture from Ancient to Modern Times: Seven Basic Bibliographies</cite></a>. Second edition, revised and updated. Princeton: Markus Wiener Publishers, 1995.</li>
+    <li>Asiatic Society of Japan. <cite>Catalogue of the Books and Manuscripts in the Library of the Asiatic Society of Japan</cite>. Tōkyō, 1888. (Its Japan-related books, periodicals excepted.)</li>
+    <li>Henshall, Kenneth. <cite>Historical Dictionary of Japan to 1945</cite>. Lanham, Toronto and Plymouth, UK: The Scarecrow Press, Inc., 2014.</li>
+  </ul>
+</footer>
+
+<dialog id="dlg">
+  <div class="dhead"><h2 id="dtitle"></h2><button id="dclose" aria-label="Close">✕</button></div>
+  <div class="dbody"><dl id="ddl"></dl></div>
+  <div class="dfoot"><button id="dprev">‹ Previous</button><button id="dnext">Next ›</button><button id="dcopy">Copy citation</button><button id="dlink">Copy link to this entry</button>
+    <a id="dsearch" target="_blank" rel="noopener"><button type="button">Search archive.org</button></a></div>
+</dialog>
+
+<script src="vendor/sql-wasm.js"></script>

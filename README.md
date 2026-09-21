@@ -108,3 +108,14 @@ only from the compiler's own Zotero collection, where each one was checked to be
 ## The Asiatic Society of Japan's library catalogue (1888)
 
 `asj-work/` holds the entries read by eye from the *Catalogue of the Books and Manuscripts in the Library of the Asiatic Society of Japan* (Tōkyō, 1888), pages 5-34 of the scan: one JSONL file per page (kept local), the validator, and `asj_merge.py`, which chooses what goes into the database - no periodicals, nothing undated, only works dated 1850-1955 and only those to do with Japan. The transcriber marked each entry true/false/uncertain; the uncertain ones are settled in `japan_decided.tsv`, with the reason. `ia_lookup4.py` looks the new books up on archive.org.
+
+## The page
+
+`index.html` is built, not edited. `build_page.py` puts it together from
+
+- `page/modern-japan.md` — the list of primary sources. Edit this and run `python3 build_page.py` again;
+  `build_page.py --from /path/to/modern-japan.md` copies a newer copy in first.
+- `site/app.html`, `site/app.css`, `site/app.js` — the search itself, exactly as it was as a page of its own.
+- `site/page.css` — the look of the page around it.
+
+Every `# heading` in the markdown becomes a section with a button at the top of the page, in the order written; a last, solid button leads to the search. Only the buttons and the search show when the page opens: a button reveals its section, and the button again (or the section's heading) hides it. The first `# heading` is the page title; the list of sections under it is left out, since the buttons say the same thing, and what follows (the "See also" links) goes to the foot of the page.

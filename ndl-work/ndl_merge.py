@@ -112,6 +112,14 @@ def split_volume(z):
     return "", v
 
 
+# Notes added by hand to a National Diet Library record, where the compiler knows something the
+# catalogue does not say: pid -> {"note": ...} (and "title" if the catalogue title has to be replaced).
+BY_HAND = {
+    "1028324": {"note": 'The compiler cites this volume as "Glimpses of East Asia"; the yearbook carries '
+                        'English text alongside the Japanese (the catalogue notes 英文併記).'},
+}
+
+
 def load():
     out, seen = [], set()
     acc = access_map()
@@ -131,6 +139,11 @@ def load():
         r["designation"], part = split_volume(r)
         if part and M.norm(part) not in M.norm(r["title"]):
             r["title"] = r["title"].rstrip(" .") + ". " + part
+        hand = BY_HAND.get(r["pid"], {})
+        if hand.get("title"):
+            r["title"] = hand["title"]
+        if hand.get("note"):
+            r["descriptions"] = list(r.get("descriptions") or []) + [hand["note"]]
         a = acc.get(r["pid"])
         r["access"] = (a or {}).get("access", "unknown")
         r["access_words"] = "; ".join((a or {}).get("rights", []))

@@ -24,7 +24,7 @@ import merge as M  # noqa: E402
 SRC = "KML Additions"
 DATA = os.path.join(HERE, "lib.jsonl")
 HOLDER = {"NB": "National Library of Norway", "EU": "Europeana", "ALVIN": "Alvin (Uppsala University Library)",
-          "H": "HathiTrust"}
+          "H": "HathiTrust", "WOLF": "The Wolfsonian, Florida International University"}
 # second titles in the Norwegian MODS records that are not series statements
 NOT_A_SERIES = {"Norbok"}
 JUNK_EXTENT = re.compile(r"^[\d.]+\s*x\s*cm\.?$", re.I)

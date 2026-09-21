@@ -21,3 +21,4 @@ https://www.europeana.eu/en/item/453/_nn6hf8r	Polish
 https://www.europeana.eu/en/item/0940431/_nnp1VT1	Polish
 https://www.europeana.eu/en/item/106/_Resource_80974961	English
 https://babel.hathitrust.org/cgi/pt?id=loc.ark:/13960/t7qn6n384	English	# entered by hand; HathiTrust blocks automated requests
+https://digital.wolfsonian.org/node/67986	English	# entered by hand from the Wolfsonian record page
