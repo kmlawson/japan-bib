@@ -1,14 +1,6 @@
 % Western-language works on Japan, 1850–1955
 % Version 1.0011 · 21 September 2026
 
-10,917 entries, 4,042 with an online copy (3,562 freely readable, 480 borrowable). Alphabetical by author, then by year.
-
-Compiled from printed bibliographies and library catalogues; the searchable version, with filters and a downloadable database, is at <https://kmlawson.github.io/japan-bib/>.
-
-This file has two parts: the lists of primary sources that the site opens with, and then the whole bibliography of digitized books.
-
----
-
 # Primary sources
 
 
@@ -212,8 +204,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 - [社会労働問題アーカイブ](https://oisr-org.ws.hosei.ac.jp/archives/)
 - [近代日本の身装文化](https://shinsou.minpaku.ac.jp/)
 
-
----
 
 # Digitized books
 

@@ -113,18 +113,10 @@ def sources():
 def markdown(db, ver, today):
     rs = rows(db)
     rs.sort(key=lambda r: (fold(r[1]) or "￿", r[4] or 9999, fold(r[2])))
-    n_links = sum(1 for r in rs if r[7])
-    n_open = sum(1 for r in rs if r[14] == "open")
-    n_borrow = sum(1 for r in rs if r[14] == "borrow")
-    out = [f"% Western-language works on Japan, 1850–1955",
+    # nothing between the title and the sources: no counts, no explanation, no rule
+    out = ["% Western-language works on Japan, 1850–1955",
            f"% Version {ver} · {today}", "",
-           f"{len(rs):,} entries, {n_links:,} with an online copy ({n_open:,} freely readable, "
-           f"{n_borrow:,} borrowable). Alphabetical by author, then by year.", "",
-           f"Compiled from printed bibliographies and library catalogues; the searchable version, with "
-           f"filters and a downloadable database, is at <{SITE}>.", "",
-           "This file has two parts: the lists of primary sources that the site opens with, and then the "
-           "whole bibliography of digitized books.", "", "---", "",
-           "# Primary sources", ""] + sources() + ["", "---", "", "# Digitized books", ""]
+           "# Primary sources", ""] + sources() + ["", "# Digitized books", ""]
     letter = None
     for r in rs:
         first = (fold(r[1])[:1] or "—").upper()
