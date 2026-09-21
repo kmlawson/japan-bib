@@ -113,6 +113,7 @@ only from the compiler's own Zotero collection, where each one was checked to be
 
 `index.html` is built, not edited. `build_page.py` puts it together from
 
+- `page/version.txt` — the build number shown at the foot of the page, raised by one on each build (`build_page.py --no-bump` rebuilds without raising it).
 - `page/modern-japan.md` — the list of primary sources. Edit this and run `python3 build_page.py` again;
   `build_page.py --from /path/to/modern-japan.md` copies a newer copy in first.
 - `site/app.html`, `site/app.css`, `site/app.js` — the search itself, exactly as it was as a page of its own.

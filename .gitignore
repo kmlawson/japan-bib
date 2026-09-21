@@ -8,6 +8,7 @@
 !/page/
 /page/*
 !/page/modern-japan.md
+!/page/version.txt
 !/site/
 /site/*
 !/site/app.css

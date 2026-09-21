@@ -172,6 +172,8 @@ section#search h2#home { font: 700 22px/1.25 var(--serif); margin: 18px 0 4px; }
 
 footer.credit { padding: 14px 0 38px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 18px; }
 footer.credit p { margin: 10px 0 0; }
+footer.credit p.version { font-size: 12.5px; }
+footer.credit a { color: var(--link); }
 footer.site { padding: 18px 0 40px; font-size: 14px; color: var(--muted); }
 footer.site a { color: var(--link); }
 footer.site ul { padding-left: 20px; }
@@ -197,7 +199,6 @@ footer.site ul { padding-left: 20px; }
       <button type="button" class="jump" data-target="s-year-books-and-directories" aria-expanded="false">Year Books and Directories</button>
       <button type="button" class="jump" data-target="s-guidebooks-and-travel" aria-expanded="false">Guidebooks and Travel</button>
       <button type="button" class="jump" data-target="s-maps" aria-expanded="false">Maps</button>
-      <button type="button" class="jump" data-target="s-film" aria-expanded="false">Film</button>
       <button type="button" class="jump" data-target="s-other-digital-resources" aria-expanded="false">Other Digital Resources</button>
       <button type="button" class="jump" data-target="s-japanese-language-sources" aria-expanded="false">Japanese Language Sources</button>
       <button type="button" class="jump search" data-target="search">Digitized Books</button>
@@ -301,14 +302,6 @@ footer.site ul { padding-left: 20px; }
 </ul>
     </div>
   </section>
-  <section class="md" id="s-film" hidden>
-    <h2 tabindex="0" role="button" title="Hide this section">Film</h2>
-    <div class="body">
-<ul>
-<li><a href="https://gpos.omeka.net/watch-the-film" target="_blank" rel="noopener">Global Politics on Screen</a> - Website dedicated to the Japanese film &quot;Investigation of the Lord Lytton Mission into the Manchurian Incident&quot; on the 1932 Lytton Commision.</li>
-</ul>
-    </div>
-  </section>
   <section class="md" id="s-other-digital-resources" hidden>
     <h2 tabindex="0" role="button" title="Hide this section">Other Digital Resources</h2>
     <div class="body">
@@ -343,6 +336,7 @@ footer.site ul { padding-left: 20px; }
 <li><a href="https://jdarchive.org/en" target="_blank" rel="noopener">Japan Disasters Digital Archive</a></li>
 <li><a href="https://afe.easia.columbia.edu/index.html" target="_blank" rel="noopener">Asia for Educators</a></li>
 <li><a href="http://evols.library.manoa.hawaii.edu/handle/10524/11835" target="_blank" rel="noopener">Puka Puka Parade</a> - Post-1945 Newsletter of 100th Infantry Battalion of Japanese-American veterans</li>
+<li><a href="https://gpos.omeka.net/watch-the-film" target="_blank" rel="noopener">Global Politics on Screen</a> - Website dedicated to the Japanese film &quot;Investigation of the Lord Lytton Mission into the Manchurian Incident&quot; on the 1932 Lytton Commision.</li>
 <li><a href="https://www.oldphotosjapan.com/" target="_blank" rel="noopener">Old Photos of Japan</a></li>
 </ul>
 <p><em>Personal Papers Digitized:</em></p>
@@ -434,6 +428,8 @@ footer.site ul { padding-left: 20px; }
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
+    <p class="version">Version 1.0001 · Last Updated: 21 September 2026 ·
+      <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>
 <script src="vendor/sql-wasm.js"></script>

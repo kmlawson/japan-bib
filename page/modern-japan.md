@@ -87,9 +87,7 @@ See also:
     - [Japan](https://maps.lib.utexas.edu/maps/japan.html)
     - [Japan City Plans](https://maps.lib.utexas.edu/maps/ams/japan_city_plans/)
 - [Japanese Imperial Maps: Gaihōzu: A Resource Guide](https://guides.library.stanford.edu/gaihozu)
-# Film
 
-- [Global Politics on Screen](https://gpos.omeka.net/watch-the-film) - Website dedicated to the Japanese film "Investigation of the Lord Lytton Mission into the Manchurian Incident" on the 1932 Lytton Commision. 
 
 # Other Digital Resources
 
@@ -124,6 +122,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 - [Japan Disasters Digital Archive](https://jdarchive.org/en)
 - [Asia for Educators](https://afe.easia.columbia.edu/index.html)
 - [Puka Puka Parade](http://evols.library.manoa.hawaii.edu/handle/10524/11835) - Post-1945 Newsletter of 100th Infantry Battalion of Japanese-American veterans
+- [Global Politics on Screen](https://gpos.omeka.net/watch-the-film) - Website dedicated to the Japanese film "Investigation of the Lord Lytton Mission into the Manchurian Incident" on the 1932 Lytton Commision. 
 - [Old Photos of Japan](https://www.oldphotosjapan.com/)
 
 *Personal Papers Digitized:*

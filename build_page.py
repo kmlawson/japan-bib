@@ -7,6 +7,7 @@
 The page is made of four things, none of which this script edits by hand:
 
     page/modern-japan.md   the list itself. Edit it and run this script again.
+    page/version.txt       the build number shown at the foot of the page, raised by one each build
     site/page.css          the look of the page around the search (serif, same white/blue/grey palette)
     site/app.css/.html/.js the search, exactly as it is - cut out of the old standalone page
     vendor/sql-wasm.*      the SQLite engine the search runs on
@@ -21,15 +22,30 @@ clicking the section's own heading - hides it. The first `# heading` is the page
 sections underneath it is left out, since the buttons say the same thing, and the "See also" links
 after it are set as one line under the title.
 """
-import argparse, html, os, re, shutil, sys
+import argparse, datetime, html, os, re, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MD = os.path.join(HERE, "page", "modern-japan.md")
 OUT = os.path.join(HERE, "index.html")
 SITE = os.path.join(HERE, "site")
 SEARCH_LABEL = "Digitized Books"
+VERSION = os.path.join(HERE, "page", "version.txt")   # the number shown at the foot, one per published build
+REPO = "https://github.com/kmlawson/japan-bib"
 SEARCH_BLURB = ("A searchable database of Western-language books on Japan published 1850-1955, drawn from "
                 "printed bibliographies, library catalogues and my own reading, with links to copies online.")
+
+
+def version(bump=True):
+    """1.0001, 1.0002 ... one step for each build meant for the site. --no-bump leaves it alone."""
+    n = 0
+    if os.path.exists(VERSION):
+        m = re.search(r"(\d+)\s*$", open(VERSION, encoding="utf-8").read().strip())
+        n = int(m.group(1)) if m else 0
+    if bump:
+        n = n % 9999 + 1
+        os.makedirs(os.path.dirname(VERSION), exist_ok=True)
+        open(VERSION, "w", encoding="utf-8").write(f"{n}\n")
+    return f"1.{max(n, 1):04d}"
 
 
 # ---------------------------------------------------------------- markdown
@@ -180,7 +196,7 @@ def split_intro(lines):
 
 
 # ----------------------------------------------------------------- the page
-def build(md_path, out_path):
+def build(md_path, out_path, bump=True):
     md = open(md_path, encoding="utf-8").read()
     secs = sections(md)
     title = secs[0][0] or "Primary Sources"
@@ -238,12 +254,16 @@ def build(md_path, out_path):
 {app_html}
   </section>''')
 
-    parts.append('''  <footer class="credit">
+    ver, today = version(bump), datetime.date.today().strftime("%d %B %Y").lstrip("0")
+    parts.append(f'''  <footer class="credit">
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
-  </footer>
-</div>
+    <p class="version">Version {ver} · Last Updated: {today} ·
+      <a href="{REPO}" target="_blank" rel="noopener">Source and data on GitHub</a></p>
+  </footer>''')
+
+    parts.append('''</div>
 <script src="vendor/sql-wasm.js"></script>
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
@@ -305,12 +325,14 @@ if __name__ == "__main__":
     ap.add_argument("--md", default=MD)
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--from", dest="src", help="copy this markdown into page/ before building")
+    ap.add_argument("--no-bump", dest="bump", action="store_false", help="rebuild without a new version number")
     args = ap.parse_args()
     if args.src:
         os.makedirs(os.path.dirname(MD), exist_ok=True)
         shutil.copyfile(args.src, MD)
         print("copied", args.src, "->", os.path.relpath(MD, HERE))
-    title, heads = build(args.md, args.out)
-    print(f"{os.path.relpath(args.out, HERE)}: {title!r} with {len(heads)} sections + the search")
+    title, heads = build(args.md, args.out, args.bump)
+    print(f"{os.path.relpath(args.out, HERE)}: {title!r} with {len(heads)} sections + the search, "
+          f"version {version(False)}")
     for h in heads:
         print("   ", h)
