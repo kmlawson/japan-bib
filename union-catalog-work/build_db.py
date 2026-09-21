@@ -44,6 +44,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "dower-work"))
 import dower_merge as D  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "onlinebooks-work"))
 import ob_merge as OB  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "hispana-work"))
+import hispana_merge as HIS  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "extra-work"))
 import extra_merge as X  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "libraries-work"))
@@ -307,6 +309,8 @@ if __name__ == "__main__":
     n_gal, n_galed, moved = GAL.apply(rows)
     print(f"Gallica: {n_gal} copies linked, {n_galed} other editions noted"
           + (f", {len(moved)} skipped because the row had moved: {moved[:8]}" if moved else ""))
+    n_his, lost_his = HIS.apply(rows)         # copies in Spanish libraries, found through Hispana
+    print(f"Hispana: {n_his} copies linked" + (f", {len(lost_his)} entries not found" if lost_his else ""))
     n_ob, n_obed, moved_ob = OB.apply(rows)
     print(f"Online Books: {n_ob} copies linked, {n_obed} other editions noted"
           + (f", {len(moved_ob)} skipped because the row had moved: {moved_ob[:8]}" if moved_ob else ""))

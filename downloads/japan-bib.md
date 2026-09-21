@@ -1,7 +1,7 @@
 % Western-language works on Japan, 1850–1955
-% Version 1.0005 · 21 September 2026
+% Version 1.0008 · 21 September 2026
 
-10,200 entries, 3,827 with an online copy (3,347 freely readable, 480 borrowable). Alphabetical by author, then by year.
+10,200 entries, 3,857 with an online copy (3,377 freely readable, 480 borrowable). Alphabetical by author, then by year.
 
 Compiled from printed bibliographies and library catalogues; the searchable version, with filters and a downloadable database, is at <https://kmlawson.github.io/japan-bib/>.
 
@@ -65,12 +65,12 @@ See also:
 - Chamberlain, Basil Hall. *A Handbook For Travellers In Japan, Including Formosa* [1891](https://archive.org/details/ahandbookfortra04firgoog/page/n12/mode/2up) | [1893](https://archive.org/details/ahandbookfortra14firgoog/page/n6/mode/2up) | [1894](https://archive.org/details/ahandbookfortra00masogoog/page/n4/mode/2up) | [1898](https://archive.org/details/handbookfortrave00murr/page/n7/mode/2up) | [1899](https://archive.org/details/ahandbookfortra00masogoog/page/n4/mode/2up) | [1901](https://archive.org/details/handbookfortrav00cham/page/n8/mode/2up) | [1903](https://archive.org/details/handbookfortravejohn/page/n10/mode/2up) | [1907](https://archive.org/details/ahandbookfortra00chamgoog/page/n7/mode/2up) | [1913](https://archive.org/details/handbookfortrave01john/page/n16/mode/2up)
 - *Useful Notes and Itineraries for Travelling in Japan* [1907](https://dl.ndl.go.jp/pid/1085123) | [1909](https://dl.ndl.go.jp/pid/1085124/1/20) | [1910](https://dl.ndl.go.jp/pid/1085126)
 - *Pocket Guide to Japan* [1925](https://catalog.hathitrust.org/Record/102619708) | [1926](https://dl.ndl.go.jp/pid/1904554) | [1935](http://archive.org/details/in.ernet.dli.2015.142604) | [1955](https://archive.org/details/japanpocketguide00niho) (Borrow)
-- *Japan: The Pocket Guide* [1946](http://archive.org/details/japan-the-pocket-guide-1946) | [1947](https://archive.org/details/japan-the-pocket-guide-1947) [1953](https://archive.org/details/japan-the-pocket-guide-1953)
+- *Japan: The Pocket Guide* [1946](http://archive.org/details/japan-the-pocket-guide-1946) | [1947](https://archive.org/details/japan-the-pocket-guide-1947) | [1953](https://archive.org/details/japan-the-pocket-guide-1953)
 - *An Official Guide to Japan* [1933](https://dl.ndl.go.jp/pid/1900032)
 - *An Official Guide to Eastern Asia* [1913 vol. III North-Eastern Japan](https://archive.org/details/ahz0075.0001.001.umich.edu) | [1914 vol. II South-Western Japan](https://archive.org/details/in.ernet.dli.2015.96772/page/n3/mode/2up) | [1920 vol. I Chōsen & Manchuria](https://archive.org/details/chosen-manchuria-siberia-2/page/n1/mode/2up)
 - *Cook's Japan Handbook* [1935](https://archive.org/details/in.ernet.dli.2015.113585/mode/2up)
 - *A Short Guide-book for Tourists in Japan* [1905](http://archive.org/details/ashortguidebook00tokygoog)
-- *N.Y.K. Japan-Europe Sailing Schedule* [1938.03](http://archive.org/details/nyk-japan-europe-1938) [1938.03 v2](https://archive.org/details/nyk-japan-europe-1938)
+- *N.Y.K. Japan-Europe Sailing Schedule* [1938.03](http://archive.org/details/nyk-japan-europe-1938) | [1938.03 v2](https://archive.org/details/nyk-japan-europe-1938)
 - *N.Y.K. Trans-Pacific Sailings* [1937.2](https://archive.org/details/nyk-feb-1937)
 - [Hotels in Japan](http://archive.org/details/hotels-in-japan) (1935)
 - [Changing and Unchangeable Japan](https://archive.org/details/changing-and-unchangeable-japan) (1937?)
@@ -97,11 +97,38 @@ See also:
 
 ## Other Digital Resources
 
-Your first stop should be the [Digital Resources and Projects on East Asia](https://prcurtis.com/DH/resources/) by Paula R. Curtis. There is an extensive table there which can be sourced by time period and area, among other things.
+Your first stop should be the [Digital Resources and Projects on East Asia](https://prcurtis.com/DH/resources/) by Paula R. Curtis. There is an extensive table there which can be filtered by time period and area, among other things.
 
+- [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
+    - [The Opium War in Japanese Eyes](https://visualizingcultures.mit.edu/opium_wars_japan/index.html)
+    - [Black Ships & Samura](https://visualizingcultures.mit.edu/black_ships_and_samurai/index.html)
+    - [Black Ships & Samura II](https://visualizingcultures.mit.edu/black_ships_and_samurai_02/index.html)
+    - [Yokohama Boomtown: Foreigners in Treaty-Port Japan (1859-1872)](https://visualizingcultures.mit.edu/yokohama/index.html)
+    - [Kiyochika's Tokyo I Master of Modern Melancholy (1876-1881)](https://visualizingcultures.mit.edu/kiyochika_tokyo/index.html)
+    - [Kiyochika's Tokyo II Visual Narratives](https://visualizingcultures.mit.edu/kiyochika_tokyo_02/index.html)
+    - [Kiyochika's Tokyo III Exhibition Video Tour](https://visualizingcultures.mit.edu/kiyochika_tokyo_03/index.html)
+    - [Felice Beato's Japan: Places](https://visualizingcultures.mit.edu/beato_places/index.html) | [People](https://visualizingcultures.mit.edu/beato_people/index.html)
+    - [Globetrotters' Japan: Places - Foreigners on the Tourist Circuit in Meiji Japan](https://visualizingcultures.mit.edu/gt_japan_places/index.html) | [People](https://visualizingcultures.mit.edu/gt_japan_people/index.html)
+    - [Throwing Off Asia I: Woodblock Prints of Domestic "Westernization" (1868-1912)](https://visualizingcultures.mit.edu/throwing_off_asia_01/index.html)
+    - [Throwing Off Asia II: Woodblock Prints of the Sino-Japanese War (1894-95)](https://visualizingcultures.mit.edu/throwing_off_asia_02/index.html)
+    - [Throwing Off Asia III: Woodblock Prints of the Russo-Japanese War (1904-05)](https://visualizingcultures.mit.edu/throwing_off_asia_03/index.html)
+    - [Asia Rising: Japanese Postcards of the Russo-Japanese War (1904-05)](https://visualizingcultures.mit.edu/asia_rising/index.html)
+    - [Yellow Promise / Yellow Peril: Foreign Postcards of the Russo-Japanese War (1904-05)](https://visualizingcultures.mit.edu/yellow_promise_yellow_peril/index.html)
+    - [Social Protest in Imperial Japan: The Hibiya Riot of 1905](https://visualizingcultures.mit.edu/social_protest_japan/index.html)
+    - [Political Protest in Interwar Japan 1: Posters & Handbills from the Ohara Collection (1920s-1930s)](https://visualizingcultures.mit.edu/protest_interwar_japan/index.html)
+    - [Political Protest in Interwar Japan 2: Eight Topical Galleries from the Ohara Collection (1920s-1930s)](https://visualizingcultures.mit.edu/protest_interwar_japan_02/index.html)
+    - [Selling Shiseido I: Cosmetics Advertising & Design in Early 20th Century Japan](https://visualizingcultures.mit.edu/shiseido_01/index.html)
+    - [Selling Shiseido II: Visual Narratives](https://visualizingcultures.mit.edu/shiseido_02/index.html)
+    - [Selling Shiseido III: Image Galleries](https://visualizingcultures.mit.edu/shiseido_03/index.html)
+    - [Tokyo Modern I Koizumi Kishio's "100 Views" of the Imperial Capital (1928-1940)](https://visualizingcultures.mit.edu/tokyo_modern_01/index.html)
+    - [Tokyo Modern II Koizumi Kishio's "100 Views" - Annotations & Gallery](https://visualizingcultures.mit.edu/tokyo_modern_02/index.html)
+    - [Tokyo Modern III "100 Views" by 8 Artists (1928-1932) - Gallery](https://visualizingcultures.mit.edu/tokyo_modern_03/index.html)
+    - [Groud Zero 1945: Pictures by Atomic Bomb Survivors](https://visualizingcultures.mit.edu/groundzero1945/index.html)
+    - [Ground Zero 1945: A Schoolboy's Story](https://visualizingcultures.mit.edu/groundzero1945_2/index.html)
+    - [Protest Art in 1950s Japan: The Forgotten Reportage Painters](https://visualizingcultures.mit.edu/protest_art_50s_japan/index.html)
+    - [Tokyo 1960: Days of Rage & Grief - Hamaya Hiroshi's Photos of the Anti-Security-Treaty Protests](https://visualizingcultures.mit.edu/tokyo_1960/index.html)
 - [Grassroots Operations of the Japanese Empire](https://japaneseempire.info/)
 - [Unpinning History: Japanese Posters in the Age of Commercialism, Imperialism, and Modernism](https://scalar.usc.edu/works/unpinning-history-japanese-posters-in-the-age-of-commercialism-imperialism-and-modernism/index)
-- [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
 - [Bodies and Structures 2.0: Deep-Mapping Modern East Asian History](https://bodiesandstructures.org/bodies-and-structures-2/index)
 - [Meiji at 150 Digital Teaching Resource](https://meijiat150dtr.arts.ubc.ca/)
 - [Resource Guide for Japanese Studies and Humanities in Japan](https://guides2.nihu.jp/)
@@ -167,7 +194,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 ## Japanese Language Sources
 
 - [国立図書館デジタルコレクション](https://dl.ndl.go.jp/)
-- [Japan Center for Asian Historical Records](https://www.jacar.go.jp/)
+- [アジア歴史資料センター](https://www.jacar.go.jp/) (JACAR)
 - [教科書コレクション - 広島大学](https://dc.lib.hiroshima-u.ac.jp/da/en/search?collection_name=%E6%95%99%E7%A7%91%E6%9B%B8%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3)
 - [近代教科書デジタルアーカイブ](https://www.nier.go.jp/library/textbooks/)
 - [Japan Search](https://jpsearch.go.jp/)
@@ -930,7 +957,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Audsley, George Ashdown.** *Gems of Japanese Art and Handicraft*. 1913, English. London, Los Marston. read at Internet Archive: <https://archive.org/details/cihm_74509> [Union Catalog (Fukuda); no. 273]
 
-**Audsley, George Ashdown. jt. auth.** *La céramique japonaise, par G. A. Audsley et James Lord Bowes. Edition française, tr. de M. P. Louisy*. 1877, French. Paris. [Union Catalog (Fukuda); no. 272]
+**Audsley, George Ashdown. jt. auth.** *La céramique japonaise, par G. A. Audsley et James Lord Bowes. Edition française, tr. de M. P. Louisy*. 1877, French. Paris. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9602964x> [Union Catalog (Fukuda); no. 272]
 
 **Audsley, George Ashdown. jt. author.** *Keramic Art of Japan, by G. A. Audsley and James Lord Bowes*. 1875-79, 2 v., English. London, Henry Sotheran. read at Internet Archive, checked by hand: <https://archive.org/details/gri_33125000314480> read at Internet Archive: <https://archive.org/details/gri_33125012933889> read at Internet Archive: <https://archive.org/details/keramicartjapan00audsgoog> read at Internet Archive: <https://archive.org/details/keramicartofjapa00audsrich> read at Internet Archive: <https://archive.org/details/keramicartofjapa00auds_1> read at Internet Archive: <https://archive.org/details/keramicartofjapa00auds> [Union Catalog (Fukuda); KML Zotero; Nichibunken catalogue; no. 274]
 
@@ -1761,7 +1788,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Bonneau, Georges, tr.** *Le Haiku*. 1935, French. Paris, Geuthner. [Borton et al. (1954); no. 8603]
 
-**Bonneau, Georges.** *Japon et Mandchourie*. 1932, French. Osaka, Osaka Tai-shi Keizai Renmei. [Union Catalog (Fukuda); no. 556]
+**Bonneau, Georges.** *Japon et Mandchourie*. 1932, French. Osaka, Osaka Tai-shi Keizai Renmei. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9679989v> [Union Catalog (Fukuda); no. 556]
 
 **Bonneau, Georges.** *Introduction à l'idéographie japonaise; la forêt des symboles*. 1933, French. Paris, Paul Geuthner. [Union Catalog (Fukuda); no. 554]
 
@@ -1857,7 +1884,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Bourassa, Léo Paul.** *L'âme japonais*. 1941, French. Trois Rivieres, Canada, Editions du Bien Public. [Union Catalog (Fukuda); no. 586]
 
-**Bourgois, Gaston.** *Langue japonaise: caractères idéographiques; dictionnaire et méthode d'étude*. 1908, French. Tokyo, Sansai sha. [Union Catalog (Fukuda); no. 589]
+**Bourgois, Gaston.** *Langue japonaise: caractères idéographiques; dictionnaire et méthode d'étude*. 1908, French. Tokyo, Sansai sha. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9600432m> [Union Catalog (Fukuda); no. 589]
 
 **Bourgois, Gaston.** *Dictionary and Glossary for the Practical Study of the Japanese Ideographs*. 1915, English. Tokyo, Kyobunkan. [Union Catalog (Fukuda); no. 587]
 
@@ -2189,7 +2216,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Buijs, M. (Marius).** *De Tijdstroom. 1875. 2 Vols*. 1875, English. Amsterdam, A. Akkeringa. [Nichibunken catalogue; no. 10071]
 
-**Bujac, E.** *La guerre sino-japonaise*. 1896, French. Paris, Charles Lavauzelle. [Union Catalog (Fukuda); no. 704]
+**Bujac, E.** *La guerre sino-japonaise*. 1896, French. Paris, Charles Lavauzelle. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k375420k> [Union Catalog (Fukuda); no. 704]
 
 **Bujac, E.** *La guerre sino-japonaise*. 1902, 1902 ed., French. [Union Catalog (Fukuda); no. 705]
 
@@ -2796,7 +2823,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Clavery, Édouard.** *L'anarchie en Chine et le rôle du Japon, 1921-1938*. 1938, French. Paris, Presses Modernes. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k33483673> [Union Catalog (Fukuda); no. 932]
 
-**Clavery, Édouard.** *Extrême-Orient: Chine-Japon 1939*. 1939, 2e ed. rev., corrigée et augmentée., French. Paris, Presses Modernes. [Union Catalog (Fukuda); no. 936]
+**Clavery, Édouard.** *Extrême-Orient: Chine-Japon 1939*. 1939, 2e ed. rev., corrigée et augmentée., French. Paris, Presses Modernes. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k3338683z> [Union Catalog (Fukuda); no. 936]
 
 **Clement, Ernest W.** *Comparative Chronological Tables of the Christian Era, Japanese Eras and Emperors, Chinese Emperors and Eras, and Korean Kings, with Years of the Sexagenary Cycles, from 660 B.C. to 1910 A.D.*. 1910, article, English. [Borton et al. (1954); no. 7662]
 
@@ -3082,7 +3109,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Cousins, James H.** *The New Japan; Impressions and Reflections*. 1923, English. Madras, Ganesh. read at Internet Archive, checked by hand: <https://archive.org/details/in.ernet.dli.2015.173868> [Union Catalog (Fukuda); KML Zotero; no. 1033]
 
-**Covarrubias, Francisco Diaz.** *Viaje de la Comision Astronómica Mexicana al Japon. Para observar et transito del planeta Vénus por el disco del sol el 8 de Diciembre de 1874*. 1876, Spanish. Mexico, C. Ramiro Y. Ponce de Leon. [Union Catalog (Fukuda); no. 1034]
+**Covarrubias, Francisco Diaz.** *Viaje de la Comision Astronómica Mexicana al Japon. Para observar et transito del planeta Vénus por el disco del sol el 8 de Diciembre de 1874*. 1876, Spanish. Mexico, C. Ramiro Y. Ponce de Leon. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000075002&page=1> [Union Catalog (Fukuda); no. 1034]
 
 **Covell, Jon Carter.** *Under the Seal of Sesshū*. 1941, English. New York, De pamphilis. borrow at Internet Archive: <https://archive.org/details/undersealofsessh0000jonc_r7p1> borrow at Internet Archive: <https://archive.org/details/undersealofsessh0000jonc> borrow at Internet Archive: <https://archive.org/details/bwb_W7-DEK-878> [Borton et al. (1954); no. 8666]
 
@@ -3741,7 +3768,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Dubois de Jancigny, Adolphe Philibert.** *Japon, Indo-Chine, Ceylan, Etc*. 1850, English. Paris, Firmin Didot Frères. [Nichibunken catalogue; no. 9966]
 
-**Duboscq, André.** *Le problème du Pacifique*. 1927, French. Paris, Librairie Delagrave. [Union Catalog (Fukuda); no. 1281]
+**Duboscq, André.** *Le problème du Pacifique*. 1927, French. Paris, Librairie Delagrave. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9634033q> [Union Catalog (Fukuda); no. 1281]
 
 **Duchateau, J.** *Notice sur les Aïno insulaires du Yézo et des Îles Kouriles, suivi de l'âge de la pierre au Japon*. 1874, French. Paris, Madame Veuve Bouchard-Huzard. [Union Catalog (Fukuda); no. 1283]
 
@@ -3783,7 +3810,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Dupont, E.** *Le essence forèstieres du Japon*. 1880, French. Paris, Berger-Levrault. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k5548672b> [Union Catalog (Fukuda); no. 1294]
 
-**Dupuy de Lôme, Enrique.** *Estudios sobre el Japón*. 1895, Spanish. Madrid, IMPRESORES DE LA REAL CASA, Paseo de San Vicente. [Nichibunken catalogue; no. 10248]
+**Dupuy de Lôme, Enrique.** *Estudios sobre el Japón*. 1895, Spanish. Madrid, IMPRESORES DE LA REAL CASA, Paseo de San Vicente. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000254187&page=1> [Nichibunken catalogue; no. 10248]
 
 **Duran, Leo.** *Plays of Old Japan*. 1921, English. New York, T. Seltzer. read at Internet Archive, checked by hand: <https://archive.org/details/playsoldjapan00duragoog> [KML Zotero; no. 8969]
 
@@ -3795,7 +3822,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Duret, Théodore.** *Voyage En Asie*. 1874, English. Paris, Michel Lévy Frères, Place De L'Opér, Librairie Nouvelle. [Nichibunken catalogue; no. 10064]
 
-**Duret, Théodore.** *L'art japonais: les livres illustres, les albums imprimes Hokusai*. 1882, French. Paris, A. Quantin. [Union Catalog (Fukuda); Nichibunken catalogue; no. 1297]
+**Duret, Théodore.** *L'art japonais: les livres illustres, les albums imprimes Hokusai*. 1882, French. Paris, A. Quantin. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k1054588v> [Union Catalog (Fukuda); Nichibunken catalogue; no. 1297]
 
 **Duret, Théodore.** *Livres et albums illustreés du Japon. Réunis et catalogués*. 1900, French. Paris, Bibliotheque Nationale. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k6292299m> [Union Catalog (Fukuda); Borton et al. (1954); no. 1298]
 
@@ -4577,7 +4604,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Fujita, Nintarō.** *Kenkyusha's English-Japanese Dictionary, Commercial and Technical Terms*. 1944; 1945, English. South Pasadena; Philadelphia, P. D. and Ione Perkins; David McKay. [Borton et al. (1954); no. 8486]
 
-**Fujita, T.** *Légendes japonaises*. 1922, French. Paris, Editions de l'Abeille d'Or. [Union Catalog (Fukuda); no. 1603]
+**Fujita, T.** *Légendes japonaises*. 1922, French. Paris, Editions de l'Abeille d'Or. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9614229z> [Union Catalog (Fukuda); no. 1603]
 
 **Fujiu, Tei. ed.** *Hanakatsura; The Works of Famous Literary Women in Japan*. 1903, English. Tokyo, Ikuseikai. read at Internet Archive, checked by hand: <https://archive.org/details/hanakatsura-the-works-of-famous-literary-women-in-japan> [Union Catalog (Fukuda); KML Zotero; no. 1604]
 
@@ -4946,7 +4973,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Gollier, Théophile.** *Essai sur les institutions politiques du Japon*. 1903, French. Bruxelles, J. Goemaere. read at Internet Archive: <https://archive.org/details/essaisurlesinsti00goll> read at Internet Archive: <https://archive.org/details/essaisurlesinst00gollgoog> [Union Catalog (Fukuda); no. 1740]
 
-**Gollier, Théophile.** *Le Japon économique*. 1906, French. Bruxelles, Misch and Thron. [Union Catalog (Fukuda); no. 1741]
+**Gollier, Théophile.** *Le Japon économique*. 1906, French. Bruxelles, Misch and Thron. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k1417402s> [Union Catalog (Fukuda); no. 1741]
 
 **Golos Rodiny.** *Deistviia Iaponii v priamurskom krae. Sbornik offitsial'nykh dokumentov, otnociashchikhsia k interventsii derzhav v predelakh Priamur'ia*. 1921, Russian. Vladivostok, Svobodnaia Rossiia. [Union Catalog (Fukuda); no. 1742]
 
@@ -6063,7 +6090,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Heidrich, M.** *Koreanische Landwirtschaft. Beiträge zur Völkerkunde von Korea, 1*. 1931, German. Leipzig, B. G. Teubner. [Union Catalog (Fukuda); no. 2171]
 
-**Heike Monogatari.** *Episodes du Heike Monogatari. Tr. par Souéo Gotō et M. Prunier*. 1930, French. Paris, Ernest Leroux. [Union Catalog (Fukuda); no. 2173]
+**Heike Monogatari.** *Episodes du Heike Monogatari. Tr. par Souéo Gotō et M. Prunier*. 1930, French. Paris, Ernest Leroux. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k65803405> [Union Catalog (Fukuda); no. 2173]
 
 **Heike Monogatari.** *The Heike Monogatari. Tr. by A. L. Sadler*. 1941, 2 v., English. Tokyo, Kimiwada Shoten. read at Internet Archive: <https://archive.org/details/heikemonogatari00naga> read at Internet Archive: <https://archive.org/details/TheHeikeMonogatari> [Union Catalog (Fukuda); no. 2172]
 
@@ -6151,7 +6178,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Herald Press.** *The Report of the League Commission on the Sino-Japanese Dispute, 1932*. 1932, Authorized ed., English. Tokyo, Herald Press. [Union Catalog (Fukuda); no. 2205]
 
-**Hernando, Francisco.** *Gracia 6 la Cristiana del Japon. Leyenda, histórica, biblioteca del Hogar*. 1906, Spanish. Barcelona, Catolica. [Union Catalog (Fukuda); no. 2207]
+**Hernando, Francisco.** *Gracia 6 la Cristiana del Japon. Leyenda, histórica, biblioteca del Hogar*. 1906, Spanish. Barcelona, Catolica. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000192586&page=1> [Union Catalog (Fukuda); no. 2207]
 
 **Hersey, John.** *Hiroshima*. 1946, English. N. Y., Knopf. read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.268116> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.165959> read at Internet Archive: <https://archive.org/details/HiroshimaJohnHersey> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.505374> read at Internet Archive: <https://archive.org/details/hiroshimapenguin0000john> borrow at Internet Archive: <https://archive.org/details/hiroshimastoryof0000john> [Union Catalog (Fukuda); Borton et al. (1954); Dower & George (1995); no. 2208]
 
@@ -7459,7 +7486,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Japan. Laws, statutes, etc.** *Civil Code-Book on the Law of Person*. 1892, English. Tokyo, Shiho-sho, Kiroku-ka. [Union Catalog (Fukuda); no. 2617]
 
-**Japan. Laws, statutes, etc.** *Code de procédure pénale*. 1892, French. Tokyo, Shihô-shô. [Union Catalog (Fukuda); no. 2636]
+**Japan. Laws, statutes, etc.** *Code de procédure pénale*. 1892, French. Tokyo, Shihô-shô. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k58469356> [Union Catalog (Fukuda); no. 2636]
 
 **Japan. Laws, statutes, etc.** *Commercial Code of Japan. Promulgated on the 26Th Day of the 4Th Month of the 23Rd Year of Meiji (1890). Official Translation*. 1892, English. Tokyo, Maruya. [Union Catalog (Fukuda); no. 2647]
 
@@ -7545,7 +7572,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Japan. Laws, statutes, etc.** *The Shipping Law, with Detailed Regulations for Its Operation, and the Mariners' Law, with Detailed Regulations for Its Operation*. 1901, English. Tokyo, Nihon Yusen K. K.. [Union Catalog (Fukuda); no. 2776]
 
-**Japan. Laws, statutes, etc.** *Code civil de l'Empire du Japon, livres IV-V: famille et successions. Tr. par L. Lönholm et Jules Adam*. 1902, French. Tokyo, Maruya. [Union Catalog (Fukuda); no. 2628]
+**Japan. Laws, statutes, etc.** *Code civil de l'Empire du Japon, livres IV-V: famille et successions. Tr. par L. Lönholm et Jules Adam*. 1902, French. Tokyo, Maruya. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9607540p> [Union Catalog (Fukuda); no. 2628]
 
 **Japan. Laws, statutes, etc.** *Code de procédure criminelle, promulgué par le décret no.37, le 7e mois de la 13e année de Meiji*. 1902, 1902 ed., no.37, French. [Union Catalog (Fukuda); no. 2635]
 
@@ -7907,7 +7934,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Jikaku Daishi.** *Ennin's Diary; The Record of a Pilgrimage to China in Search of the Law. Tr. from the Chinese by Edwin O. Reischauer*. 1955, English. New York, Ronald Press. [Union Catalog (Fukuda); no. 2888]
 
-**Jimenez, Fr. Manuel.** *Mártires Agustinos del Japon, ó sea vida y martirio de los beatos Fr. Fernando de san José, Fr. Pedro de Zúñiga y demás compañeros martires, beatificados en 7 de Julio del presente año por N. Santisimo Padre Pio IX*. 1867, Spanish. Valladolid, D. Juan de la Cuesta. [Union Catalog (Fukuda); no. 2889]
+**Jimenez, Fr. Manuel.** *Mártires Agustinos del Japon, ó sea vida y martirio de los beatos Fr. Fernando de san José, Fr. Pedro de Zúñiga y demás compañeros martires, beatificados en 7 de Julio del presente año por N. Santisimo Padre Pio IX*. 1867, Spanish. Valladolid, D. Juan de la Cuesta. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000060610&page=1> [Union Catalog (Fukuda); no. 2889]
 
 **Jindō, Atsushi.** *Dialogues allemands, francais, russis et japonais*. 1904, French. Tokyo, Koronsha. [Union Catalog (Fukuda); no. 2890]
 
@@ -7963,7 +7990,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Joly, Henri L. jt. author.** *Japanese Art and Handicraft; An Illustrated Record of the Loan Exhibition Held in Aid of the British Red Cross in October-November, 1915*. 1916, English. London. [Union Catalog (Fukuda); Borton et al. (1954); no. 2913]
 
-**Jonas, F. M.** *Netsuké*. 1928, French. Kobe, J. L. Thompson. [Union Catalog (Fukuda); Borton et al. (1954); no. 2917]
+**Jonas, F. M.** *Netsuké*. 1928, French. Kobe, J. L. Thompson. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k379059w> [Union Catalog (Fukuda); Borton et al. (1954); no. 2917]
 
 **Jones, F. C.** *Manchuria Since 1931*. 1949, English. Royal Institute of International Affairs. [Dower & George (1995); no. 9660]
 
@@ -8804,7 +8831,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Kobayashi, Ichirō.** *The Doctrines of Nichiren with a Sketch of His Life*. 1893, English. Tokyo, Kelly and Walsh. [Union Catalog (Fukuda); no. 3274]
 
-**Kobayashi, J.** *Le conflit sino-japonais et la Societe des Nations. The Sino-Japanese dispute and the League of Nations*. 1932, French. Geneva, Kundig. [Union Catalog (Fukuda); no. 3275]
+**Kobayashi, J.** *Le conflit sino-japonais et la Societe des Nations. The Sino-Japanese dispute and the League of Nations*. 1932, French. Geneva, Kundig. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9811378b> [Union Catalog (Fukuda); no. 3275]
 
 **Kobayashi, Keisuke. jt. author.** *The Eggs of Japanese Birds, by Keisuke Kobayashi and Takeo Ishizawa*. 1932-33, 7 v., English. Tokyo, K. Kobayashi. [Union Catalog (Fukuda); no. 3276]
 
@@ -10364,7 +10391,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Martynov, E. I.** *Quelques leçons de la triste expérience de la guerre russo-japonaise*. 1907, French. Paris, H. Charles-Lavauzelle. [Union Catalog (Fukuda); no. 3957]
 
-**Martynov, E. I.** *La guerre russo-japonaise. Souvenirs d'un colonel d'infanterie. Tr. du Russe par A. H.*. 1911, French. Paris, L. Fournier. [Union Catalog (Fukuda); no. 3956]
+**Martynov, E. I.** *La guerre russo-japonaise. Souvenirs d'un colonel d'infanterie. Tr. du Russe par A. H.*. 1911, French. Paris, L. Fournier. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k65605350> [Union Catalog (Fukuda); no. 3956]
 
 **Martynow, A. ed.** *Die Mandschurei Bilder aus dem russisch-japanischen Kriege: Album von 389 Darstellungen*. 1907, German. St. Petersburg. [Union Catalog (Fukuda); no. 3958]
 
@@ -12273,7 +12300,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Ninomiya, Sontoku.** *Sage Ninomiya's Evening Talks. Tr. by Isoh Yamagata from "Ninomiya-O Yawa", Ed. by Masae Fukuzumi. with Notes on the Life, Character and Teaching of Sontoku Ninomiya by Hyoji Sugawara*. 1937, English. Tokyo, Tokuno Kyokai. [Union Catalog (Fukuda); no. 4701]
 
-**Niox, Général.** *La guerre Russo-japonaise. Chroniques*. 1906, French. Paris, Ch. Delagrave. [Union Catalog (Fukuda); no. 4702]
+**Niox, Général.** *La guerre Russo-japonaise. Chroniques*. 1906, French. Paris, Ch. Delagrave. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k3136944> [Union Catalog (Fukuda); no. 4702]
 
 **Niparko, Zigmond John.** *Kims and Sans on the Other Side of the Ocean: Korea and Japan*. 1954, English. New York, Vantage Press. [Union Catalog (Fukuda); no. 4703]
 
@@ -12689,7 +12716,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Nōshōmushō.** *Le mines du Japon, rédigé par le Bureau des Mines, Ministère de l'Agriculture et du Commerce*. 1900, French. Paris. [Union Catalog (Fukuda); no. 4902]
 
-**Nōshōmushō.** *Notice des objets exposés; Exposition Universelle de 1900 à Paris,*. 1900, French. Tokyo, Department of Agriculture and Commerce. [Union Catalog (Fukuda); no. 4905]
+**Nōshōmushō.** *Notice des objets exposés; Exposition Universelle de 1900 à Paris,*. 1900, French. Tokyo, Department of Agriculture and Commerce. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9915932> [Union Catalog (Fukuda); no. 4905]
 
 **Nōshōmushō.** *Notice sur le service géologique impérial du Japon avec catalogue des articles et resultats analytiques des échantillons de sols exposés à l'Exposition Universelle de 1900, Paris*. 1900, French. Tokyo. [Union Catalog (Fukuda); no. 4912]
 
@@ -12890,7 +12917,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Ogino, Hideko Sellés.** *El Japon*. 1929, Spanish. Barcelona, Cervantes. [Union Catalog (Fukuda); no. 4975]
 
-**Ogrizek, Doré. ed.** *Le Japón. Textes de Madeleine Paul David et al*. 1954, Spanish. Paris, Odé. [Union Catalog (Fukuda); no. 4976]
+**Ogrizek, Doré. ed.** *Le Japón. Textes de Madeleine Paul David et al*. 1954, French. Paris, Odé. [Union Catalog (Fukuda); no. 4976]
 
 **Ogura Yémon.** *Nihongwaishi, Histoire Independente du Japon, Livre Sécond*. 1884, French. Paris. [Asiatic Society of Japan (1888); no. 9937]
 
@@ -13613,7 +13640,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Perez, P. Lorenzo.** *Cartas y relaciones del Japon. 1*. 1916, Spanish. Madrid, G. Lopez del Horno. [Union Catalog (Fukuda); no. 5289]
 
-**Perez, P. Lorenzo. jt. author.** *Apostolado y martirio del Beato Luis Sotelo en el Japon*. 1924, Spanish. Madrid, Imprenta Hispanica. [Union Catalog (Fukuda); no. 5288]
+**Perez, P. Lorenzo. jt. author.** *Apostolado y martirio del Beato Luis Sotelo en el Japon*. 1924, Spanish. Madrid, Imprenta Hispanica. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000194811&page=1> [Union Catalog (Fukuda); no. 5288]
 
 **Perez, P. Lorenzo. jt. author.** *San Martin de la Ascension Aguirre Recuerdo del Tercer Centenario de su Beatificacion 1627, 16 de Septiembre 1927. R. P. Lorenzo Perez & D. Bonifacio de Echegaray*. 1928, Spanish. Vergara, El Santisimo Rosario. [Union Catalog (Fukuda); no. 5291]
 
@@ -14555,7 +14582,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Romanov, B. A.** *Russia in Manchuria, 1892-1906*. 1952, English. University of Michigan Press. [Dower & George (1995); no. 9620]
 
-**Romanowski, G.** *L'armée japonaise; son recrutement, son organisation et ses règlements. Tr. du russe par G. Wehrlin et A. Le Merre*. 1912, French. Paris, Chapelot. [Union Catalog (Fukuda); no. 5648]
+**Romanowski, G.** *L'armée japonaise; son recrutement, son organisation et ses règlements. Tr. du russe par G. Wehrlin et A. Le Merre*. 1912, French. Paris, Chapelot. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k1269165s> [Union Catalog (Fukuda); no. 5648]
 
 **Romieux, J.** *Mythes du Japon ancien vus à la lumière de la linguistique comparative*. 1946, article, French. [Borton et al. (1954); no. 8429]
 
@@ -14896,7 +14923,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Sakurazawa, Nyoichi.** *Le livre des fleurs*. 1935, French. Paris, Librairie Plon. [Union Catalog (Fukuda); no. 5791]
 
-**Sales y Ferré, Manuel.** *La transformación del Japón*. 1912, Spanish. Madrid, Asilo. [Union Catalog (Fukuda); no. 5793]
+**Sales y Ferré, Manuel.** *La transformación del Japón*. 1912, Spanish. Madrid, Asilo. read at bdh-rd.bne.es: <http://bdh-rd.bne.es/viewer.vm?id=0000087782&page=1> [Union Catalog (Fukuda); no. 5793]
 
 **Salwey, Charlotte M.** *Fans of Japan*. 1894, English. London, Kegan Paul, Trench, Trübner. read at Internet Archive: <https://archive.org/details/fansjapan00salw> [Union Catalog (Fukuda); Nichibunken catalogue; no. 5794]
 
@@ -16170,7 +16197,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Steiner, Kurt.** *Postwar Changes in the Japanese Civil Code*. 1950, article, English. [Borton et al. (1954); no. 8213]
 
-**Steinilber-Oberlin, E.** *Le livre des Nô; drames légendaires du vieux Japon*. 1929, French. Paris, H. Piazza. [Union Catalog (Fukuda); no. 6274]
+**Steinilber-Oberlin, E.** *Le livre des Nô; drames légendaires du vieux Japon*. 1929, French. Paris, H. Piazza. read at Gallica: <https://gallica.bnf.fr/ark:/12148/cb328086803/date> [Union Catalog (Fukuda); no. 6274]
 
 **Steinilber-Oberlin, E. jt. author.** *Chansons des Geishas, par Steinilber-Oberlin et Hidetake Iwamura*. 1926, French. Paris, G. Cres. [Union Catalog (Fukuda); no. 6273]
 
@@ -16234,7 +16261,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Stoddard, John L.** *John L. Stoddard's Lectures. Illustrated and Embellished with Views of the World's Famous Places and People, Being the Identical Discourses Delivered during the Past 18 Years under the Title of the Stoddard Lectures*. 1898, English. Boston, Balch Brothers. read at Internet Archive: <https://archive.org/details/johnlstoddardsle10stodiala> read at Internet Archive: <https://archive.org/details/johnlstoddardsle06stodiala> read at Internet Archive: <https://archive.org/details/johnlstoddardsle0005unse_h3l2> read at Internet Archive: <https://archive.org/details/johnlstoddardsle0008unse_w4n6> read at Internet Archive: <https://archive.org/details/johnlstoddardsle04stodiala> read at Internet Archive: <https://archive.org/details/johnlstoddardsle02stodiala> [Union Catalog (Fukuda); no. 6294]
 
-**Stoetzel, Jean.** *Jeunesse sans chrysanthème ni sabre; étude sur les attitudes de la jeunesse japonaise d'après guerre*. 1954, French. Paris, Plon. [Union Catalog (Fukuda); no. 6295]
+**Stoetzel, Jean.** *Jeunesse sans chrysanthème ni sabre; étude sur les attitudes de la jeunesse japonaise d'après guerre*. 1954, French. Paris, Plon. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k33501320> [Union Catalog (Fukuda); no. 6295]
 
 **Stoetzel, Jean.** *Without the Chrysanthemum and the Sword; A Study of the Attitudes of Youth in Post-War Japan*. 1955, English. London, W. Heinemann. read at Internet Archive: <https://archive.org/details/withoutchrysanth00stoe> borrow at Internet Archive: <https://archive.org/details/withoutchrysanth0000jean> [Union Catalog (Fukuda); no. 6296]
 
@@ -16348,7 +16375,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Suematsu, Baron Kencho.** *The Identity of the Great Conqueror Genghis Khan with the Japanese Hero Yoshitsune. an Historical Thesis*. 1879, English. London, W. H. and C. Collingridge. [Union Catalog (Fukuda); no. 6347]
 
-**Suematsu, Baron Kencho.** *La Russie et le Japon. Tr. par Frédéric Repin*. 1904, French. London, Probsthain. [Union Catalog (Fukuda); no. 6349]
+**Suematsu, Baron Kencho.** *La Russie et le Japon. Tr. par Frédéric Repin*. 1904, French. London, Probsthain. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k9634024r> [Union Catalog (Fukuda); no. 6349]
 
 **Suematsu, Baron Kencho.** *Russland und Japan. Aus dem englischen übersetzt von Dr. Franz Müller*. 1904, German. London, Probsthain. [Union Catalog (Fukuda); no. 6350]
 
@@ -17515,7 +17542,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Tokyo Kokuritsu Hakubutsukan.** *Pageant of Japanese Art. Ed. by Staff Members of the Tokyo National Museum*. 1952-54, 6 v., English. Tokyo, Toto Shuppan. read at Internet Archive: <https://archive.org/details/dli.ministry.26566> borrow at Internet Archive: <https://archive.org/details/pageantofjapanes0006unse> borrow at Internet Archive: <https://archive.org/details/pageantofjapanes0005unse> borrow at Internet Archive: <https://archive.org/details/bwb_T5-CQI-661> borrow at Internet Archive: <https://archive.org/details/bwb_T5-CQI-662> borrow at Internet Archive: <https://archive.org/details/pageantofjapanes0000masa> [Union Catalog (Fukuda); no. 6842]
 
-**Tokyo Kōtō Kōgyō Gakkō.** *Résumé historique et statistique*. 1900, French. Tokyo, Ecole d'Industrie de Tokio. [Union Catalog (Fukuda); no. 6844]
+**Tokyo Kōtō Kōgyō Gakkō.** *Résumé historique et statistique*. 1900, French. Tokyo, Ecole d'Industrie de Tokio. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k6201273k> [Union Catalog (Fukuda); no. 6844]
 
 **Tokyo Kōtō Kōgyō Gakkō.** *Circular of Information*. 1904, English. Tokyo, Ecole d'Industrie de Tokio. read at Internet Archive: <https://archive.org/details/circularinforma02phargoog> read at Internet Archive: <https://archive.org/details/circularofinform00broo> read at Internet Archive: <https://archive.org/details/es1s5s1p119062> read at Internet Archive: <https://archive.org/details/es1s5s1p119012> [Union Catalog (Fukuda); no. 6843]
 
@@ -18605,7 +18632,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Vignier. ed.** *Toyokuni, Hiroshigé. Estampes japonaises tirées des collections MM. Bing, Bouasse-Lebel, Bullier... et exposées au Musée des arts décoratifs, en Janvier 1914. Catalogue dressé par MM. V. et J. L. avec la collaboration de M. Inada*. 1916, French. Paris, D. R. Longuet. [Union Catalog (Fukuda); no. 7222]
 
-**Vildrac, Charles.** *D'un voyage au Japon*. 1927, French. Paris, Emile Hazan. [Union Catalog (Fukuda); Borton et al. (1954); no. 7223]
+**Vildrac, Charles.** *D'un voyage au Japon*. 1927, French. Paris, Emile Hazan. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k1183491r> [Union Catalog (Fukuda); Borton et al. (1954); no. 7223]
 
 **Vilenkin, Grigorii.** *Gosudarstvennyi i ekonomicheskii stroi sovremennoi Iaponii*. 1908, Russian. St. Peterburg, Tovarishchestvo Khdozhestvennoi Pechati. [Union Catalog (Fukuda); no. 7224]
 
@@ -20220,7 +20247,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 *Annual Report of the Work of the American Board's Japan Mission in Connection with the Kumiai Churches of Japan 1904-05-28: Vol 7 Iss 8*. 1904, English. read at Internet Archive, checked by hand: <https://archive.org/details/mission-news_1904-05-28_7_8> [KML Zotero; no. 9132]
 
-*Autour de la guerre russo-japonaise*. 1904, French. Paris, Berger-Levrault. [Union Catalog (Fukuda); no. 280]
+*Autour de la guerre russo-japonaise*. 1904, French. Paris, Berger-Levrault. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k371916z> [Union Catalog (Fukuda); no. 280]
 
 *Despatches from United States Ministers to Japan, 1855-1906 July 1, 1904-February 25, 1905: Vol 79*. July 1, 1904-February 25, 1905, English. read at Internet Archive, checked by hand: <https://archive.org/details/per_despatches-united-states-ministers-japan_despatches-from-united-s_july-1-1904-february-25-190> [KML Zotero; no. 9131]
 
