@@ -1,6 +1,6 @@
 # japan-bib
 
-A browsable database of Western-language works on Japan published 1850–1950, compiled from printed
+A browsable database of Western-language works on Japan published 1850–1955, compiled from printed
 bibliographies, with candidate links to scans on archive.org.
 
 **Browse:** open the GitHub Pages site for this repository (`index.html`) — search (diacritics ignored),
@@ -41,13 +41,13 @@ Sources so far:
    (rev. ed., 1954) — all numbered entries (transcribed to 1960): books, journal articles and chapters, with
    Borton's annotations.
 3. The bibliography of Kenneth Henshall, *Historical Dictionary of Japan to 1945* (2014) — works first
-   published 1850–1950 (including those cited from a modern reprint).
+   published 1850–1955 (including those cited from a modern reprint).
 4. *Japan Online*, a Zotero collection of books on Japan whose online copies (nearly all on archive.org) were
    checked by hand, exported in two parts: openly readable and borrow-only.
 5. Items from the **National Diet Library** digital collections (dl.ndl.go.jp), supplied as a list of links
    and described from the NDL's own OAI-PMH metadata.
 
-Only works first published 1850–1950 (and undated ones) are in the database; later entries were
+Only works first published 1850–1955 (and undated ones) are in the database; later entries were
 transcribed but are left out at build time.
 
 Scanned sources were transcribed by eye from page images (no OCR); unreadable details are left blank and
