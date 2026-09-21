@@ -54,6 +54,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "asj-work"))
 import asj_merge as ASJ  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "nichibun-work"))
 import nichi_merge as NICHI  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "bje-work"))
+import bje_merge as BJE  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -302,6 +304,8 @@ if __name__ == "__main__":
     print(f"Asiatic Society of Japan (1888): {a_dup} entries already in the database, {a_new} added")
     n_dup2, n_new2 = NICHI.apply(rows)        # Nichibunken's catalogue of Western-language books on Japan
     print(f"Nichibunken catalogue: {n_dup2} entries already in the database, {n_new2} added")
+    b_dup, b_new = BJE.apply(rows)            # Nachod's Bibliography of the Japanese Empire 1906-1926
+    print(f"Nachod (1928): {b_dup} entries already in the database, {b_new} added")
     n_later = sum(1 for x in rows if x[3] is not None and x[3] > LAST_YEAR)
     print(f"dated later than {LAST_YEAR} (kept in the working copy, left out of the published one): {n_later}")
     # Gallica copies for the French entries. Keyed by row position, so it has to come after the
