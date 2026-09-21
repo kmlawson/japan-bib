@@ -43,6 +43,7 @@ nav.jumps button.search {
 }
 nav.jumps button.search:hover { filter: brightness(1.08); color: var(--accent-ink); border-color: var(--accent); }
 /* the whole list to take away: small, quiet, beside the way into the search */
+nav.jumps .dl-label { align-self: center; font: 600 12px/1.2 var(--serif); color: var(--muted); margin-left: 4px; }
 nav.jumps a.dl {
   align-self: center; font: 600 12px/1.2 var(--serif); padding: 6px 10px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--panel); color: var(--muted); text-decoration: none;

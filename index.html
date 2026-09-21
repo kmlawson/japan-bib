@@ -143,6 +143,7 @@ nav.jumps button.search {
 }
 nav.jumps button.search:hover { filter: brightness(1.08); color: var(--accent-ink); border-color: var(--accent); }
 /* the whole list to take away: small, quiet, beside the way into the search */
+nav.jumps .dl-label { align-self: center; font: 600 12px/1.2 var(--serif); color: var(--muted); margin-left: 4px; }
 nav.jumps a.dl {
   align-self: center; font: 600 12px/1.2 var(--serif); padding: 6px 10px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--panel); color: var(--muted); text-decoration: none;
@@ -222,6 +223,7 @@ footer.site ul { padding-left: 20px; }
       <button type="button" class="jump" data-target="s-other-digital-resources" aria-expanded="false">Other Digital Resources</button>
       <button type="button" class="jump" data-target="s-japanese-language-sources" aria-expanded="false">Japanese Language Sources</button>
       <button type="button" class="jump search" data-target="search">Digitized Books</button>
+      <span class="dl-label">Download:</span>
       <a class="jump dl" href="downloads/japan-bib.pdf" download title="The whole list as a PDF, alphabetical by author">PDF</a>
       <a class="jump dl" href="downloads/japan-bib.md" download title="The whole list as Markdown, alphabetical by author">MD</a>
       <a class="jump dl" href="list.sqlite" download title="The database itself, as SQLite (table books)">SQLITE</a>

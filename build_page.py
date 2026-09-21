@@ -222,6 +222,7 @@ def build(md_path, out_path, bump=True):
                 for h, _ in body]
     buttons.append(f'<button type="button" class="jump search" data-target="search">{SEARCH_LABEL}</button>')
     # the whole list, pre-built by build_downloads.py, for taking away
+    buttons.append('<span class="dl-label">Download:</span>')
     buttons.append('<a class="jump dl" href="downloads/japan-bib.pdf" download '
                    'title="The whole list as a PDF, alphabetical by author">PDF</a>')
     buttons.append('<a class="jump dl" href="downloads/japan-bib.md" download '
