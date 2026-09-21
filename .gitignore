@@ -6,6 +6,7 @@
 !/DEPLOY.md
 !/index.html
 !/build_page.py
+!/build_downloads.py
 !/page/
 /page/*
 !/page/modern-japan.md
@@ -88,3 +89,9 @@
 *.epub
 .DS_Store
 __pycache__/
+
+# the two files behind the PDF and MD buttons, after the *.pdf rule above so that they survive it
+!/downloads/
+/downloads/*
+!/downloads/japan-bib.md
+!/downloads/japan-bib.pdf

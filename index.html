@@ -139,6 +139,12 @@ nav.jumps button.search {
   font-weight: 700; letter-spacing: .01em; box-shadow: 0 1px 2px rgba(18, 83, 158, .25);
 }
 nav.jumps button.search:hover { filter: brightness(1.08); color: var(--accent-ink); border-color: var(--accent); }
+/* the whole list to take away: small, quiet, beside the way into the search */
+nav.jumps a.dl {
+  align-self: center; font: 600 12px/1.2 var(--serif); padding: 6px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--muted); text-decoration: none;
+}
+nav.jumps a.dl:hover { border-color: var(--accent); color: var(--accent); }
 
 /* a section of the list: hidden until its button is pressed */
 section.md { padding: 6px 0 4px; border-bottom: 1px solid var(--line); }
@@ -213,6 +219,8 @@ footer.site ul { padding-left: 20px; }
       <button type="button" class="jump" data-target="s-other-digital-resources" aria-expanded="false">Other Digital Resources</button>
       <button type="button" class="jump" data-target="s-japanese-language-sources" aria-expanded="false">Japanese Language Sources</button>
       <button type="button" class="jump search" data-target="search">Digitized Books</button>
+      <a class="jump dl" href="downloads/japan-bib.pdf" download title="The whole list as a PDF, alphabetical by author">PDF</a>
+      <a class="jump dl" href="downloads/japan-bib.md" download title="The whole list as Markdown, alphabetical by author">MD</a>
     </div>
   </nav>
   <section class="md" id="s-english-language-periodicals" hidden>
@@ -424,6 +432,7 @@ footer.site ul { padding-left: 20px; }
     <li>Borton, Hugh, Serge Elisséeff, William W. Lockwood and John C. Pelzel, comps. <a href="https://archive.org/details/selectedlistofbo0000bort" target="_blank" rel="noopener"><cite>A Selected List of Books and Articles on Japan in English, French and German</cite></a>. Revised and enlarged. Cambridge, Mass.: Published by the Harvard University Press for the Harvard-Yenching Institute, 1954.</li>
     <li>Dower, John W., with Timothy S. George. <a href="https://archive.org/details/japanesehistoryc0000dowe" target="_blank" rel="noopener"><cite>Japanese History and Culture from Ancient to Modern Times: Seven Basic Bibliographies</cite></a>. Second edition, revised and updated. Princeton: Markus Wiener Publishers, 1995.</li>
     <li>Asiatic Society of Japan. <cite>Catalogue of the Books and Manuscripts in the Library of the Asiatic Society of Japan</cite>. Tōkyō, 1888. (Its Japan-related books, periodicals excepted.)</li>
+    <li>International Research Center for Japanese Studies (Nichibunken). <a href="https://www.nichibun.ac.jp/en/db/category/obun/" target="_blank" rel="noopener"><cite>日本関係欧文図書目録</cite> (Catalogue of Western-language books on Japan)</a>. Kyoto: Nichibunken.</li>
     <li>Henshall, Kenneth. <cite>Historical Dictionary of Japan to 1945</cite>. Lanham, Toronto and Plymouth, UK: The Scarecrow Press, Inc., 2014.</li>
   </ul>
 </footer>
@@ -439,7 +448,7 @@ footer.site ul { padding-left: 20px; }
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
-    <p class="version">Version 1.0002 · Last Updated: 21 September 2026 ·
+    <p class="version">Version 1.0003 · Last Updated: 21 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>

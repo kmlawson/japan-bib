@@ -22,7 +22,7 @@ clicking the section's own heading - hides it. The first `# heading` is the page
 sections underneath it is left out, since the buttons say the same thing, and the "See also" links
 after it are set as one line under the title.
 """
-import argparse, datetime, html, os, re, shutil, sys
+import argparse, datetime, html, os, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MD = os.path.join(HERE, "page", "modern-japan.md")
@@ -214,6 +214,11 @@ def build(md_path, out_path, bump=True):
     buttons += [f'<button type="button" class="jump" data-target="{slug(h)}" aria-expanded="false">{html.escape(h)}</button>'
                 for h, _ in body]
     buttons.append(f'<button type="button" class="jump search" data-target="search">{SEARCH_LABEL}</button>')
+    # the whole list, pre-built by build_downloads.py, for taking away
+    buttons.append('<a class="jump dl" href="downloads/japan-bib.pdf" download '
+                   'title="The whole list as a PDF, alphabetical by author">PDF</a>')
+    buttons.append('<a class="jump dl" href="downloads/japan-bib.md" download '
+                   'title="The whole list as Markdown, alphabetical by author">MD</a>')
 
     parts = [f'''<!doctype html>
 <html lang="en">
@@ -332,12 +337,16 @@ if __name__ == "__main__":
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--from", dest="src", help="copy this markdown into page/ before building")
     ap.add_argument("--no-bump", dest="bump", action="store_false", help="rebuild without a new version number")
+    ap.add_argument("--no-downloads", dest="downloads", action="store_false",
+                    help="leave downloads/japan-bib.md and .pdf as they are")
     args = ap.parse_args()
     if args.src:
         os.makedirs(os.path.dirname(MD), exist_ok=True)
         shutil.copyfile(args.src, MD)
         print("copied", args.src, "->", os.path.relpath(MD, HERE))
     title, heads = build(args.md, args.out, args.bump)
+    if args.downloads:   # the two files the PDF and MD buttons point at, stamped with this version
+        subprocess.run([sys.executable, os.path.join(HERE, "build_downloads.py")], check=False)
     print(f"{os.path.relpath(args.out, HERE)}: {title!r} with {len(heads)} sections + the search, "
           f"version {version(False)}")
     for h in heads:
