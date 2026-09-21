@@ -30,7 +30,7 @@ See also:
 - *The Anglo-Japanese Gazette* [1902-3](https://archive.org/details/hvd_32044103244620_2784)
 - [XXth Century 1941-1945](https://manoa.hawaii.edu/library/research/collections/russia/russian-northeast-asia-collection/the-xxth-century-shanghai-1941-1945-a-guide/)  - An unusual magazine from Japanese occupied Shanghai
 - [The Far Eastern Review 1904-1941](https://archive.org/search.php?query=title%3A%28The+Far+Eastern+Review%29+AND+creator%3A%28George+Bronson+Rea%29&sort=date)
-- *Present-Day Japan* [1927](https://archive.org/details/present-day-japan-1927) [1928](https://archive.org/details/present-day-japan-1928), [1929](https://archive.org/details/present-day-japan-1929), [1930](https://archive.org/details/present-day-japan-1930), [1931](https://archive.org/details/present-day-japan-1931) - English annual supplement for Asahi newspaper. 
+- *Present-Day Japan* [1927](https://archive.org/details/present-day-japan-1927) | [1928](https://archive.org/details/present-day-japan-1928) | [1929](https://archive.org/details/present-day-japan-1929) | [1930](https://archive.org/details/present-day-japan-1930) | [1931](https://archive.org/details/present-day-japan-1931) - English annual supplement for Asahi newspaper. 
 
 - [The North China Herald 1850-1941](https://archive.org/search.php?query=title%3A%28North+China+Herald%29+AND+creator%3A%28North-China+Herald%29&sort=date) - China-based newspaper but frequently has news related to Japan and Japanese expansion in China.
 - [The North China Daily News 1937-1941](https://archive.org/details/@jwunl?and%5B%5D=subject%3A%22Digitized+newspapers%22) - A collection of scans from the wartime daily version of the *North China Herald* 
