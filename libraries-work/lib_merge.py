@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add the items from the National Library of Norway, Europeana and Alvin (lib.jsonl) to the database.
+"""Add the items from the National Library of Norway, Europeana, Alvin and HathiTrust (lib.jsonl).
 
 These are copies the compiler chose and checked, so the link is always kept and counts as checked by
 hand. An item whose work is already in the database only adds its link; anything else becomes a row.
@@ -7,6 +7,10 @@ hand. An item whose work is already in the database only adds its link; anything
 The catalogue record is used as it stands, except for the corrections in FIX below, each of which says
 why it is there. Nothing is invented: where a catalogue is silent or plainly wrong, the field is left
 empty and the doubt is written into the note.
+
+HathiTrust answers automated requests with 403, so nothing can be fetched from it: such a record is
+written into lib.jsonl by hand, marked "by_hand", with the compiler's own description of the book and
+his word that this copy can be read outside the United States.
 
     lib_merge.py        what would be added or attached
 """
@@ -19,7 +23,8 @@ import merge as M  # noqa: E402
 
 SRC = "KML Additions"
 DATA = os.path.join(HERE, "lib.jsonl")
-HOLDER = {"NB": "National Library of Norway", "EU": "Europeana", "ALVIN": "Alvin (Uppsala University Library)"}
+HOLDER = {"NB": "National Library of Norway", "EU": "Europeana", "ALVIN": "Alvin (Uppsala University Library)",
+          "H": "HathiTrust"}
 # second titles in the Norwegian MODS records that are not series statements
 NOT_A_SERIES = {"Norbok"}
 JUNK_EXTENT = re.compile(r"^[\d.]+\s*x\s*cm\.?$", re.I)
@@ -86,7 +91,7 @@ def other(r):
         parts.append("Language: " + r["language"])
     if r["title_en"] and r["title_en"] != r["title"]:
         parts.append("Title in English (Europeana's own translation): " + r["title_en"])
-    parts.append(f"{HOLDER[r['host']]}, chosen by hand")
+    parts.append(f"{HOLDER.get(r['host'], r['host'])}, chosen by hand")
     if r["note"]:
         parts.append("Note: " + r["note"])
     if r["cat_note"]:
@@ -119,7 +124,7 @@ def apply(rows):
                 rows[i][8] += "; " + SRC
             if r["url"] not in (rows[i][6] or ""):
                 rows[i][6] = "\n".join(([rows[i][6]] if rows[i][6] else []) + [r["url"]])
-            rows[i][7] += f" | {HOLDER[r['host']]}: {r['url']}"
+            rows[i][7] += f" | {HOLDER.get(r['host'], r['host'])}: {r['url']}"
             n_att += 1
         else:
             added.append(row_of(r))
