@@ -48,6 +48,11 @@ FIX = {
     "japan-the-pocket-guide-1947": {"title": "Japan: The Pocket Guide"},
     "japan-the-pocket-guide-1953": {"title": "Japan: The Pocket Guide"},
     "nyk-feb-1937": {"title": "N.Y.K. Trans-Pacific Sailings, February 1937"},
+    "singapore-assignment": {
+        "publisher": "The Nippon Times, Tokyo",
+        "note": "A pro-Japanese account of the conquest and occupation of Singapore by the Nisei "
+                "journalist John Fujii (Fujii Tatsuki, \u85e4\u4e95\u9f8d\u6a39), published at the height of the war.",
+    },
     "tokyo-joe": {"note": "Cartoons by Ed Doughty published in Stars and Stripes, 1945-1946. The archive.org "
                           "record notes that they contain derogatory and stereotyped depictions of Japanese "
                           "people, and of Japanese women in particular."},
