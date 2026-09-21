@@ -411,8 +411,7 @@ footer.site ul { padding-left: 20px; }
   </div>
 </main>
 <footer>
-  <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. By default only books with a copy online are listed - put <code>type:article</code>, <code>type:chapter</code>, <code>type:periodical</code> or <code>type:all</code> in the search box for the rest, and set <b>Show</b> to All for entries with no copy: <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, H HathiTrust, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. By default only books with a copy online are listed - put <code>type:article</code>, <code>type:chapter</code>, <code>type:periodical</code> or <code>type:all</code> in the search box for the rest, and set <b>Show</b> to All for entries with no copy.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -528,9 +527,7 @@ async function load() {
     const o = document.createElement("option"); o.value = l; o.textContent = l; $("lang").appendChild(o);
   }
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
-  $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
-  $("foot").innerHTML = "Links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
-    "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
+  $("foot").innerHTML = "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
 }
 
@@ -891,7 +888,7 @@ function zoteroLook() {
   }, wait);
 }
 
-load().catch(err => { $("count").textContent = $("subtitle").textContent = "Could not load the database: " + err; });
+load().catch(err => { $("count").textContent = "Could not load the database: " + err; });
 })();
 </script>
 </body>

@@ -42,9 +42,7 @@ async function load() {
     const o = document.createElement("option"); o.value = l; o.textContent = l; $("lang").appendChild(o);
   }
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
-  $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
-  $("foot").innerHTML = "Links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
-    "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
+  $("foot").innerHTML = "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
 }
 
@@ -405,5 +403,5 @@ function zoteroLook() {
   }, wait);
 }
 
-load().catch(err => { $("count").textContent = $("subtitle").textContent = "Could not load the database: " + err; });
+load().catch(err => { $("count").textContent = "Could not load the database: " + err; });
 })();
