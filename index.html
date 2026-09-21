@@ -25,7 +25,9 @@
 html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
 a{color:var(--link)}
 header{padding:18px 16px 2px;max-width:1280px;margin:0 auto}
-h1{font:600 22px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px}
+h1{font:600 22px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px;cursor:pointer;display:inline-block}
+h1:hover{color:var(--link)}
+h1:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:4px}
 .sub{color:var(--muted);font-size:13px}
 main{max-width:1280px;margin:0 auto;padding:0 16px 40px}
 .controls{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line)}
@@ -93,7 +95,7 @@ footer ul.bib li{margin-bottom:4px}
 </head>
 <body>
 <header>
-  <h1>Western-language works on Japan, 1850–1955</h1>
+  <h1 id="home" tabindex="0" role="button" title="Back to the opening view">Western-language works on Japan, 1850–1955</h1>
 </header>
 <main>
   <div class="controls">
@@ -423,7 +425,15 @@ for (const id of ["field", "y1", "y2", "host", "type", "lang", "undated", "pp", 
 $("host").addEventListener("focus", () => hostMenu(true));
 $("host").addEventListener("blur", () => hostMenu(false));
 $("host").addEventListener("change", () => hostMenu(false));
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("pp").value = "1000"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+function resetAll(focus) {
+  $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = "";
+  $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("pp").value = "1000";
+  $("undated").checked = true; sortKey = null; sortDir = 1; page = 0; apply();
+  if (focus) $("q").focus(); else scrollTo({ top: 0 });
+}
+$("reset").onclick = () => resetAll(true);
+$("home").onclick = () => resetAll(false);   // the heading is the way back to the opening view
+$("home").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); resetAll(false); } };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
