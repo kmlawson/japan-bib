@@ -170,6 +170,17 @@ section.md .body em { font-style: italic; }
 section#search { padding-top: 10px; }
 section#search h2#home { font: 700 22px/1.25 var(--serif); margin: 18px 0 4px; }
 
+/* back to the top: out of the way until the page has been scrolled */
+button.totop {
+  position: fixed; right: 18px; bottom: 18px; z-index: 6;
+  width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+  font: 600 18px/1 var(--serif); box-shadow: 0 2px 8px rgba(18, 83, 158, .3);
+}
+button.totop:hover { filter: brightness(1.08); }
+button.totop[hidden] { display: none; }
+@media (max-width: 640px) { button.totop { right: 12px; bottom: 12px; } }
+
 footer.credit { padding: 14px 0 38px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 18px; }
 footer.credit p { margin: 10px 0 0; }
 footer.credit p.version { font-size: 12.5px; }
@@ -428,10 +439,11 @@ footer.site ul { padding-left: 20px; }
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
-    <p class="version">Version 1.0001 · Last Updated: 21 September 2026 ·
+    <p class="version">Version 1.0002 · Last Updated: 21 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>
+<button id="totop" type="button" class="totop" title="Back to the top" aria-label="Back to the top" hidden>↑</button>
 <script src="vendor/sql-wasm.js"></script>
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
@@ -466,6 +478,11 @@ for (const b of document.querySelectorAll("nav.jumps button:not(.openall)")) {
     if (open) sec.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
+// a way back up from the middle of a long list
+const toTop = document.getElementById("totop");
+addEventListener("scroll", () => { toTop.hidden = scrollY < 400; }, { passive: true });
+toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+
 for (const h of document.querySelectorAll("section.md > h2")) {
   const close = () => {
     const sec = h.parentElement;

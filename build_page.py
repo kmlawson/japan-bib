@@ -264,6 +264,7 @@ def build(md_path, out_path, bump=True):
   </footer>''')
 
     parts.append('''</div>
+<button id="totop" type="button" class="totop" title="Back to the top" aria-label="Back to the top" hidden>↑</button>
 <script src="vendor/sql-wasm.js"></script>
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
@@ -298,6 +299,11 @@ for (const b of document.querySelectorAll("nav.jumps button:not(.openall)")) {
     if (open) sec.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
+// a way back up from the middle of a long list
+const toTop = document.getElementById("totop");
+addEventListener("scroll", () => { toTop.hidden = scrollY < 400; }, { passive: true });
+toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+
 for (const h of document.querySelectorAll("section.md > h2")) {
   const close = () => {
     const sec = h.parentElement;
