@@ -82,6 +82,7 @@ See also:
 
 - [An Interactive Map of Japanese Empire](https://froginawell.net/reference/japanese-empire/)
 - [Nichibunken Digital Map Collection](https://lapis.nichibun.ac.jp/chizu/index.html)
+    - [Yoshida Hatsusaburō Bird’s-eye View Maps](https://www.nichibun.ac.jp/en/db/category/choukan/)
 - [David Rumsey Map Collection](https://www.davidrumsey.com/)
 - University of Texas at Austin Map Library:
     - [Japan](https://maps.lib.utexas.edu/maps/japan.html)
@@ -98,12 +99,23 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 - [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
 - [Bodies and Structures 2.0: Deep-Mapping Modern East Asian History](https://bodiesandstructures.org/bodies-and-structures-2/index)
 - [Meiji at 150 Digital Teaching Resource](https://meijiat150dtr.arts.ubc.ca/)
+- [Resource Guide for Japanese Studies and Humanities in Japan](https://guides2.nihu.jp/)
+- [Henry Smith's Home Page](https://www.columbia.edu/~hds2/) - A pioneer in assembling information for research on Japan online. 
+- [Nichibunken Databases](https://www.nichibun.ac.jp/en/db/):
+    - [Database of Postcards from Art Exhibitions held in pre-war Japan](https://tenrankai.nichibun.ac.jp/il/meta_pub/G0000002postcard)
+    - [Korean Photo Picture Postcards](https://www.nichibun.ac.jp/en/db/category/chousen/) - over 7,000 postcards 1900-1940
+    - [Overseas Japanese-language Newspapers](https://www.nichibun.ac.jp/en/db/category/kaigai-hoji/)
+    - [Western Books on Japan](https://www.nichibun.ac.jp/en/db/category/obun/)
 - [Nagasaki Foreign Settlement](https://froginawell.net/nagasaki/)
+- [Foreign Relations of the United States Ebooks](https://history.state.gov/historicaldocuments/ebooks)
+- [National Diet Library - Modern Japan in Archives](https://www.ndl.go.jp/modern/e/index.html)
+- [National Diet Library - Image Bank](https://www.ndl.go.jp/en/imagebank)
 - [Japan Air Raids](https://www.japanairraids.org/)
 - [Hiroshima Archive](https://hiroshima.mapping.jp/index_en.html)
 - [Memories of Hiroshima and Nagasaki](https://www.asahi.com/hibakusha/english/)
+- [Hiroshima Peace Memorial Museum Peace Database](https://hpmm-db.jp/en/)
+- [Archives of Pre-A-Bomb Days - Nagasaki](https://en.dl-archive.jp/)
 - [Hoji Shinbun Digital Collection](https://hojishinbun.hoover.org/)
-- [Fanning the Flames: Propaganda in Modern Japan](https://fanningtheflames.hoover.org/)
 - [Lafayette East Asia Image Collection](https://dss.lafayette.edu/collections/east-asia-image-collection/)
 - [ReEnvisioning Japan](https://rej.lib.rochester.edu/)
 - [Press Translations, Japan 1945-1946](http://www.dartmouth.edu/~library/digital/collections/manuscripts/jpt/index.html?mswitch-redir=classic)
@@ -114,16 +126,34 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 - [Imagining Kantō](https://imagingkanto.trinity.duke.edu/)
 - [Great Kanto Earthquake 1923 - Photographs by August Kengelbacher](https://www.japan-guide.com/a/earthquake/)
 - [Bell Historical Postcard Collection](https://digital.library.manoa.hawaii.edu/bell)
-- [Ainu and Ezochi Rare Collection - Library of Congress](https://www.loc.gov/collections/ainu-and-ezochi-rare-collection/)
+- [Henry and Nancy Rosin Collection of Early Photography of Japan](https://sova.si.edu/record/fsa.a1999.35)
 - [MeijiShowa - Historical Images of Japan between the 1860s and 1930s](https://www.meijishowa.com/)
 - [Emery D. Middleton Collection: Photos During the Allied Occupation of Japan](https://digital.library.manoa.hawaii.edu/collections/show/66)
 - [Japanese Old Photographs in Bakumatsu-Meiji Period](http://oldphoto.lb.nagasaki-u.ac.jp/top/en_top.php)
 - [Exploring Japanese Landmarks](https://www.ndl.go.jp/en/landmarks)
 - [Japan Disasters Digital Archive](https://jdarchive.org/en)
 - [Asia for Educators](https://afe.easia.columbia.edu/index.html)
+- [Early Photography of Japan](https://curiosity.lib.harvard.edu/early-photography-of-japan)
+- [Nomonhan: The Beginning and the end of World War II](https://www.asahi.com/special/nomonhan/en/)
 - [Puka Puka Parade](http://evols.library.manoa.hawaii.edu/handle/10524/11835) - Post-1945 Newsletter of 100th Infantry Battalion of Japanese-American veterans
+- [Harry S. Truman Library](https://www.trumanlibrary.gov/library/online-collections)
+    - [Decision to Drop the Atomic Bomb](https://www.trumanlibrary.gov/library/online-collections/decision-to-drop-atomic-bomb)
+    - [The War Relocation Authority & the Incarceration of Japanese-Americans During World War II](https://www.trumanlibrary.gov/library/online-collections/war-relocation-authority-and-incarceration-of-japanese-americans)
+- [World War II U.S. Army Courts, Asia-Pacific](https://exhibits.stanford.edu/virtual-tribunals/feature/world-war-ii-u-s-army-courts-asia-pacific)
+- [Pacific War Crimes Trials Digital Archive](https://pwct.law.virginia.edu/)
+- [Imperial War Museums](https://www.iwm.org.uk/) - Rich collection of films, sounds, and documents including World War II in East and Southeast Asia. 
+- [Hoover Institution - Digital Collections](https://www.hoover.org/library-archives/collections/digital-collections)
+    - [Kamishibai Collection](https://digitalcollections2.hoover.org/browse/collection/14941?limit=10&sort=metadata.coll_id_seq_number.en.keyword&sort=-_score)
+    - [Fanning the Flames: Propaganda in Modern Japan](https://fanningtheflames.hoover.org/)
+    - [Woodblock Print Collection](https://digitalcollections2.hoover.org/browse/collection/15045) - Mostly from the first Sino-Japanese War and the Russo-Japanese War.
 - [Global Politics on Screen](https://gpos.omeka.net/watch-the-film) - Website dedicated to the Japanese film "Investigation of the Lord Lytton Mission into the Manchurian Incident" on the 1932 Lytton Commision. 
 - [Old Photos of Japan](https://www.oldphotosjapan.com/)
+- Library of Congress
+    - [Fine Prints: Japanese, Pre-1915 - Library of Congress](https://www.loc.gov/collections/japanese-fine-prints-pre-1915/)
+    - [Ainu and Ezochi Rare Collection - Library of Congress](https://www.loc.gov/collections/ainu-and-ezochi-rare-collection/)
+    - [Japanese Censorship Collection](https://www.loc.gov/collections/japanese-censorship-collection/about-this-collection/)
+    - [Japanese-American Internment Camp Newspapers, 1942 to 1946](https://www.loc.gov/collections/japanese-american-internment-camp-newspapers/about-this-collection/)
+    - [Pacific Encounters in Nineteenth Century Japan](https://www.loc.gov/collections/pacific-encounters-in-nineteenth-century-japan/about-this-collection/)
 
 *Personal Papers Digitized:*
 
@@ -133,9 +163,20 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 - [国立図書館デジタルコレクション](https://dl.ndl.go.jp/)
 - [Japan Center for Asian Historical Records](https://www.jacar.go.jp/)
+- [教科書コレクション - 広島大学](https://dc.lib.hiroshima-u.ac.jp/da/en/search?collection_name=%E6%95%99%E7%A7%91%E6%9B%B8%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3)
+- [近代教科書デジタルアーカイブ](https://www.nier.go.jp/library/textbooks/)
 - [Japan Search](https://jpsearch.go.jp/)
 - [ジャパンアーカイブズ](https://jaa2100.org/index.html)
 - [東洋文庫](https://toyo-bunko.or.jp/)
 - [日本外交文書デジタルコレクション](https://www.mofa.go.jp/mofaj/annai/honsho/shiryo/archives/index.html)
 - [Prange Children's Books](https://digital.lib.umd.edu/search?f[digital_collection]=Prange+Children%27s+Books)
 - [国立公文書館](https://www.digital.archives.go.jp)
+- [華北交通アーカイブ](https://codh.rois.ac.jp/north-china-railway/)
+- [帝国議会会議録検索システム](https://teikokugikai-i.ndl.go.jp/#/?back)
+- [高畠華宵大正ロマン館所蔵近代日本大衆雑誌図像](https://iiif.nichibun.ac.jp/TKB/)
+- [古事類苑全文データベース](https://ys.nichibun.ac.jp/kojiruien/)
+- [新聞記事文庫](https://da.lib.kobe-u.ac.jp/da/np/)
+- [琉球政府の時代](https://www3.archives.pref.okinawa.jp/GRI/)
+- [社会労働問題アーカイブ](https://oisr-org.ws.hosei.ac.jp/archives/)
+- [近代日本の身装文化](https://shinsou.minpaku.ac.jp/)
+
