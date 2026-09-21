@@ -354,7 +354,7 @@ footer.site ul { padding-left: 20px; }
   </div>
   <div id="warn" class="warn" hidden></div>
   <div class="status"><div id="count">Loading database…</div>
-    <div class="right"><button id="csv" title="Download the current result list as CSV">Export CSV</button>
+    <div class="right"><button id="csv" title="Download the current result list as CSV">Export CSV</button><button id="bib" title="Download the current result list as BibTeX">Export BibTeX</button>
     <div class="pager"><button id="prev">‹ Prev</button><span id="pageinfo"></span><button id="next">Next ›</button></div></div></div>
   <div class="tablewrap">
     <table>
@@ -373,7 +373,7 @@ footer.site ul { padding-left: 20px; }
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, H HathiTrust, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Export CSV</b> and <b>Export BibTeX</b> save whatever the filters have left, and every row carries COinS metadata, so the Zotero connector can take an entry straight off the page. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, H HathiTrust, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -632,7 +632,7 @@ function render(terms) {
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
     <td class="au">${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
-    <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}</td>
+    <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}${coins(r)}</td>
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
@@ -644,7 +644,7 @@ function render(terms) {
 function citation(r) { return [r.author, r.title + (/[.?!]$/.test(r.title) ? "" : "."), r.edition, (r.other.match(/Imprint: ([^|]+)/) || [,""])[1].trim(), r.year].filter(Boolean).join(" ").replace(/\s+/g, " ") + "."; }
 function show(i) {
   if (i < 0 || i >= VIEW.length) return; cur = i; const r = VIEW[i];
-  $("dtitle").textContent = r.title;
+  $("dtitle").innerHTML = esc(r.title) + coins(r);   // the open entry carries its COinS too
   const other = r.other.split(" | ").map(p => { const j = p.indexOf(": "); return j > 0 && j < 22 ? [p.slice(0, j), p.slice(j + 2)] : ["Info", p]; });
   const bdg = a => a ? `<span class="badge ${a}">${a === "restricted" ? "limited" : a}</span>` : "";
   const links = r.nlinks ? r.linkList.map((u, j) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://archive.org/details/", "").replace("https://dl.ndl.go.jp/pid/", "National Diet Library, pid ").replace("https://gallica.bnf.fr/", "Gallica, "))}</a>${bdg(r.accList[j])}${r.chkList[j] === "1" ? ' <span class="chip" title="this link was checked by hand">✓ checked</span>' : ""}`).join("<br>")
@@ -716,6 +716,68 @@ $("csv").onclick = () => {
   const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""').replace(/\n/g, " ") + '"';
   const blob = new Blob(["\ufeff" + cols.join(",") + "\n" + VIEW.map(r => cols.map(c => q(r[c])).join(",")).join("\n")], { type: "text/csv" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+// COinS (the Z3988 span) so that Zotero's connector can take an entry straight off the page: one in
+// every row of the table and one in the open entry. Empty by design - everything is in the title.
+function coins(r) {
+  const { address, publisher, container } = imprintOf(r);
+  const article = r.type === "article" || r.type === "chapter";
+  const f = [["ctx_ver", "Z39.88-2004"],
+             ["rft_val_fmt", article ? "info:ofi/fmt:kev:mtx:journal" : "info:ofi/fmt:kev:mtx:book"],
+             ["rft.genre", r.type === "chapter" ? "bookitem" : r.type === "article" ? "article" : "book"],
+             [article ? "rft.atitle" : "rft.btitle", r.title],
+             ["rft.title", article ? container : r.title],
+             ["rft.jtitle", r.type === "article" ? container : ""],
+             ["rft.au", r.author], ["rft.date", r.year], ["rft.pub", publisher], ["rft.place", address],
+             ["rft.edition", r.edition], ["rft.volume", r.volume], ["rft.language", r.language],
+             ["rft_id", r.linkList[0] || ""]];
+  const q = f.filter(([, v]) => v).map(([k, v]) => k + "=" + encodeURIComponent(v)).join("&");
+  return `<span class="Z3988" title="${esc(q)}"></span>`;
+}
+
+// BibTeX for whatever the filters have left, so a result list can go straight into a reference manager.
+// The fields are the ones the entry actually has; an imprint is split into publisher and address where
+// the source wrote it as "Imprint: place, publisher".
+const BIBTYPE = { article: "article", chapter: "incollection", periodical: "periodical", book: "book" };
+const bibEsc = s => String(s == null ? "" : s).replace(/[{}]/g, "").replace(/\\/g, "").replace(/\s+/g, " ").trim();
+function bibKey(r, used) {
+  const sur = (r.author || "").split(",")[0].split(/\s+/).filter(Boolean).pop() || "anon";
+  const word = (r.title || "").split(/\s+/).find(w => w.length > 3 && /^[A-Za-z]/.test(w)) || "";
+  let k = (fold(sur) + (r.year_num || "nd") + fold(word)).replace(/[^a-z0-9]/g, "");
+  if (used.has(k)) { let n = 2; while (used.has(k + n)) n++; k += n; }
+  used.add(k);
+  return k;
+}
+// "Tokyo, Maruzen" is place then publisher, but "Washington, D. C." and "Cambridge, Mass." are all place
+const STATE = /^(?:[A-Z]\.?\s?[A-Z]\.?|D\.?\s?C\.?|Mass|Conn|Calif?|Ill|Pa|Va|Md|Mich|Minn|Wis|Ky|Tenn|Ore|Wash|Ont|Que|N\.?\s?[JYCHMD]|Vt|Ind|Iowa|Kan|Mo|Neb|Ohio|Okla|Tex|Utah|Colo)\.?$/i;
+function imprintOf(r) {
+  const other = r.other || "";
+  const imprint = (other.match(/Imprint: ([^|]+)/) || [, ""])[1].trim();
+  let bits = imprint.split(",").map(x => x.trim()).filter(Boolean), address = "";
+  if (bits.length > 1 && STATE.test(bits[1])) { address = bits[0] + ", " + bits[1]; bits = bits.slice(2); }
+  else if (bits.length > 1) { address = bits[0]; bits = bits.slice(1); }
+  else if (bits.length === 1 && STATE.test(bits[0])) { address = bits[0]; bits = []; }   // "N. Y." alone is a place
+  return { address, publisher: address ? bits.join(", ") : (bits[0] || ""),
+           container: (other.match(/In: ([^|]+)/) || [, ""])[1].trim() };
+}
+
+function bibEntry(r, used) {
+  const { address, publisher, container } = imprintOf(r);
+  const f = [["author", r.author], ["title", r.title], ["year", r.year], ["publisher", publisher],
+             ["address", address], ["edition", r.edition], ["volume", r.volume], ["language", r.language],
+             [BIBTYPE[r.type] === "article" ? "journal" : "booktitle", container],
+             ["url", r.linkList[0] || ""], ["note", r.source ? "Listed in " + r.source : ""]];
+  const lines = f.filter(([, v]) => bibEsc(v)).map(([k, v]) => `  ${k} = {${bibEsc(v)}}`);
+  return `@${BIBTYPE[r.type] || "book"}{${bibKey(r, used)},\n${lines.join(",\n")}\n}`;
+}
+$("bib").onclick = () => {
+  const used = new Set();
+  const text = "% " + VIEW.length + " entries from " + location.origin + location.pathname +
+    " (" + new Date().toISOString().slice(0, 10) + ")\n\n" +
+    VIEW.map(r => bibEntry(r, used)).join("\n\n") + "\n";
+  const blob = new Blob([text], { type: "application/x-bibtex" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.bib"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 load().catch(err => { $("count").textContent = $("subtitle").textContent = "Could not load the database: " + err; });
 })();
