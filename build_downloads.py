@@ -144,7 +144,7 @@ def pdf(md_path, pdf_path):
     cmd = ["pandoc", md_path, "--pdf-engine=xelatex", "-V", "geometry:margin=1.8cm",
            "-V", "fontsize=9pt", "-V", "mainfont=Times New Roman", "-V", "CJKmainfont=Hiragino Sans",
            "-V", "colorlinks=true", "-V", "linkcolor=blue", "-V", "urlcolor=blue",
-           "--toc", "--toc-depth=2", "-o", pdf_path]
+           "-o", pdf_path]     # no table of contents: the list is alphabetical and the headings speak for themselves
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode:
         print(r.stderr[-1500:], file=sys.stderr)
