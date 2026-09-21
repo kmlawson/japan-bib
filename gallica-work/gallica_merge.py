@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Put the accepted Gallica copies into the rows build_db.py is about to write.
 
-gallica.jsonl records the entry each search was made for by its id in list.sqlite, that is by its
-position in the row list, so this runs after the rows are in their final order and before the access
-flags are worked out. Every row is checked against the title recorded with the search: if they differ
-the row has moved and the link is left out rather than attached to the wrong book.
+gallica.jsonl records the entry each search was made for by its id in list.sqlite at the time, but ids
+move whenever rows are added or the date cut changes, so the link is attached by what the entry IS:
+author, title and year, folded to letters and digits (language.key). An entry that no longer answers
+to that description simply keeps no link, rather than one belonging to another book.
 
 Gallica's digitisations are scans of public-domain works, freely readable, so a link counts as `open`.
 """
@@ -12,37 +12,52 @@ import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
 from gallica_score import accepted  # noqa: E402
+from language import key as rowkey  # noqa: E402
 
 SRC = os.path.join(HERE, "gallica.jsonl")
 
 
-def titles():
-    return {json.loads(l)["id"]: json.loads(l)["title"] for l in open(SRC, encoding="utf-8")}
+def searched():
+    """{id of the entry at search time: its key}."""
+    out = {}
+    for line in open(SRC, encoding="utf-8"):
+        r = json.loads(line)
+        out[r["id"]] = rowkey(r.get("author"), r.get("title"), r.get("year"))
+    return out
+
+
+def index(rows):
+    idx = {}
+    for i, row in enumerate(rows):
+        idx.setdefault(rowkey(row[0], row[1], row[2]), []).append(i)
+    return idx
 
 
 def apply(rows):
-    """Add the links in place; returns (linked, other editions noted, rows that had moved)."""
+    """Add the links in place; returns (linked, other editions noted, entries no longer in the rows)."""
     links, other = accepted()
-    ttl, n_link, n_other, moved = titles(), 0, 0, []
+    keys, idx, n_link, n_other, lost = searched(), index(rows), 0, 0, []
     for rid, (ark, year) in list(links.items()) + [(k, v) for k, v in other.items()]:
         if not ark.startswith("http"):
             continue      # a partner institution's bare ark, which does not resolve on gallica.bnf.fr
-        i = rid - 1
-        if not (0 <= i < len(rows)) or rows[i][1].strip() != (ttl.get(rid) or "").strip():
-            moved.append(rid)
+        hits = idx.get(keys.get(rid, ""), [])
+        if not hits:
+            lost.append(rid)
             continue
-        if rid in links:
-            have = rows[i][6].split("\n") if rows[i][6] else []
-            if ark not in have:
-                rows[i][6] = "\n".join(have + [ark])
-                n_link += 1
-        else:
-            note = f"Gallica, other editions: {ark}" + (f" ({year})" if year else "")
-            if "Gallica, other editions" not in rows[i][7]:
-                rows[i][7] += " | " + note
-                n_other += 1
-    return n_link, n_other, moved
+        for i in hits:    # the same work is sometimes entered twice; both get the copy
+            if rid in links:
+                have = rows[i][6].split("\n") if rows[i][6] else []
+                if ark not in have:
+                    rows[i][6] = "\n".join(have + [ark])
+                    n_link += 1
+            else:
+                note = f"Gallica, other editions: {ark}" + (f" ({year})" if year else "")
+                if "Gallica, other editions" not in rows[i][7]:
+                    rows[i][7] += " | " + note
+                    n_other += 1
+    return n_link, n_other, lost
 
 
 if __name__ == "__main__":

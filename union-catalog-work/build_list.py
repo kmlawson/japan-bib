@@ -7,7 +7,7 @@ from ia_lookup import load_records, load_cache, key, fold, HERE, surname, norm
 OUT = os.path.join(HERE, "..", "list.md")
 OUT_ND = os.path.join(HERE, "..", "list-undated.md")
 FIRST, LAST = 11, 553
-LAST_YEAR = 1950  # works first published 1850-1950 (the sources were transcribed to 1955/1960)
+LAST_YEAR = 1955  # works first published 1850-1955 (the sources were transcribed to 1955/1960)
 
 
 def years(r):

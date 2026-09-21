@@ -85,4 +85,14 @@ The scans themselves and the per-page transcription files are not part of this r
 
 `onlinebooks-work/ob_search.py` searches onlinebooks.library.upenn.edu for the entries that still have no copy (one search every five seconds, the Crawl-delay their robots.txt asks for; HathiTrust copies are not kept). `ob_score.py` scores the candidates, `ob_decisions.tsv` holds the verdicts made by hand, and `ob_merge.py` attaches the accepted copies when the database is built.
 
-The published database is limited to works dated **1850-1950**, and that applies to every source, including items picked by hand (post-1950 books in the Zotero collection, one 1957 NDL title, Medhurst 1830): they stay in the working copy `union-catalog-work/list-full.sqlite` but are not published.
+The published database is limited to works dated **1850-1955**, and that applies to every source, including items picked by hand (post-1950 books in the Zotero collection, one 1957 NDL title, Medhurst 1830): they stay in the working copy `union-catalog-work/list-full.sqlite` but are not published.
+
+## Titles and dates
+
+English titles are stored in title case and without the full stop the catalogues print at the end (`titlecase_en` / `trim_stop` in `build_db.py`); titles in other languages are left as the source has them. A title the source garbles can be corrected in `union-catalog-work/title_fixes.tsv`.
+
+Rows dated later than `LAST_YEAR` are now deleted from the published database *after* the ids are given out, so moving the cut does not renumber anything. Hand decisions and the copies found on Gallica and The Online Books Page are keyed to author|title|year folded to letters and digits (`language.key`), not to the id, so they survive a rebuild.
+
+## Items added by hand
+
+`extra-work/ids.txt` lists archive.org items chosen by hand. `extra_fetch.py` fetches their metadata (plain HTTPS, nothing identifying sent), and `extra_merge.py` attaches each one to the entry it belongs to or adds a row for it, with source `KML Additions` and the link marked as checked by hand.

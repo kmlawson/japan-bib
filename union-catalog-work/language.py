@@ -138,20 +138,31 @@ def guess(title, other=""):
     return best, round(conf, 2), f"{best}: {', '.join(sorted(set(hits.get(best, [])))[:6])}{' + letters' if letters.get(best) else ''}"
 
 
+def key(author, title, year):
+    """The key a hand decision is filed under: author|title|year, folded to letters and digits. It does
+    not move when rows are re-ordered, re-cased or added, which an id would."""
+    from ia_lookup import norm
+    return f"{norm(author or '')}|{norm(title or '')}|{norm(year or '')}"
+
+
 def fixes():
+    """{key: language} from language_fixes.tsv."""
     d = {}
     if os.path.exists(FIXES):
         for line in open(FIXES, encoding="utf-8"):
+            if line.startswith("#"):
+                continue
             p = line.rstrip("\n").split("\t")
-            if len(p) >= 2 and p[0].isdigit():
-                d[int(p[0])] = p[1].strip()
+            if len(p) >= 2 and p[0].strip():
+                d[p[0].strip()] = p[1].strip()
     return d
 
 
-def language_of(row_id, title, other=""):
+def language_of(author, title, year, other=""):
     f = fixes()
-    if row_id in f:
-        return f[row_id], 1.0, "checked by hand"
+    k = key(author, title, year)
+    if k in f:
+        return f[k], 1.0, "checked by hand"
     return guess(title, other)
 
 
@@ -160,8 +171,9 @@ if __name__ == "__main__":
     db = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "list.sqlite")
     con = sqlite3.connect(db)
     f, counts, doubtful = fixes(), {}, []
-    for rid, title, other in con.execute("SELECT id, title, other FROM books"):
-        lang, conf, why = (f[rid], 1.0, "hand") if rid in f else guess(title, other)
+    for rid, author, title, year, other in con.execute("SELECT id, author, title, year, other FROM books"):
+        k = key(author, title, year)
+        lang, conf, why = (f[k], 1.0, "hand") if k in f else guess(title, other)
         counts[lang] = counts.get(lang, 0) + 1
         if conf < 0.75:
             doubtful.append((rid, lang, conf, why, title[:70]))

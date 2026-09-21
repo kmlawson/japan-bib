@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
 import merge as M  # noqa: E402
 
-SRC = "Japan Online (Zotero)"
+SRC = "KML Zotero"
 CORP = re.compile(r"\b(society|office|department|dept|japan|company|co|inc|press|university|bureau|commission|library|museum|"
                   r"association|board|church|mission|missions|government|ministry|institute|committee|united|states|railways?|"
                   r"hotel|firm|group|deputation|kaisha|kyokai|kōsha|of|the|and|for|club|bank|league|army|navy|council)\b|[&(\[]|[a-z]{3,}\.(\s|$)", re.I)

@@ -111,7 +111,7 @@ footer ul.bib li{margin-bottom:4px}
       <label>Show <select id="show" title="Which entries to list">
         <option value="ia" selected>With an online copy</option><option value="open">– read freely</option><option value="borrow">– borrow only</option>
         <option value="noia">No online copy</option><option value="all">All entries</option></select></label>
-      <label><input id="undated" type="checkbox" checked> include undated</label>
+      <label hidden><input id="undated" type="checkbox" checked> include undated</label>
       <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option>1000</option><option value="all" selected>All</option></select></label>
     </div>
   </div>
@@ -136,7 +136,7 @@ footer ul.bib li{margin-bottom:4px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only entries with a copy online are listed (change <b>Show</b> to see all): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -199,6 +199,7 @@ async function load() {
     const o = document.createElement("option"); o.value = l; o.textContent = `${l} (${langCount[l].toLocaleString()})`; $("lang").appendChild(o);
   }
   for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
+  $("type").value = "book";   // books by default; articles, chapters and periodicals are a menu away
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
   $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions); links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
@@ -261,13 +262,17 @@ function render(terms) {
   const pp = parseInt($("pp").value) || Math.max(1, VIEW.length), pages = Math.max(1, Math.ceil(VIEW.length / pp));
   page = Math.min(page, pages - 1);
   const slice = VIEW.slice(page * pp, (page + 1) * pp);
+  const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
+                  [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "HT"],
+                  [/gutenberg\.org\//, "PG"]];
+  const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
   const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
     <td class="au">${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
     <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}</td>
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
-    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
+    <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
@@ -294,7 +299,7 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("src", $("source").value, ""); put("type", $("type").value, ""); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
+  put("src", $("source").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
@@ -303,21 +308,21 @@ function writeHash() { history.replaceState(null, "", location.pathname + locati
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
-  if (p.get("src")) $("source").value = p.get("src"); if (p.get("type")) $("type").value = p.get("type"); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
+  if (p.get("src")) $("source").value = p.get("src"); const ty = p.get("type"); $("type").value = ty == null ? "book" : (ty === "all" ? "" : ty); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
   $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
   const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
 }
 function openFromHash(id) {
   if (!id) return;
   let i = VIEW.findIndex(r => r.id === id);
-  if (i < 0 && ALL.some(r => r.id === id)) { $("show").value = "all"; apply(false); i = VIEW.findIndex(r => r.id === id); }  // a linked entry outside the default filter
+  if (i < 0 && ALL.some(r => r.id === id)) { $("show").value = "all"; $("type").value = ""; apply(false); i = VIEW.findIndex(r => r.id === id); }  // a linked entry outside the default filters
   if (i >= 0) { page = Math.floor(i / (parseInt($("pp").value) || Math.max(1, VIEW.length))); render(); show(i); }
 }
 
 let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
 $("q").addEventListener("input", debounced);
 for (const id of ["field", "y1", "y2", "source", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = ""; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });

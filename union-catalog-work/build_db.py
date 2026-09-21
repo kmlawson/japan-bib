@@ -17,7 +17,9 @@ Table books: id, author, title, year, year_num, edition, volume, links, other, s
   links_checked 1 for a link that was checked by hand (Zotero collection "Japan Online"), else 0, same order.
                 Hand-checked links come first, then open copies, then borrow-only ones.
   year      as printed ("1874-75", "n.d.", "19--")
-  year_num  integer first year for range queries (NULL when undated)
+  year_num  integer first year for range queries (NULL when undated). Rows dated later than LAST_YEAR
+            are deleted from the published copy after the ids are given out, so that raising or lowering
+            the cut does not move any id; the working copy keeps them.
   volume    volume statement from the extent ("2 v.", "3v. in 1.") or, failing that, a volume
             designation in the title ("v.1", "Bd.2", "Pt.1-3")
   links     archive.org URLs, one per line ('' = searched, no match; NULL = undated, not searched);
@@ -33,7 +35,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "next-bib-work"))
 import merge as M  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "zotero-work"))
 import zotero_merge as Z  # noqa: E402
-from language import guess as guess_language, fixes as language_fixes  # noqa: E402
+from language import guess as guess_language, fixes as language_fixes, key as language_key  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "ndl-work"))
 import ndl_merge as N  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "gallica-work"))
@@ -42,6 +44,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "dower-work"))
 import dower_merge as D  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "onlinebooks-work"))
 import ob_merge as OB  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "extra-work"))
+import extra_merge as X  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -116,6 +120,77 @@ def other(r):
     return " | ".join(parts)
 
 
+# Titles as the sources print them are in sentence case and usually end in a full stop, because they were
+# copied from catalogue cards. English titles are put into title case for display and the final stop is
+# dropped. Only the stored title changes: everything that matches rows (language fixes, Gallica, Online
+# Books) keys on the title folded to letters and digits, which this does not touch.
+SMALL_WORDS = set("""a an the and but or nor for of in into on onto to from by with without at as over under
+    after before between through during against about above across along among around per via vs versus is""".split())
+ABBREV_END = re.compile(r"(?:\b[A-Z]\.|\b(?:etc|Co|Ltd|Inc|Jr|Sr|St|Bros|Bd|Nr|Pt|no|vol|ed|U\.S|U\.S\.S\.R)\.)$")
+WORD = re.compile(r"[^\W\d_]+(?:['\u2019][^\W\d_]+)*", re.UNICODE)   # japan's, O'Brien, Nan'yo
+
+
+TITLE_FIXES = os.path.join(HERE, "title_fixes.tsv")
+
+
+def title_fixes():
+    """{key: corrected title} from title_fixes.tsv - e.g. a statement of responsibility the catalogue
+    ran on after the title."""
+    d = {}
+    if os.path.exists(TITLE_FIXES):
+        for line in open(TITLE_FIXES, encoding="utf-8"):
+            if line.startswith("#"):
+                continue
+            p = line.rstrip("\n").split("\t")
+            if len(p) >= 2 and p[0].strip():
+                d[p[0].strip()] = p[1].strip()
+    return d
+
+
+def trim_stop(title):
+    """Drop the full stop the catalogues put at the end of a title, but not one that belongs to an
+    abbreviation ('... by W. A.', 'Tokyo, Maruzen Co.')."""
+    t = title.rstrip()
+    if t.endswith(".") and not t.endswith("..") and not ABBREV_END.search(t):
+        t = t[:-1].rstrip()   # "..." marks words left out by the cataloguer and stays
+    return t
+
+
+def titlecase_en(title):
+    """Sentence case -> title case, leaving alone anything that already carries its own capitals
+    (acronyms, MacArthur, Nan'yō) and the small words inside the title."""
+    out, start = [], True
+    for tok in re.split(r"(\s+)", title):
+        if not tok.strip():
+            out.append(tok)
+            continue
+        if not WORD.search(tok):
+            out.append(tok)
+            continue
+        def fix(word, first):
+            if word.isupper():
+                return word                                   # KBS, NHK, II, the A and D of A.D.
+            if any(c.isupper() for c in word[1:]):
+                return word                                   # McCoy, MacArthur, O'Brien
+            if "-" in word:
+                return "-".join(fix(p, first or i == 0) for i, p in enumerate(word.split("-")))
+            if not first and word.lower() in SMALL_WORDS:
+                return word.lower()
+            return word[:1].upper() + word[1:]                # japan's -> Japan's (the tail is untouched)
+        # rebuild the token word by word, so that "(japan)" and "japan," keep their punctuation
+        parts, pos, first = [], 0, start
+        for mm in WORD.finditer(tok):
+            parts.append(tok[pos:mm.start()])
+            parts.append(fix(mm.group(0), first))
+            first = False
+            pos = mm.end()
+        parts.append(tok[pos:])
+        out.append("".join(parts))
+        start = bool(re.search(r"[:;?!]\s*$", tok))           # a new clause starts afresh ("." is usually an abbreviation)
+    t = "".join(out)
+    return t[:1].upper() + t[1:] if t else t
+
+
 def write_db(path, rows, keep_annotations):
     """Write one SQLite file. The published copy leaves out the bibliographers' own annotations."""
     if os.path.exists(path):
@@ -145,12 +220,17 @@ def write_db(path, rows, keep_annotations):
     """)
     out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
     fx = language_fixes()
-    out = [r + [fx.get(i + 1) or guess_language(r[1], r[7])[0]] for i, r in enumerate(out)]
+    out = [r + [fx.get(language_key(r[0], r[1], r[2])) or guess_language(r[1], r[7])[0]] for r in out]
+    tf = title_fixes()
+    for r in out:                                             # display form of the title: see the note above
+        r[1] = tf.get(language_key(r[0], r[1], r[2]), r[1])
+        r[1] = trim_stop(titlecase_en(r[1]) if r[-1] == "English" else r[1])
     con.executemany("INSERT INTO books(author,title,year,year_num,edition,volume,links,other,source,type,"
                     "access,links_access,links_checked,language) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", out)
-    if not keep_annotations:   # the working copy keeps everything; the published one hides these
+    if not keep_annotations:   # the working copy keeps everything; the published one leaves these out
         con.execute("DELETE FROM books WHERE language IN (%s)" % ",".join("?" * len(HIDE_LANGUAGES)),
                     sorted(HIDE_LANGUAGES))
+        con.execute("DELETE FROM books WHERE year_num IS NOT NULL AND year_num > ?", (LAST_YEAR,))
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);
@@ -203,9 +283,11 @@ if __name__ == "__main__":
     # language fixes and the Gallica / Online Books results are keyed to them).
     n_dup, n_new, _ = D.apply(rows)
     print(f"Dower & George: {n_dup} entries already in the database, {n_new} added")
-    n_all = len(rows)
-    rows = [x for x in rows if x[3] is None or x[3] <= LAST_YEAR]  # year_num: keep 1850-1950 and undated
-    print('dropped as later than', LAST_YEAR, ':', n_all - len(rows))
+    x_checked, x_att, x_new = X.apply(rows)   # archive.org items picked by hand
+    print(f"Hand-picked archive.org items: {x_att} attached to an entry already there, {x_new} added")
+    checked.update(x_checked)
+    n_later = sum(1 for x in rows if x[3] is not None and x[3] > LAST_YEAR)
+    print(f"dated later than {LAST_YEAR} (kept in the working copy, left out of the published one): {n_later}")
     # Gallica copies for the French entries. Keyed by row position, so it has to come after the
     # filtering above and before the access flags below.
     n_gal, n_galed, moved = GAL.apply(rows)

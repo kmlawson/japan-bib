@@ -1,0 +1,5 @@
+# Titles corrected by hand. Key = author|title|year folded to letters and digits (language.key),
+# taken from the title as the source prints it. The replacement is stored as written here; the
+# English ones are then put into title case like the rest.
+# key<TAB>title
+orui noboru jt author|castles in japan by n orui and m toba|1935	Castles in Japan

@@ -31,6 +31,12 @@
 !/onlinebooks-work/ob_score.py
 !/onlinebooks-work/ob_merge.py
 !/onlinebooks-work/ob_decisions.tsv
+!/extra-work/
+/extra-work/*
+!/extra-work/extra_fetch.py
+!/extra-work/extra_merge.py
+!/extra-work/ids.txt
+!/union-catalog-work/title_fixes.tsv
 !/ndl-work/
 /ndl-work/*
 !/ndl-work/ndl_fetch.py
