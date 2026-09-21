@@ -17,6 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DB = os.path.join(HERE, "list.sqlite")
 OUT = os.path.join(HERE, "downloads")
 VERSION = os.path.join(HERE, "page", "version.txt")
+SOURCES_MD = os.path.join(HERE, "page", "modern-japan.md")   # the lists behind the buttons on the page
 SITE = "https://kmlawson.github.io/japan-bib/"
 HOLDER = [("archive.org/", "Internet Archive"), ("gallica.bnf.fr/", "Gallica"),
           ("dl.ndl.go.jp/", "National Diet Library"), ("europeana.eu/", "Europeana"),
@@ -84,6 +85,31 @@ def entry(r):
     return " ".join(bits)
 
 
+def sources():
+    """The page's own lists - everything behind the buttons - with their headings put one level down,
+    so that they sit inside this document rather than beside it. The marker that turns a list into
+    bubbles on the page means nothing here and is taken out."""
+    if not os.path.exists(SOURCES_MD):
+        return []
+    out, first, seen_also, before_first_heading = [], True, False, True
+    for line in open(SOURCES_MD, encoding="utf-8").read().splitlines():
+        line = line.replace("<!--pills-->", "").rstrip()
+        m = re.match(r"^(#+)\s+(.*)$", line)
+        if m:
+            if first:                       # the title of that page; this document has its own
+                first = False
+                continue
+            before_first_heading = False    # from the first real section on, everything is kept
+            out.append("#" * (len(m.group(1)) + 1) + " " + m.group(2))
+            continue
+        if line.strip().lower().startswith("see also"):
+            seen_also = True
+        if before_first_heading and not seen_also and re.match(r"^\s*[-*+]\s", line):
+            continue                        # the index of sections: the headings below say the same
+        out.append(line)
+    return out
+
+
 def markdown(db, ver, today):
     rs = rows(db)
     rs.sort(key=lambda r: (fold(r[1]) or "￿", r[4] or 9999, fold(r[2])))
@@ -95,7 +121,10 @@ def markdown(db, ver, today):
            f"{len(rs):,} entries, {n_links:,} with an online copy ({n_open:,} freely readable, "
            f"{n_borrow:,} borrowable). Alphabetical by author, then by year.", "",
            f"Compiled from printed bibliographies and library catalogues; the searchable version, with "
-           f"filters and a downloadable database, is at <{SITE}>.", "", "---", ""]
+           f"filters and a downloadable database, is at <{SITE}>.", "",
+           "This file has two parts: the lists of primary sources that the site opens with, and then the "
+           "whole bibliography of digitized books.", "", "---", "",
+           "# Primary sources", ""] + sources() + ["", "---", "", "# Digitized books", ""]
     letter = None
     for r in rs:
         first = (fold(r[1])[:1] or "—").upper()
@@ -103,7 +132,7 @@ def markdown(db, ver, today):
             first = "—"
         if first != letter:
             letter = first
-            out += ["", f"## {letter}", ""]
+            out += ["", f"## {letter}", ""]   # a letter of the alphabet, inside "Digitized books"
         out.append(entry(r) + "\n")
     return "\n".join(out)
 
@@ -115,7 +144,7 @@ def pdf(md_path, pdf_path):
     cmd = ["pandoc", md_path, "--pdf-engine=xelatex", "-V", "geometry:margin=1.8cm",
            "-V", "fontsize=9pt", "-V", "mainfont=Times New Roman", "-V", "CJKmainfont=Hiragino Sans",
            "-V", "colorlinks=true", "-V", "linkcolor=blue", "-V", "urlcolor=blue",
-           "--toc", "--toc-depth=1", "-o", pdf_path]
+           "--toc", "--toc-depth=2", "-o", pdf_path]
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode:
         print(r.stderr[-1500:], file=sys.stderr)
