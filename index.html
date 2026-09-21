@@ -138,7 +138,7 @@ footer ul.bib li{margin-bottom:4px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -163,7 +163,7 @@ footer ul.bib li{margin-bottom:4px}
 const $ = id => document.getElementById(id);
 const fold = s => (s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const esc = s => (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let ALL = [], VIEW = [], page = 0, sortKey = null, sortDir = 1, cur = -1;
+let ALL = [], VIEW = [], page = 0, sortKey = null, sortDir = 1, cur = -1, byMatch = false;
 
 // theme
 const th = (() => { try { return localStorage.getItem("jb-theme"); } catch (e) { return null; } })();
@@ -251,6 +251,48 @@ function labelLanguages() {
   }
 }
 
+// How well an entry answers what was typed. The whole phrase in the title counts for most, then how
+// many of the words are in the title, how close together they sit, and whether they fall on word
+// boundaries; the author counts for less and the rest of the record for little. This ordering is used
+// only while the search box has something in it and no column has been clicked.
+const WORDCH = /[a-z0-9]/;
+const wholeWord = (s, i, w) =>
+  (i === 0 || !WORDCH.test(s[i - 1])) && (i + w.length === s.length || !WORDCH.test(s[i + w.length]));
+function relevance(r, words, phrase) {
+  const t = r.ft, a = r.fa, o = r.fo;
+  let s = 0;
+  if (phrase) {
+    if (t === phrase) s += 400;                            // the title is exactly what was typed
+    else if (t.startsWith(phrase)) s += 230;               // ... or starts with it
+    else if (phrase.includes(" ") && t.includes(phrase)) s += 170;
+    if (phrase.includes(" ")) { if (a.includes(phrase)) s += 90; else if (o.includes(phrase)) s += 30; }
+  }
+  const spans = []; let inTitle = 0, elsewhere = 0;
+  for (const w of words) {
+    const i = t.indexOf(w);
+    if (i >= 0) { inTitle++; spans.push([i, i + w.length]); s += wholeWord(t, i, w) ? 20 : 11; if (i === 0) s += 8; }
+    else {
+      const j = a.indexOf(w);
+      if (j >= 0) { elsewhere++; s += wholeWord(a, j, w) ? 14 : 8; }
+      else if (o.includes(w)) { elsewhere++; s += 4; }
+    }
+  }
+  if (words.length) {
+    if (inTitle === words.length) s += 70;                 // every word in the title
+    else if (inTitle + elsewhere === words.length) s += 25;
+    if (spans.length > 1) {                                // and the closer together, the better
+      const lo = Math.min(...spans.map(x => x[0])), hi = Math.max(...spans.map(x => x[1]));
+      const ideal = words.reduce((n, w) => n + w.length, 0) + words.length - 1;
+      s += Math.max(0, 45 - Math.round((hi - lo - ideal) / 3));
+    }
+  }
+  s -= Math.min(25, t.length / 30);     // between two titles that both match, the shorter one is the better answer
+  if (r.nlinks) s += 2;                 // tie-break only: something that can be opened now
+  return s;
+}
+const searchPhrase = q => fold(q).replace(/(^|\s)-\S+/g, " ").replace(/\b(author|title|other):/g, " ")
+  .replace(/["']/g, " ").replace(/\s+/g, " ").trim();
+
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
 const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
                 [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
@@ -275,6 +317,13 @@ function apply(resetPage = true) {
     for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
     return true;
   });
+  const words = terms.filter(t => !t.neg).map(t => t.t);
+  byMatch = !sortKey && words.length > 0;
+  if (byMatch) {
+    const phrase = searchPhrase($("q").value);
+    for (const r of VIEW) r.rel = relevance(r, words, phrase);
+    VIEW.sort((x, y) => y.rel - x.rel || (x.year_num || 9999) - (y.year_num || 9999) || x.id - y.id);
+  }
   if (sortKey) {
     const k = sortKey, d = sortDir;
     VIEW.sort((a, b) => {
@@ -308,7 +357,7 @@ function render(terms) {
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
-  $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries`;
+  $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries` + (byMatch ? " · best match first (click a column to sort instead)" : "");
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
   $("prev").disabled = page === 0; $("next").disabled = page >= pages - 1;
   document.querySelectorAll("th").forEach(th => th.querySelector(".arrow").textContent = th.dataset.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : "");
