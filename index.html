@@ -402,8 +402,11 @@ function openFromHash(id) {
   if (i >= 0) { page = Math.floor(i / (parseInt($("pp").value) || Math.max(1, VIEW.length))); render(); show(i); }
 }
 
-let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
+// half a second after the last keystroke, so that typing a phrase does not re-filter on every letter;
+// Enter searches at once
+let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 500); };
 $("q").addEventListener("input", debounced);
+$("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(tmr); apply(); } });
 for (const id of ["field", "y1", "y2", "host", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
 $("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
