@@ -217,9 +217,8 @@ def build(md_path, out_path):
   </header>
   <nav class="jumps">
     <div class="sections">
-      {"\n      ".join(buttons[:-1])}
+      {"\n      ".join(buttons)}
     </div>
-    {buttons[-1]}
   </nav>''']
 
     for h, lines in body:

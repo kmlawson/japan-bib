@@ -109,9 +109,8 @@ header.site p.also a { color: var(--link); }
 header.site p.also .sep { color: var(--line); padding: 0 2px; }
 
 /* the row of buttons: one per section of the page, the last one for the search */
-/* the section buttons wrap across as many lines as they need; the search button sits on its own line under them */
-nav.jumps { display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
-            padding: 6px 0 18px; border-bottom: 1px solid var(--line); }
+/* all the buttons wrap together, the search button last in the row */
+nav.jumps { padding: 6px 0 18px; border-bottom: 1px solid var(--line); }
 nav.jumps .sections { display: flex; flex-wrap: wrap; gap: 8px; }
 nav.jumps button {
   font: 600 14px/1.2 var(--serif); padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px;
@@ -198,8 +197,8 @@ footer.site ul { padding-left: 20px; }
       <button type="button" class="jump" data-target="s-film" aria-expanded="false">Film</button>
       <button type="button" class="jump" data-target="s-other-digital-resources" aria-expanded="false">Other Digital Resources</button>
       <button type="button" class="jump" data-target="s-japanese-language-sources" aria-expanded="false">Japanese Language Sources</button>
+      <button type="button" class="jump search" data-target="search">Digitized Books</button>
     </div>
-    <button type="button" class="jump search" data-target="search">Digitized Books</button>
   </nav>
   <section class="md" id="s-english-language-periodicals" hidden>
     <h2 tabindex="0" role="button" title="Hide this section">English Language Periodicals</h2>
