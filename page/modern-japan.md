@@ -20,16 +20,16 @@ See also:
     - [Japan Magazine 1910-1931](https://froginawell.net/indexes/japan-magazine/)
     - [Tokyo Gazette 1937-42](https://froginawell.net/tokyo-gazette/)
     - [Contemporary Japan 1941-5](https://froginawell.net/frog/sources/primary-source-nuggets/contemporary-japan/)
-    - [Azad Hind](https://froginawell.net/azad-hind/) - Wartime pro-Japanese Indian National Army Newspaper 1944-5 reporting on wartime Burma and India. 
+    - [Azad Hind 1944-5](https://froginawell.net/azad-hind/) - Wartime pro-Japanese Indian National Army newspaper  
     - [Chronicles of Japanese Empire](https://froginawell.net/reference/empire-chronicle/) - Event timelines from historical periodicals.
 
 - [Japan Weekly Mail 1870-1900](https://archive.org/search.php?query=title%3A%28The+Japan+Weekly+Mail%29+AND+creator%3A%28The+Japan+Weekly+Mail%29&sort=date)
-- *Japan Gazette* [1873.9 - 1874.10](https://archive.org/details/japan-gazette-1873sept), [1877](https://archive.org/details/japan-gazette-1877), [1880](https://archive.org/details/bub_gb_WSopAAAAYAAJ) | [1880.1-6](https://archive.org/details/japan-gazette-1880v25) | [1880.7-12](https://archive.org/details/japan-gazette-1881v28) 1902-3 https://babel.hathitrust.org/cgi/pt?id=hvd.32044103244620&seq=7
+- *Japan Gazette* [1873.9 - 1874.10](https://archive.org/details/japan-gazette-1873sept), [1877](https://archive.org/details/japan-gazette-1877), [1880](https://archive.org/details/bub_gb_WSopAAAAYAAJ) | [1880.1-6](https://archive.org/details/japan-gazette-1880v25) | [1880.7-12](https://archive.org/details/japan-gazette-1881v28) 
 - [Japan Times](https://archive.org/details/pub_japan-times) - Only a selection, but lots of issues from 1942-1945 available. Plus: [1878.1-6](https://archive.org/details/1878.1-6-Japan-Times)
 - *Japan: An Illustrated Magazine of Oriental Travel* [1917.10 v6.15](https://archive.org/details/japan-illustrated-magazine-1917.10-v6.15) | [1917.12 v6.17](https://archive.org/details/japan-illustrated-magazine-1917.12-v6.17) | [1920 v9.12](https://archive.org/details/japan-illustrated-magazine-1920.8-v9.12) | [1922.1](https://archive.org/details/japan-1922.1/mode/2up) [1922 v11.4-9](https://archive.org/details/japan-illustrated-magazine-1922-v11.4-9-11-12)
 - *The Anglo-Japanese Gazette* [1902-3](https://archive.org/details/hvd_32044103244620_2784)
 - [XXth Century 1941-1945](https://manoa.hawaii.edu/library/research/collections/russia/russian-northeast-asia-collection/the-xxth-century-shanghai-1941-1945-a-guide/)  - An unusual magazine from Japanese occupied Shanghai
-- [The Far Eastern Review 1904-1941](https://archive.org/search.php?query=title%3A(The+Far+Eastern+Review)+AND+creator%3A(George+Bronson+Rea)&sort=date)
+- [The Far Eastern Review 1904-1941](https://archive.org/search.php?query=title%3A%28The+Far+Eastern+Review%29+AND+creator%3A%28George+Bronson+Rea%29&sort=date)
 - *Present-Day Japan* [1927](https://archive.org/details/present-day-japan-1927) [1928](https://archive.org/details/present-day-japan-1928), [1929](https://archive.org/details/present-day-japan-1929), [1930](https://archive.org/details/present-day-japan-1930), [1931](https://archive.org/details/present-day-japan-1931) - English annual supplement for Asahi newspaper. 
 
 - [The North China Herald 1850-1941](https://archive.org/search.php?query=title%3A%28North+China+Herald%29+AND+creator%3A%28North-China+Herald%29&sort=date) - China-based newspaper but frequently has news related to Japan and Japanese expansion in China.
@@ -98,7 +98,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 - [Grassroots Operations of the Japanese Empire](https://japaneseempire.info/)
 - [Unpinning History: Japanese Posters in the Age of Commercialism, Imperialism, and Modernism](https://scalar.usc.edu/works/unpinning-history-japanese-posters-in-the-age-of-commercialism-imperialism-and-modernism/index)
 - [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
-- [Bodies and Structures 2.0: Deep-Mapping Modern Eastd Asian History](https://bodiesandstructures.org/bodies-and-structures-2/index)
+- [Bodies and Structures 2.0: Deep-Mapping Modern East Asian History](https://bodiesandstructures.org/bodies-and-structures-2/index)
 - [Meiji at 150 Digital Teaching Resource](https://meijiat150dtr.arts.ubc.ca/)
 - [Nagasaki Foreign Settlement](https://froginawell.net/nagasaki/)
 - [Japan Air Raids](https://www.japanairraids.org/)
