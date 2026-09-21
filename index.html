@@ -116,6 +116,18 @@ nav.jumps button {
 nav.jumps button:hover { border-color: var(--link); color: var(--link); }
 /* an open section: a light blue fill, so it reads as pressed without competing with the search button */
 nav.jumps button[aria-expanded="true"] { background: var(--hit); border-color: var(--link); color: var(--link); }
+/* open or close every section at once: the same blue as the search button, much lighter, and it
+   follows the theme because it is mixed from the accent colour rather than written out */
+nav.jumps button.openall {
+  background: color-mix(in srgb, var(--accent) 16%, var(--panel));
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--panel));
+  color: var(--accent); font-weight: 700;
+}
+nav.jumps button.openall:hover {
+  background: color-mix(in srgb, var(--accent) 26%, var(--panel));
+  border-color: var(--accent); color: var(--accent);
+}
+
 /* the way into the search: the one solid, bolder button on the page */
 nav.jumps button.search {
   background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
@@ -160,6 +172,7 @@ footer.site ul { padding-left: 20px; }
   </header>
   <nav class="jumps">
     <div class="sections">
+      <button type="button" class="jump openall" data-target="all" aria-expanded="false">Open All</button>
       <button type="button" class="jump" data-target="s-english-language-periodicals" aria-expanded="false">English Language Periodicals</button>
       <button type="button" class="jump" data-target="s-year-books-and-directories" aria-expanded="false">Year Books and Directories</button>
       <button type="button" class="jump" data-target="s-guidebooks-and-travel" aria-expanded="false">Guidebooks and Travel</button>
@@ -408,23 +421,43 @@ footer.site ul { padding-left: 20px; }
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
 // on the page, so its button only scrolls to it.
-for (const b of document.querySelectorAll("nav.jumps button")) {
+const openAll = document.querySelector("nav.jumps button.openall");
+function setOpen(sec, open) {
+  sec.hidden = !open;
+  const b = document.querySelector(`nav.jumps button[data-target="${sec.id}"]`);
+  if (b) b.setAttribute("aria-expanded", open ? "true" : "false");
+}
+function syncOpenAll() {
+  const secs = [...document.querySelectorAll("section.md")];
+  const all = secs.every(s => !s.hidden);
+  openAll.textContent = all ? "Close All" : "Open All";
+  openAll.setAttribute("aria-expanded", all ? "true" : "false");
+}
+openAll.addEventListener("click", () => {
+  const secs = [...document.querySelectorAll("section.md")];
+  const open = secs.some(s => s.hidden);
+  for (const s of secs) setOpen(s, open);
+  syncOpenAll();
+  if (open) secs[0].scrollIntoView({ behavior: "smooth", block: "start" });
+});
+for (const b of document.querySelectorAll("nav.jumps button:not(.openall)")) {
   b.addEventListener("click", () => {
     const sec = document.getElementById(b.dataset.target);
     if (!sec) return;
     if (b.dataset.target === "search") { sec.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     const open = sec.hidden;
-    sec.hidden = !open;
-    b.setAttribute("aria-expanded", open ? "true" : "false");
+    setOpen(sec, open);
+    syncOpenAll();
     if (open) sec.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 for (const h of document.querySelectorAll("section.md > h2")) {
   const close = () => {
     const sec = h.parentElement;
-    sec.hidden = true;
+    setOpen(sec, false);
+    syncOpenAll();
     const b = document.querySelector(`nav.jumps button[data-target="${sec.id}"]`);
-    if (b) { b.setAttribute("aria-expanded", "false"); b.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (b) b.scrollIntoView({ behavior: "smooth", block: "center" });
   };
   h.addEventListener("click", close);
   h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); close(); } });
@@ -640,6 +673,7 @@ function render(terms) {
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
+  zoteroLook();                      // the COinS in these rows are new to the page
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries` + (byMatch ? " · best match first (click a column to sort instead)" : "");
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
   $("prev").disabled = page === 0; $("next").disabled = page >= pages - 1;
@@ -783,6 +817,20 @@ $("bib").onclick = () => {
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.bib"; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
+// The rows - and the COinS spans in them - only exist once the database has loaded and the filters have
+// run, which is after the connector has looked at the page. This is the event Zotero documents for that
+// case: it makes the connector run detection again. Fired once at first paint, and at most every few
+// seconds afterwards, since each one makes the connector re-scan the whole page.
+let zoteroAt = 0, zoteroTmr;
+function zoteroLook() {
+  clearTimeout(zoteroTmr);
+  const wait = Math.max(0, 3000 - (Date.now() - zoteroAt));
+  zoteroTmr = setTimeout(() => {
+    zoteroAt = Date.now();
+    document.dispatchEvent(new Event("ZoteroItemUpdated", { bubbles: true, cancelable: true }));
+  }, wait);
+}
+
 load().catch(err => { $("count").textContent = $("subtitle").textContent = "Could not load the database: " + err; });
 })();
 </script>

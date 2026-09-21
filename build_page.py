@@ -146,8 +146,9 @@ def build(md_path, out_path):
     app_html = app_html.replace('<script src="vendor/sql-wasm.js"></script>', "").strip()
     app_html = app_html.replace(" autofocus", "")   # the page should open at the top, not at the search box
 
-    buttons = [f'<button type="button" class="jump" data-target="{slug(h)}" aria-expanded="false">{html.escape(h)}</button>'
-               for h, _ in body]
+    buttons = ['<button type="button" class="jump openall" data-target="all" aria-expanded="false">Open All</button>']
+    buttons += [f'<button type="button" class="jump" data-target="{slug(h)}" aria-expanded="false">{html.escape(h)}</button>'
+                for h, _ in body]
     buttons.append(f'<button type="button" class="jump search" data-target="search">{SEARCH_LABEL}</button>')
 
     parts = [f'''<!doctype html>
@@ -198,23 +199,43 @@ def build(md_path, out_path):
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
 // on the page, so its button only scrolls to it.
-for (const b of document.querySelectorAll("nav.jumps button")) {
+const openAll = document.querySelector("nav.jumps button.openall");
+function setOpen(sec, open) {
+  sec.hidden = !open;
+  const b = document.querySelector(`nav.jumps button[data-target="${sec.id}"]`);
+  if (b) b.setAttribute("aria-expanded", open ? "true" : "false");
+}
+function syncOpenAll() {
+  const secs = [...document.querySelectorAll("section.md")];
+  const all = secs.every(s => !s.hidden);
+  openAll.textContent = all ? "Close All" : "Open All";
+  openAll.setAttribute("aria-expanded", all ? "true" : "false");
+}
+openAll.addEventListener("click", () => {
+  const secs = [...document.querySelectorAll("section.md")];
+  const open = secs.some(s => s.hidden);
+  for (const s of secs) setOpen(s, open);
+  syncOpenAll();
+  if (open) secs[0].scrollIntoView({ behavior: "smooth", block: "start" });
+});
+for (const b of document.querySelectorAll("nav.jumps button:not(.openall)")) {
   b.addEventListener("click", () => {
     const sec = document.getElementById(b.dataset.target);
     if (!sec) return;
     if (b.dataset.target === "search") { sec.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     const open = sec.hidden;
-    sec.hidden = !open;
-    b.setAttribute("aria-expanded", open ? "true" : "false");
+    setOpen(sec, open);
+    syncOpenAll();
     if (open) sec.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 for (const h of document.querySelectorAll("section.md > h2")) {
   const close = () => {
     const sec = h.parentElement;
-    sec.hidden = true;
+    setOpen(sec, false);
+    syncOpenAll();
     const b = document.querySelector(`nav.jumps button[data-target="${sec.id}"]`);
-    if (b) { b.setAttribute("aria-expanded", "false"); b.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (b) b.scrollIntoView({ behavior: "smooth", block: "center" });
   };
   h.addEventListener("click", close);
   h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); close(); } });

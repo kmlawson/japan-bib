@@ -207,6 +207,7 @@ function render(terms) {
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
+  zoteroLook();                      // the COinS in these rows are new to the page
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries` + (byMatch ? " · best match first (click a column to sort instead)" : "");
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
   $("prev").disabled = page === 0; $("next").disabled = page >= pages - 1;
@@ -350,5 +351,19 @@ $("bib").onclick = () => {
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "japan-bib-results.bib"; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
+// The rows - and the COinS spans in them - only exist once the database has loaded and the filters have
+// run, which is after the connector has looked at the page. This is the event Zotero documents for that
+// case: it makes the connector run detection again. Fired once at first paint, and at most every few
+// seconds afterwards, since each one makes the connector re-scan the whole page.
+let zoteroAt = 0, zoteroTmr;
+function zoteroLook() {
+  clearTimeout(zoteroTmr);
+  const wait = Math.max(0, 3000 - (Date.now() - zoteroAt));
+  zoteroTmr = setTimeout(() => {
+    zoteroAt = Date.now();
+    document.dispatchEvent(new Event("ZoteroItemUpdated", { bubbles: true, cancelable: true }));
+  }, wait);
+}
+
 load().catch(err => { $("count").textContent = $("subtitle").textContent = "Could not load the database: " + err; });
 })();

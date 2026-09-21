@@ -22,6 +22,18 @@ nav.jumps button {
 nav.jumps button:hover { border-color: var(--link); color: var(--link); }
 /* an open section: a light blue fill, so it reads as pressed without competing with the search button */
 nav.jumps button[aria-expanded="true"] { background: var(--hit); border-color: var(--link); color: var(--link); }
+/* open or close every section at once: the same blue as the search button, much lighter, and it
+   follows the theme because it is mixed from the accent colour rather than written out */
+nav.jumps button.openall {
+  background: color-mix(in srgb, var(--accent) 16%, var(--panel));
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--panel));
+  color: var(--accent); font-weight: 700;
+}
+nav.jumps button.openall:hover {
+  background: color-mix(in srgb, var(--accent) 26%, var(--panel));
+  border-color: var(--accent); color: var(--accent);
+}
+
 /* the way into the search: the one solid, bolder button on the page */
 nav.jumps button.search {
   background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
