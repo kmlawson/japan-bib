@@ -3,6 +3,7 @@
 /*
 !/.gitignore
 !/README.md
+!/DEPLOY.md
 !/index.html
 !/build_page.py
 !/page/

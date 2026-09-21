@@ -111,6 +111,8 @@ only from the compiler's own Zotero collection, where each one was checked to be
 
 ## The page
 
+How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
+
 `index.html` is built, not edited. `build_page.py` puts it together from
 
 - `page/version.txt` — the build number shown at the foot of the page, raised by one on each build (`build_page.py --no-bump` rebuilds without raising it).
