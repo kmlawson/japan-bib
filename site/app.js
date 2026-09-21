@@ -157,7 +157,7 @@ function hostMenu(open) {
 
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
 const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
-                [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
+                [/bne\.es\//, "BNE"], [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
                 [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "H"],
                 [/gutenberg\.org\//, "PG"]];
 const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];

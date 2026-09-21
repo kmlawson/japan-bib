@@ -484,7 +484,7 @@ footer.site ul { padding-left: 20px; }
     <div class="row2">
       <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
       <label>Host <select id="host" title="Where the online copy is held">
-        <option value="">All</option><option value="IA" data-short="IA">Internet Archive</option><option value="G" data-short="G">Gallica</option><option value="NDL" data-short="NDL">National Diet Library</option><option value="EU" data-short="EU">Europeana</option><option value="NB" data-short="NB">National Library of Norway</option><option value="H" data-short="H">HathiTrust</option></select></label>
+        <option value="">All</option><option value="IA" data-short="IA">Internet Archive</option><option value="G" data-short="G">Gallica</option><option value="NDL" data-short="NDL">National Diet Library</option><option value="EU" data-short="EU">Europeana</option><option value="BNE" data-short="BNE">Biblioteca Nacional de España</option><option value="NB" data-short="NB">National Library of Norway</option><option value="H" data-short="H">HathiTrust</option></select></label>
       <label>Language <select id="lang" title="Language of the work"><option value="">All</option></select></label>
       <label>Show <select id="show" title="Which entries to list">
         <option value="ia" selected>Online</option><option value="all">All</option></select></label>
@@ -536,7 +536,7 @@ footer.site ul { padding-left: 20px; }
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
-    <p class="version">Version 1.0008 · Last Updated: 21 September 2026 ·
+    <p class="version">Version 1.0009 · Last Updated: 21 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>
@@ -752,7 +752,7 @@ function hostMenu(open) {
 
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
 const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
-                [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
+                [/bne\.es\//, "BNE"], [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
                 [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "H"],
                 [/gutenberg\.org\//, "PG"]];
 const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
