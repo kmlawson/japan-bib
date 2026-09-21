@@ -151,7 +151,7 @@ def slug(s):
 
 
 def also_line(lines):
-    """The "See also:" list under the title, as one line of links for the head of the page."""
+    """The "See also" list under the title, as one centred line of links for the head of the page."""
     label, links = "", []
     for line in lines:
         t = line.strip()
@@ -164,8 +164,8 @@ def also_line(lines):
             label = t.rstrip(":")
     if not links:
         return ""
-    return (f'<p class="also"><span class="also-label">{html.escape(label) or "See also"}:</span> '
-            + ' <span class="sep">·</span> '.join(links) + "</p>")
+    # the lede already says "See also:", so the line itself is just the links
+    return '<p class="also">' + ' <span class="sep">·</span> '.join(links) + "</p>"
 
 
 def split_intro(lines):
@@ -215,8 +215,9 @@ def build(md_path, out_path):
 <div class="wrap">
   <header class="site">
     <h1>{html.escape(title)}</h1>
-    <p class="lede">A list of primary sources for the study of modern Japanese history, with a searchable
-      database of digitized books. Choose a heading to open it.</p>
+    <p class="lede">A list of open access primary sources for the study of modern Japanese history, with a
+      searchable database of digitized books. Aimed primarily at students working with sources in Western
+      languages. Choose a heading to open it. See also:</p>
     {also_line(rest)}
   </header>
   <nav class="jumps">
