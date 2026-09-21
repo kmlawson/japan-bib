@@ -4,6 +4,7 @@ const $ = id => document.getElementById(id);
 const fold = s => (s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const esc = s => (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let ALL = [], VIEW = [], page = 0, sortKey = null, sortDir = 1, cur = -1, byMatch = false;
+let allTypes = false;   // books only, unless a link or the search box says otherwise
 
 // theme
 const th = (() => { try { return localStorage.getItem("jb-theme"); } catch (e) { return null; } })();
@@ -40,8 +41,6 @@ async function load() {
   for (const l of Object.keys(langCount).filter(Boolean).sort((a, b) => langCount[b] - langCount[a])) {
     const o = document.createElement("option"); o.value = l; o.textContent = l; $("lang").appendChild(o);
   }
-  for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
-  $("type").value = "book";   // books by default; articles, chapters and periodicals are a menu away
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
   $("foot").innerHTML = "Links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
@@ -50,7 +49,7 @@ async function load() {
 }
 
 function parseQuery(q) {
-  const terms = []; const re = /(-?)(?:(author|title|other|source):)?(?:"([^"]+)"|(\S+))/gi; let m;
+  const terms = []; const re = /(-?)(?:(author|title|other|source|type):)?(?:"([^"]+)"|(\S+))/gi; let m;
   while ((m = re.exec(q))) { const t = fold(m[3] || m[4]); if (t) terms.push({ neg: !!m[1], field: (m[2] || "").toLowerCase(), t }); }
   return terms;
 }
@@ -79,9 +78,24 @@ function countLanguages() {
     for (const sh of shows) for (const ty of ["", r.type]) e.n[sh + "|" + ty] = (e.n[sh + "|" + ty] || 0) + 1;
   }
 }
-function labelLanguages() {
-  const narrowed = !!($("q").value.trim() || $("y1").value || $("y2").value || $("host").value);
-  const sh = $("show").value, ty = $("type").value;
+// Which types the list is showing: books unless the search box says otherwise ("type:article",
+// "type:periodical", "type:all"). A negated term ("-type:chapter") takes that type out instead.
+function typeRule(terms) {
+  const want = terms.filter(t => t.field === "type" && !t.neg).map(t => t.t);
+  const not = terms.filter(t => t.field === "type" && t.neg).map(t => t.t);
+  const all = allTypes || want.some(w => w === "all" || w === "any");
+  return { want: want.filter(w => w !== "all" && w !== "any"), not, all };
+}
+function typeOk(r, rule) {
+  if (rule.not.some(w => r.type.startsWith(w))) return false;
+  if (rule.want.length) return rule.want.some(w => r.type.startsWith(w));
+  return rule.all || r.type === "book";
+}
+
+function labelLanguages(rule) {
+  const narrowed = !!($("q").value.replace(/(^|\s)-?type:\S+/g, "").trim() || $("y1").value || $("y2").value || $("host").value);
+  const sh = $("show").value;
+  const ty = rule.all || rule.not.length || rule.want.length > 1 ? "" : (rule.want[0] || "book");
   for (const o of $("lang").options) {
     const e = LANGN[o.value];
     if (!o.value || !e) continue;
@@ -151,19 +165,21 @@ const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl
 const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
 
 function apply(resetPage = true) {
-  labelLanguages(); hostMenu(false);
-  const terms = parseQuery($("q").value), fld = $("field").value;
+  hostMenu(false);
+  const all = parseQuery($("q").value), fld = $("field").value;
+  const rule = typeRule(all), terms = all.filter(t => t.field !== "type");
+  labelLanguages(rule);
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
-  const shw = $("show").value, hst = $("host").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
+  const shw = $("show").value, hst = $("host").value, lng = $("lang").value, und = $("undated").checked;
   const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : f === "source" ? "fs" : "fall";
   VIEW = ALL.filter(r => {
     if (r.year_num == null) { if (!und || y1 || y2) return false; }
     else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
     if (hst && !r.linkList.some(u => holder(u) === hst)) return false;
-    if (typ && r.type !== typ) return false;
+    if (!typeOk(r, rule)) return false;
     if (lng && r.language !== lng) return false;
     if (shw === "noia" ? r.nlinks : shw !== "all" && !r.nlinks) return false;
-    if ((shw === "open" || shw === "borrow") && r.access !== shw) return false;
+    if ((shw === "open" || shw === "borrow") && r.access !== shw) return false;   // from an older link
     for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
     return true;
   });
@@ -235,23 +251,35 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("host", $("host").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "1000");
+  put("host", $("host").value, ""); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "1000");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
 }
 function writeHash() { history.replaceState(null, "", location.pathname + location.search + hashString()); }
+// The menu offers Online or All; a link from before may ask for open, borrow or no-copy, which still
+// works - the value is added to the menu so that it can be selected and written back.
+function setShow(v) {
+  if (!v) v = "ia";
+  if (![...$("show").options].some(o => o.value === v)) {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = { open: "Read freely", borrow: "Borrow only", noia: "No online copy" }[v] || v;
+    $("show").appendChild(o);
+  }
+  $("show").value = v;
+}
+
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
-  if (p.get("host")) $("host").value = p.get("host"); const ty = p.get("type"); $("type").value = ty == null ? "book" : (ty === "all" ? "" : ty); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
+  if (p.get("host")) $("host").value = p.get("host"); allTypes = p.get("type") === "all"; if (p.get("lang")) $("lang").value = p.get("lang"); setShow(p.get("show") || (p.get("noia") ? "noia" : "ia")); if (p.get("pp")) $("pp").value = p.get("pp");
   $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
   const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
 }
 function openFromHash(id) {
   if (!id) return;
   let i = VIEW.findIndex(r => r.id === id);
-  if (i < 0 && ALL.some(r => r.id === id)) { $("show").value = "all"; $("type").value = ""; apply(false); i = VIEW.findIndex(r => r.id === id); }  // a linked entry outside the default filters
+  if (i < 0 && ALL.some(r => r.id === id)) { $("show").value = "all"; allTypes = true; apply(false); i = VIEW.findIndex(r => r.id === id); }  // a linked entry outside the default filters
   if (i >= 0) { page = Math.floor(i / (parseInt($("pp").value) || Math.max(1, VIEW.length))); render(); show(i); }
 }
 
@@ -260,13 +288,13 @@ function openFromHash(id) {
 let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 750); };
 $("q").addEventListener("input", debounced);
 $("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(tmr); apply(); } });
-for (const id of ["field", "y1", "y2", "host", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
+for (const id of ["field", "y1", "y2", "host", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
 $("host").addEventListener("focus", () => hostMenu(true));
 $("host").addEventListener("blur", () => hostMenu(false));
 $("host").addEventListener("change", () => hostMenu(false));
 function resetAll(focus) {
   $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = "";
-  $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("pp").value = "1000";
+  allTypes = false; $("lang").value = ""; $("show").value = "ia"; $("pp").value = "1000";
   $("undated").checked = true; sortKey = null; sortDir = 1; page = 0; apply();
   if (focus) $("q").focus(); else scrollTo({ top: 0 });
 }
