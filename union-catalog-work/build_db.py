@@ -46,6 +46,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "onlinebooks-work"))
 import ob_merge as OB  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "extra-work"))
 import extra_merge as X  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "libraries-work"))
+import lib_merge as LIB  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -230,7 +232,8 @@ def write_db(path, rows, keep_annotations):
     if not keep_annotations:   # the working copy keeps everything; the published one leaves these out
         con.execute("DELETE FROM books WHERE language IN (%s)" % ",".join("?" * len(HIDE_LANGUAGES)),
                     sorted(HIDE_LANGUAGES))
-        con.execute("DELETE FROM books WHERE year_num IS NOT NULL AND year_num > ?", (LAST_YEAR,))
+        con.execute("DELETE FROM books WHERE year_num IS NOT NULL AND (year_num > ? OR year_num < 1850)",
+                    (LAST_YEAR,))
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);
@@ -286,6 +289,9 @@ if __name__ == "__main__":
     x_checked, x_att, x_new = X.apply(rows)   # archive.org items picked by hand
     print(f"Hand-picked archive.org items: {x_att} attached to an entry already there, {x_new} added")
     checked.update(x_checked)
+    l_checked, l_att, l_new = LIB.apply(rows)  # items from other libraries, also picked by hand
+    print(f"Hand-picked library items: {l_att} attached to an entry already there, {l_new} added")
+    checked.update(l_checked)
     n_later = sum(1 for x in rows if x[3] is not None and x[3] > LAST_YEAR)
     print(f"dated later than {LAST_YEAR} (kept in the working copy, left out of the published one): {n_later}")
     # Gallica copies for the French entries. Keyed by row position, so it has to come after the

@@ -1,0 +1,22 @@
+# URL <TAB> language (as given by the compiler, who looked at each item)
+https://www.nb.no/items/d11fa8cc0f2774291dce83720fe72584	Norwegian
+https://www.nb.no/items/8ab60f9e2ae7d2114368774015d60b26	Danish
+https://www.nb.no/items/bbd9226118a078bdd04f1125cb8b8f5a	Norwegian
+https://www.nb.no/items/18073585b5fc57b9b1391d3628280606	Norwegian
+https://www.nb.no/items/f306fedb5583ea1018d133eba938df0d	Norwegian
+https://www.nb.no/items/f40b02d8b52d3e35efd13e5262d7e0a0	Norwegian
+https://www.nb.no/items/84f7eafc122ec3c20128163612624922	Norwegian
+https://www.nb.no/items/44cc3e0e44f3f2a75bb2d582144910b1	Norwegian
+https://www.nb.no/items/7de997986b2049f10ab67cc00551ee6f	Danish
+https://www.alvin-portal.org/alvin/view.jsf?pid=alvin-record%3A512597	Swedish
+https://www.europeana.eu/en/item/776/_nn422nV	Polish
+https://www.europeana.eu/en/item/0940431/_nnfdV2q	Polish
+https://www.europeana.eu/en/item/237/_nnvp4dg	Polish
+https://www.europeana.eu/en/item/457/_nnsmbp3	German
+https://www.europeana.eu/en/item/457/_nnsmbpf	German
+https://www.europeana.eu/en/item/776/_nn4R8bX	Polish
+https://www.europeana.eu/en/item/632/_nnR59Vd	Polish
+https://www.europeana.eu/en/item/632/_nnR59Vb	Polish
+https://www.europeana.eu/en/item/453/_nn6hf8r	Polish
+https://www.europeana.eu/en/item/0940431/_nnp1VT1	Polish
+https://www.europeana.eu/en/item/106/_Resource_80974961	English

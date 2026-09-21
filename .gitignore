@@ -36,6 +36,11 @@
 !/extra-work/extra_fetch.py
 !/extra-work/extra_merge.py
 !/extra-work/ids.txt
+!/libraries-work/
+/libraries-work/*
+!/libraries-work/lib_fetch.py
+!/libraries-work/lib_merge.py
+!/libraries-work/ids.txt
 !/union-catalog-work/title_fixes.tsv
 !/ndl-work/
 /ndl-work/*

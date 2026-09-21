@@ -96,3 +96,9 @@ Rows dated later than `LAST_YEAR` are now deleted from the published database *a
 ## Items added by hand
 
 `extra-work/ids.txt` lists archive.org items chosen by hand. `extra_fetch.py` fetches their metadata (plain HTTPS, nothing identifying sent), and `extra_merge.py` attaches each one to the entry it belongs to or adds a row for it, with source `KML Additions` and the link marked as checked by hand.
+
+## Other libraries
+
+`libraries-work/ids.txt` lists items chosen by hand at the National Library of Norway, Europeana and Alvin (Uppsala). `lib_fetch.py` reads each catalogue through its public interface - api.nb.no, data.europeana.eu as JSON-LD, and the Alvin record page, since Alvin answers no API for a single record - and `lib_merge.py` attaches or adds them, with source `KML Additions` and the link marked as checked by hand. Corrections to a catalogue record are listed in `FIX` in that file, each with its reason.
+
+HathiTrust is not used: it answers automated requests with 403.
