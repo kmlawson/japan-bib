@@ -126,3 +126,11 @@ A bullet ending in `<!--pills-->` turns its indented list into a row of small li
 Every `# heading` in the markdown becomes a section with a button at the top of the page, in the order written; a last, solid button leads to the search. Only the buttons and the search show when the page opens: a button reveals its section, and the button again (or the section's heading) hides it. The first `# heading` is the page title; the list of sections under it is left out, since the buttons say the same thing, and what follows (the "See also" links) goes to the foot of the page.
 
 The result list can be saved as CSV or as BibTeX (`@book`, `@article`, `@incollection`), and every row carries a COinS span, so Zotero's connector can take an entry from the page without any export at all.
+
+## Nachod's Bibliography of the Japanese Empire (1928)
+
+`bje-work/` holds the entries read by eye from Oskar Nachod, *Bibliography of the Japanese Empire 1906-1926* (London: Goldston, 1928), pages 150-392 of the scan - 3,906 entries over 243 pages, one JSONL file per page (kept local). Only books are taken: journal articles, Russian-language works and anything before 1850 are recorded as one-line skips, so that every entry number can still be accounted for. `validate5.py` checks the run, `bje_merge.py` puts the books into the database and `ia_lookup5.py` searches archive.org for them.
+
+## Other libraries searched
+
+`nichibun-work/` reads Nichibunken's catalogue of Western-language books on Japan; `hispana-work/` searches Hispana, Spain's aggregator, and follows each record to the library that holds the scan; `bne-work/` drives an ordinary Chrome window through AppleScript, because the Biblioteca Nacional de España refuses every script (`chrome.py` needs View > Developer > Allow JavaScript from Apple Events).

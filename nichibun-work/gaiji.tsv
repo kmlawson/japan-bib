@@ -1,0 +1,45 @@
+# Characters the Nichibunken catalogue serves as little images, read off those images by eye.
+# The code says which mark and which letter: a acute, c circumflex, d grave, f macron, h cedilla,
+# i tilde, j diaeresis, u dot below. g3n.. are Cyrillic, g7n.. quotation marks.
+# code	character
+g0naE	É
+g0naa	á
+g0nae	é
+g0nao	ó
+g0nce	ê
+g0nco	ô
+g0nde	è
+g0nfi	ī
+g0nfo	ō
+g0nhc	ç
+g0nia	ã
+g0nio	õ
+g0nja	ä
+g0nje	ë
+g0nji	ï
+g0njo	ö
+g0nju	ü
+g0nuu	ụ
+g1nae	æ
+g1noe	œ
+g3n00	А
+g3n01	а
+g3n03	б
+g3n07	Г
+g3n0b	е
+g3n11	з
+g3n13	и
+g3n17	к
+g3n19	л
+g3n1d	н
+g3n1e	О
+g3n1f	о
+g3n21	п
+g3n23	р
+g3n25	с
+g3n2d	х
+g3n40	Я
+g7n01	«
+g7n05	»
+g7n0a	'
+g8n2e	me
