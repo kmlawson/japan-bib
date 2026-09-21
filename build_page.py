@@ -11,6 +11,9 @@ The page is made of four things, none of which this script edits by hand:
     site/app.css/.html/.js the search, exactly as it is - cut out of the old standalone page
     vendor/sql-wasm.*      the SQLite engine the search runs on
 
+A bullet ending in the marker `<!--pills-->` turns its indented list into a row of small bubbles; any
+other indented list stays an ordinary list.
+
 Each `# heading` in the markdown becomes a section of the page with a button of its own at the top,
 in the order they are written; a last button leads to the search. Nothing but the buttons and the
 search is shown when the page opens: pressing a button reveals that section, pressing it again - or
@@ -59,7 +62,7 @@ def esc_runs(text):
     return t
 
 
-PILL = re.compile(r"^(.*?)(\s+[-–—]\s+.*)?$", re.S)
+PILLS_MARK = "<!--pills-->"     # put this at the end of a bullet and its indented list becomes bubbles
 
 
 def pill_item(text):
@@ -77,8 +80,8 @@ def pill_item(text):
 def render(lines):
     """A section's body: bullet lists (one level of nesting), sub-headings and paragraphs.
 
-    A bullet that ends in a colon and is followed by indented bullets is taken as a heading for them:
-    those become a row of small bubbles (ul.pills) rather than an ordinary list."""
+    A bullet whose line ends with the marker <!--pills--> turns its indented list into a row of small
+    bubbles (ul.pills) instead of an ordinary list; the marker itself never shows."""
     out, stack, para = [], 0, []
     pills = False
 
@@ -106,7 +109,8 @@ def render(lines):
             depth = 1 + (len(m.group(1).expandtabs(4)) >= 2)
             text = m.group(2)
             if depth == 1:
-                pills = text.rstrip().endswith(":")
+                pills = PILLS_MARK in text            # only a list asked to be bubbles becomes bubbles
+                text = text.replace(PILLS_MARK, "").rstrip()
             while stack < depth:
                 if stack and out and out[-1].endswith("</li>"):
                     out[-1] = out[-1][:-len("</li>")]   # reopen the item this list belongs to

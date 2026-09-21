@@ -16,7 +16,7 @@ See also:
 
 # English Language Periodicals
 
-- Frog in a Well Table of Contents Resource Pages:
+- Frog in a Well Table of Contents Resource Pages: <!--pills-->
     - [Japan Magazine 1910-1931](https://froginawell.net/indexes/japan-magazine/)
     - [Tokyo Gazette 1937-42](https://froginawell.net/tokyo-gazette/)
     - [Contemporary Japan 1941-5](https://froginawell.net/frog/sources/primary-source-nuggets/contemporary-japan/)

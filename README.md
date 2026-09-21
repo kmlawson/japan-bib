@@ -118,6 +118,8 @@ only from the compiler's own Zotero collection, where each one was checked to be
 - `site/app.html`, `site/app.css`, `site/app.js` — the search itself, exactly as it was as a page of its own.
 - `site/page.css` — the look of the page around it.
 
+A bullet ending in `<!--pills-->` turns its indented list into a row of small link bubbles; every other indented list stays an ordinary list.
+
 Every `# heading` in the markdown becomes a section with a button at the top of the page, in the order written; a last, solid button leads to the search. Only the buttons and the search show when the page opens: a button reveals its section, and the button again (or the section's heading) hides it. The first `# heading` is the page title; the list of sections under it is left out, since the buttons say the same thing, and what follows (the "See also" links) goes to the foot of the page.
 
 The result list can be saved as CSV or as BibTeX (`@book`, `@article`, `@incollection`), and every row carries a COinS span, so Zotero's connector can take an entry from the page without any export at all.
