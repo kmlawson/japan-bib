@@ -99,7 +99,7 @@ footer ul.bib li{margin-bottom:4px}
     <div class="row1">
       <input id="q" type="search" placeholder='Search author, title, publisher… (e.g.  hearn kwaidan   "tourist library"   author:satow   -german)' autocomplete="off" autofocus>
       <select id="field" title="Where to search">
-        <option value="all">All fields</option><option value="author">Author</option><option value="title">Title</option><option value="other">Imprint / notes</option>
+        <option value="all">All fields</option><option value="author">Author</option><option value="title">Title</option><option value="other">Imprint / notes</option><option value="source">Bibliography</option>
       </select>
       <button id="reset" title="Clear all filters">Reset</button>
       <button id="theme" title="Toggle light / dark">◐</button>
@@ -138,7 +138,7 @@ footer ul.bib li{margin-bottom:4px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, EU Europeana, NB National Library of Norway, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -189,7 +189,7 @@ async function load() {
     r.linkList = (r.links || "").split("\n").filter(Boolean);
     r.nlinks = r.linkList.length; r.otherEd = r.other.includes("IA other editions: ") || r.other.includes("Gallica, other editions: ");
     r.access = r.access || ""; r.language = r.language || ""; r.accList = (r.links_access || "").split("\n"); r.chkList = (r.links_checked || "").split("\n"); r.checked = r.chkList[0] === "1";
-    r.fa = fold(r.author); r.ft = fold(r.title); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source + " " + r.language);
+    r.fa = fold(r.author); r.ft = fold(r.title); r.fs = fold(r.source); r.fo = fold(r.other + " " + r.edition + " " + r.volume + " " + r.year + " " + r.source + " " + r.language);
     r.fall = r.fa + " \u0001 " + r.ft + " \u0001 " + r.fo;
     return r;
   });
@@ -211,7 +211,7 @@ async function load() {
 }
 
 function parseQuery(q) {
-  const terms = []; const re = /(-?)(?:(author|title|other):)?(?:"([^"]+)"|(\S+))/gi; let m;
+  const terms = []; const re = /(-?)(?:(author|title|other|source):)?(?:"([^"]+)"|(\S+))/gi; let m;
   while ((m = re.exec(q))) { const t = fold(m[3] || m[4]); if (t) terms.push({ neg: !!m[1], field: (m[2] || "").toLowerCase(), t }); }
   return terms;
 }
@@ -291,7 +291,7 @@ function relevance(r, words, phrase) {
   if (r.nlinks) s += 2;                 // tie-break only: something that can be opened now
   return s;
 }
-const searchPhrase = q => fold(q).replace(/(^|\s)-\S+/g, " ").replace(/\b(author|title|other):/g, " ")
+const searchPhrase = q => fold(q).replace(/(^|\s)-\S+/g, " ").replace(/\b(author|title|other|source):/g, " ")
   .replace(/["']/g, " ").replace(/\s+/g, " ").trim();
 
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
@@ -306,7 +306,7 @@ function apply(resetPage = true) {
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
   const shw = $("show").value, hst = $("host").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
-  const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : "fall";
+  const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : f === "source" ? "fs" : "fall";
   VIEW = ALL.filter(r => {
     if (r.year_num == null) { if (!und || y1 || y2) return false; }
     else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
@@ -318,7 +318,7 @@ function apply(resetPage = true) {
     for (const t of terms) { const hit = r[key(t.field || fld)].includes(t.t); if (hit === t.neg) return false; }
     return true;
   });
-  const words = terms.filter(t => !t.neg).map(t => t.t);
+  const words = terms.filter(t => !t.neg && t.field !== "source" && t.field !== "other").map(t => t.t);
   byMatch = !sortKey && words.length > 0;
   if (byMatch) {
     const phrase = searchPhrase($("q").value);
