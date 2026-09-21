@@ -83,6 +83,9 @@
 /bne-work/*
 !/bne-work/chrome.py
 !/bne-work/bne_search.py
+!/bne-work/bne_cards.py
+!/bne-work/bne_merge.py
+!/bne-work/cards.txt
 !/union-catalog-work/title_fixes.tsv
 !/ndl-work/
 /ndl-work/*

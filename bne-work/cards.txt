@@ -1,0 +1,14 @@
+# BNE Digital cards supplied by the compiler, 21 September 2026 (card?id= and viewer?id= share the uuid)
+6dfa84b8-c470-4040-ad35-daf7c0adbdc7	Apostolado y martirio del Beato Luis Sotelo en el Japón
+6ce4fae3-b502-4167-a6ab-db945cd5bddb	Bushido : el alma del Japón
+d942933e-b9db-4a3c-ab7d-6c80100081a6	Dai Nipon (El Japón)
+bb2712c5-948d-4740-83f7-df087a78905c	De Marsella a Tokio
+f4c8b8d6-f87d-4096-b7bc-22dd4739eacc	El Japón heroico y galante
+4c5ebc6d-5efa-489a-acca-0f3e49c0161d	Historia de las misiones en el Japón y Paraguay
+6227371d-f90a-4358-99a3-b180f2fba242	Historia del cristianismo en el Japón
+085c766b-f437-444a-87df-3c3be1dbed7d	La transformación del Japón
+e55e5cbb-23f8-4094-a4b2-3ee0c4e86fda	Los Estados Unidos y el Japón
+ae7992b6-dfef-4e85-80c7-f5734ab4593a	Relación de la visita que a los Reyes de España hicieron en Sevilla los Príncipes Fushimi del Japón en 1910
+73daf1e6-0c3c-4769-9476-76e51ae90bd5	Rusia y Japon : estravagancia cómico lírica
+7563dd20-367b-4e47-8572-4bf069d9bc69	Tratado de amistad, comercio y navegación ajustado entre España y el Japón
+3e9e8986-8fea-4447-8900-9e3dea40b18c	Trece crónicas de viaje por China, Mongolia, Japón, Filipinas, Bali, Siam y la India

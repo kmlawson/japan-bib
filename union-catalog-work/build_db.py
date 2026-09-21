@@ -46,6 +46,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "onlinebooks-work"))
 import ob_merge as OB  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "hispana-work"))
 import hispana_merge as HIS  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "bne-work"))
+import bne_merge as BNE  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "extra-work"))
 import extra_merge as X  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "libraries-work"))
@@ -300,6 +302,9 @@ if __name__ == "__main__":
     l_checked, l_att, l_new = LIB.apply(rows)  # items from other libraries, also picked by hand
     print(f"Hand-picked library items: {l_att} attached to an entry already there, {l_new} added")
     checked.update(l_checked)
+    e_checked, e_att, e_new = BNE.apply(rows)  # records chosen at BNE Digital, read through Chrome
+    print(f"Biblioteca Nacional de España: {e_att} attached to an entry already there, {e_new} added")
+    checked.update(e_checked)
     a_dup, a_new = ASJ.apply(rows)            # the Asiatic Society of Japan's 1888 library catalogue
     print(f"Asiatic Society of Japan (1888): {a_dup} entries already in the database, {a_new} added")
     n_dup2, n_new2 = NICHI.apply(rows)        # Nichibunken's catalogue of Western-language books on Japan
