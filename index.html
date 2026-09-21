@@ -196,8 +196,9 @@ async function load() {
   const srcs = [...new Set(ALL.flatMap(r => r.source.split(/\s*;\s*/)).filter(Boolean))].sort();
   const langCount = {};
   for (const r of ALL) langCount[r.language] = (langCount[r.language] || 0) + 1;
+  countLanguages();
   for (const l of Object.keys(langCount).filter(Boolean).sort((a, b) => langCount[b] - langCount[a])) {
-    const o = document.createElement("option"); o.value = l; o.textContent = `${l} (${langCount[l].toLocaleString()})`; $("lang").appendChild(o);
+    const o = document.createElement("option"); o.value = l; o.textContent = l; $("lang").appendChild(o);
   }
   for (const t of [...new Set(ALL.map(r => r.type))].sort()) { const o = document.createElement("option"); o.value = t; o.textContent = t; $("type").appendChild(o); }
   $("type").value = "book";   // books by default; articles, chapters and periodicals are a menu away
@@ -222,6 +223,34 @@ function warning(lang) {
     w.hidden = false;
   } else w.hidden = true;
 }
+// How many entries each language has, worked out once at load: the total, and the number answering each
+// Show and Type pair ("ia|book" and so on). The Language menu shows "shown/total" for the Show and Type
+// in force - French (364/985) - and no number at all once a search, a year range or a host narrows things
+// further, since those counts are not pre-computed.
+const LANGN = {};
+function countLanguages() {
+  for (const r of ALL) {
+    if (!r.language) continue;
+    const e = LANGN[r.language] || (LANGN[r.language] = { total: 0, n: {} });
+    e.total++;
+    const shows = ["all"];
+    if (r.nlinks) { shows.push("ia"); if (r.access === "open" || r.access === "borrow") shows.push(r.access); }
+    else shows.push("noia");
+    for (const sh of shows) for (const ty of ["", r.type]) e.n[sh + "|" + ty] = (e.n[sh + "|" + ty] || 0) + 1;
+  }
+}
+function labelLanguages() {
+  const narrowed = !!($("q").value.trim() || $("y1").value || $("y2").value || $("host").value);
+  const sh = $("show").value, ty = $("type").value;
+  for (const o of $("lang").options) {
+    const e = LANGN[o.value];
+    if (!o.value || !e) continue;
+    if (narrowed) { o.textContent = o.value; continue; }
+    const n = e.n[sh + "|" + ty] || 0, total = e.total.toLocaleString();
+    o.textContent = sh === "all" && !ty ? `${o.value} (${total})` : `${o.value} (${n.toLocaleString()}/${total})`;
+  }
+}
+
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
 const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
                 [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "HT"],
@@ -229,6 +258,7 @@ const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl
 const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
 
 function apply(resetPage = true) {
+  labelLanguages();
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
   const shw = $("show").value, hst = $("host").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
