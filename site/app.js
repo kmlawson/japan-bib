@@ -213,12 +213,16 @@ function render(terms) {
   const pp = parseInt($("pp").value) || Math.max(1, VIEW.length), pages = Math.max(1, Math.ceil(VIEW.length / pp));
   page = Math.min(page, pages - 1);
   const slice = VIEW.slice(page * pp, (page + 1) * pp);
+  // edition and volume used to have columns of their own, which left a gulf between the columns
+  // whenever they were empty; they now follow the title, quietly
+  const edvol = r => [r.edition, r.volume].filter(Boolean).length
+    ? `<span class="edvol">${esc([r.edition, r.volume].filter(Boolean).join(", "))}</span>` : "";
   const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
     <td class="au">${hl(r.author, terms) || '<span class="chip">no author</span>'}</td>
-    <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${typeChip(r)}${coins(r)}</td>
-    <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
+    <td class="title">${hl(r.title.length > 220 ? r.title.slice(0, 220) + "…" : r.title, terms)}${edvol(r)}${typeChip(r)}${coins(r)}</td>
+    <td class="year">${esc(r.year)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
   if ($("dlg").open) for (const el of document.querySelectorAll("tbody span.Z3988")) el.className = "Z3988off";
