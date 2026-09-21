@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 """Parse Zotero RDF exports into zotero.jsonl (one record per item).
-Usage: zotero_parse.py OPEN.rdf BORROW.rdf   (the export the item came from is recorded as the user's checked access)"""
+
+    zotero_parse.py OPEN.rdf BORROW.rdf        rewrite zotero.jsonl from the two collections
+    zotero_parse.py --add FILE.rdf ACCESS      add one more export (open | borrow) to what is there
+
+The export an item came from is recorded as the access its links were checked to have. --add is for a
+later export, such as the HathiTrust items that can be read anywhere, when the earlier RDF files are
+no longer to hand; items already in zotero.jsonl (same first URL) are not added twice.
+"""
 import json, os, re, sys
 import xml.etree.ElementTree as ET
 
@@ -56,9 +63,22 @@ def parse(fn, access):
     return recs
 
 
+OUT = os.path.join(HERE, "zotero.jsonl")
+
 if __name__ == "__main__":
-    recs = parse(sys.argv[1], "open") + parse(sys.argv[2], "borrow")
-    with open(os.path.join(HERE, "zotero.jsonl"), "w", encoding="utf-8") as f:
-        for r in recs:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print("items", len(recs))
+    if sys.argv[1] == "--add":
+        have = set()
+        for line in open(OUT, encoding="utf-8"):
+            r = json.loads(line)
+            have.update(r["urls"])
+        new = [r for r in parse(sys.argv[2], sys.argv[3]) if not (set(r["urls"]) & have)]
+        with open(OUT, "a", encoding="utf-8") as f:
+            for r in new:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        print(f"added {len(new)} items ({len(parse(sys.argv[2], sys.argv[3])) - len(new)} were already there)")
+    else:
+        recs = parse(sys.argv[1], "open") + parse(sys.argv[2], "borrow")
+        with open(OUT, "w", encoding="utf-8") as f:
+            for r in recs:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        print("items", len(recs))

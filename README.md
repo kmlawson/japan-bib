@@ -101,7 +101,9 @@ Rows dated later than `LAST_YEAR` are now deleted from the published database *a
 
 `libraries-work/ids.txt` lists items chosen by hand at the National Library of Norway, Europeana and Alvin (Uppsala). `lib_fetch.py` reads each catalogue through its public interface - api.nb.no, data.europeana.eu as JSON-LD, and the Alvin record page, since Alvin answers no API for a single record - and `lib_merge.py` attaches or adds them, with source `KML Additions` and the link marked as checked by hand. Corrections to a catalogue record are listed in `FIX` in that file, each with its reason.
 
-HathiTrust is not used: it answers automated requests with 403.
+HathiTrust is not searched automatically: it answers automated requests with 403. Links to it come
+only from the compiler's own Zotero collection, where each one was checked to be readable anywhere
+(`zotero_parse.py --add HathiOpen.rdf open`).
 
 ## The Asiatic Society of Japan's library catalogue (1888)
 
