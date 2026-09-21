@@ -215,8 +215,16 @@ function render(terms) {
   const slice = VIEW.slice(page * pp, (page + 1) * pp);
   // edition and volume used to have columns of their own, which left a gulf between the columns
   // whenever they were empty; they now follow the title, quietly
-  const edvol = r => [r.edition, r.volume].filter(Boolean).length
-    ? `<span class="edvol">${esc([r.edition, r.volume].filter(Boolean).join(", "))}</span>` : "";
+  // "4" alone says nothing: a bare number is given the word it belongs to, while anything that already
+  // names itself ("2d ed.", "2 v.", "Bd. 3") is left as the source has it
+  const named = (v, word) => {
+    const t = String(v || "").trim();
+    return !t ? "" : /[A-Za-zÀ-ÿ]/.test(t) ? t : `${word} ${t}`;
+  };
+  const edvol = r => {
+    const bits = [named(r.edition, "ed."), named(r.volume, "vol.")].filter(Boolean);
+    return bits.length ? `<span class="edvol">${esc(bits.join(", "))}</span>` : "";
+  };
   const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
