@@ -26,6 +26,8 @@ def apply(rows):
     links, other = accepted()
     ttl, n_link, n_other, moved = titles(), 0, 0, []
     for rid, (ark, year) in list(links.items()) + [(k, v) for k, v in other.items()]:
+        if not ark.startswith("http"):
+            continue      # a partner institution's bare ark, which does not resolve on gallica.bnf.fr
         i = rid - 1
         if not (0 <= i < len(rows)) or rows[i][1].strip() != (ttl.get(rid) or "").strip():
             moved.append(rid)

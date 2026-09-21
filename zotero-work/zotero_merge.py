@@ -40,11 +40,17 @@ def norm_url(u):
     return re.sub(r"^http://(www\.)?archive\.org/", "https://archive.org/", u.strip())
 
 
+def reachable(u):
+    """A host on someone's internal network (.local, localhost) is a dead link for everyone else."""
+    host = re.sub(r"^https?://([^/]*).*$", r"\1", u).lower()
+    return not (host.endswith(".local") or host.startswith("localhost"))
+
+
 def load():
     seen, out = {}, []
     for line in open(os.path.join(HERE, "zotero.jsonl"), encoding="utf-8"):
         z = json.loads(line)
-        z["urls"] = [norm_url(u) for u in z["urls"]]
+        z["urls"] = [u for u in (norm_url(u) for u in z["urls"]) if reachable(u)]
         k = z["urls"][0] if z["urls"] else None
         if k and k in seen:
             continue  # the same item filed twice in the collection
