@@ -37,7 +37,8 @@ taken up by the continuation of one entry) are recorded the same way, with the r
 archive.org has two scans of the **first edition** (1986: `japanesehistoryc0000dowe_u7x5`,
 `japanesehistoryc0000dowe_a2h9`), which would cover most of what those six pages hold. Both are
 lending-only, so filling the gaps would mean borrowing one of them on the account holder's own
-archive.org account — not done.
+archive.org account. Asked on 21 September 2026, the account holder chose to leave the six pages
+out; nothing was borrowed.
 
 ## From the page files to the database
 

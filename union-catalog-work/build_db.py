@@ -40,6 +40,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "gallica-work"))
 import gallica_merge as GAL  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "dower-work"))
 import dower_merge as D  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "onlinebooks-work"))
+import ob_merge as OB  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -209,6 +211,9 @@ if __name__ == "__main__":
     n_gal, n_galed, moved = GAL.apply(rows)
     print(f"Gallica: {n_gal} copies linked, {n_galed} other editions noted"
           + (f", {len(moved)} skipped because the row had moved: {moved[:8]}" if moved else ""))
+    n_ob, n_obed, moved_ob = OB.apply(rows)
+    print(f"Online Books: {n_ob} copies linked, {n_obed} other editions noted"
+          + (f", {len(moved_ob)} skipped because the row had moved: {moved_ob[:8]}" if moved_ob else ""))
     acc = load_access()
     rows = [with_access(list(x), acc, checked) for x in rows]
     write_db(DB_FULL, rows, keep_annotations=True)

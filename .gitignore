@@ -28,6 +28,9 @@
 !/onlinebooks-work/
 /onlinebooks-work/*
 !/onlinebooks-work/ob_search.py
+!/onlinebooks-work/ob_score.py
+!/onlinebooks-work/ob_merge.py
+!/onlinebooks-work/ob_decisions.tsv
 !/ndl-work/
 /ndl-work/*
 !/ndl-work/ndl_fetch.py

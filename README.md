@@ -80,3 +80,9 @@ The scans themselves and the per-page transcription files are not part of this r
 ## Dower & George
 
 `dower-work/` holds the entries read by eye from Dower & George, *Japanese History and Culture from Ancient to Modern Times* (2nd ed., 1995), one JSONL file per page (kept local), the validator, and `dower_merge.py`, which puts them into the database. It runs after every other source so that existing row ids do not move; `ia_lookup3.py` looks the new books up on archive.org. Six pages of the scan are failed exposures and could not be read - see `dower-work/DOWER_NOTES.md`.
+
+## The Online Books Page
+
+`onlinebooks-work/ob_search.py` searches onlinebooks.library.upenn.edu for the entries that still have no copy (one search every five seconds, the Crawl-delay their robots.txt asks for; HathiTrust copies are not kept). `ob_score.py` scores the candidates, `ob_decisions.tsv` holds the verdicts made by hand, and `ob_merge.py` attaches the accepted copies when the database is built.
+
+The published database is limited to works dated **1850-1950**, and that applies to every source, including items picked by hand (post-1950 books in the Zotero collection, one 1957 NDL title, Medhurst 1830): they stay in the working copy `union-catalog-work/list-full.sqlite` but are not published.
