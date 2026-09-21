@@ -34,7 +34,8 @@ main{max-width:1280px;margin:0 auto;padding:0 16px 40px}
 select,input[type=number],button{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font-size:14px}
 button{cursor:pointer}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.row2{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:14px}
+.row2{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:13px}
+.row2 select,.row2 input{font-size:13px;padding:6px 8px}
 .row2 label{display:flex;align-items:center;gap:6px;white-space:nowrap;flex:0 0 auto;max-width:100%}
 .row2 label[hidden]{display:none}
 .row2 select{min-width:0;max-width:100%}
@@ -107,14 +108,14 @@ footer ul.bib li{margin-bottom:4px}
     <div class="row2">
       <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
       <label>Host <select id="host" title="Where the online copy is held">
-        <option value="">All</option><option value="IA">Internet Archive</option><option value="G">Gallica</option><option value="NDL">National Diet Library</option><option value="EU">Europeana</option><option value="NB">National Library of Norway</option></select></label>
+        <option value="">All</option><option value="IA" data-short="IA">Internet Archive</option><option value="G" data-short="G">Gallica</option><option value="NDL" data-short="NDL">National Diet Library</option><option value="EU" data-short="EU">Europeana</option><option value="NB" data-short="NB">National Library of Norway</option></select></label>
       <label>Type <select id="type"><option value="">All</option></select></label>
       <label>Language <select id="lang" title="Language of the work"><option value="">All</option></select></label>
       <label>Show <select id="show" title="Which entries to list">
         <option value="ia" selected>With an online copy</option><option value="open">– read freely</option><option value="borrow">– borrow only</option>
         <option value="noia">No online copy</option><option value="all">All entries</option></select></label>
       <label hidden><input id="undated" type="checkbox" checked> include undated</label>
-      <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option>1000</option><option value="all" selected>All</option></select></label>
+      <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option selected>1000</option><option value="all">All</option></select></label>
     </div>
   </div>
   <div id="warn" class="warn" hidden></div>
@@ -294,6 +295,16 @@ function relevance(r, words, phrase) {
 const searchPhrase = q => fold(q).replace(/(^|\s)-\S+/g, " ").replace(/\b(author|title|other|source):/g, " ")
   .replace(/["']/g, " ").replace(/\s+/g, " ").trim();
 
+// The Host menu would be wide enough to push the row around, so while it is closed the chosen library
+// shows as its short code (NDL, IA, ...); opening the menu puts the full names back.
+function hostMenu(open) {
+  for (const o of $("host").options) {
+    if (!o.dataset.short) continue;
+    if (!o.dataset.full) o.dataset.full = o.textContent;
+    o.textContent = (open || o.value !== $("host").value) ? o.dataset.full : o.dataset.short;
+  }
+}
+
 // who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
 const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
                 [/europeana\.eu\//, "EU"], [/nb\.no\//, "NB"], [/alvin-portal\.org\//, "Alvin"],
@@ -302,7 +313,7 @@ const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl
 const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
 
 function apply(resetPage = true) {
-  labelLanguages();
+  labelLanguages(); hostMenu(false);
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
   const shw = $("show").value, hst = $("host").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
@@ -383,7 +394,7 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("host", $("host").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
+  put("host", $("host").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "1000");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
@@ -409,7 +420,10 @@ let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => app
 $("q").addEventListener("input", debounced);
 $("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(tmr); apply(); } });
 for (const id of ["field", "y1", "y2", "host", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+$("host").addEventListener("focus", () => hostMenu(true));
+$("host").addEventListener("blur", () => hostMenu(false));
+$("host").addEventListener("change", () => hostMenu(false));
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("pp").value = "1000"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
