@@ -40,6 +40,13 @@ def norm_url(u):
     return re.sub(r"^http://(www\.)?archive\.org/", "https://archive.org/", u.strip())
 
 
+# Links taken out again after being looked at: a HathiTrust record that turns out not to be readable
+# outside the United States, a copy that is not the work it was filed under, and so on.
+DROP = {
+    "https://catalog.hathitrust.org/Record/102619708",   # Pocket Guide to Japan: the HathiTrust copy is not open
+}
+
+
 def reachable(u):
     """A host on someone's internal network (.local, localhost) is a dead link for everyone else."""
     host = re.sub(r"^https?://([^/]*).*$", r"\1", u).lower()
@@ -50,7 +57,9 @@ def load():
     seen, out = {}, []
     for line in open(os.path.join(HERE, "zotero.jsonl"), encoding="utf-8"):
         z = json.loads(line)
-        z["urls"] = [u for u in (norm_url(u) for u in z["urls"]) if reachable(u)]
+        z["urls"] = [u for u in (norm_url(u) for u in z["urls"]) if reachable(u) and u not in DROP]
+        if not z["urls"]:
+            continue          # nothing left to link to
         k = z["urls"][0] if z["urls"] else None
         if k and k in seen:
             continue  # the same item filed twice in the collection
