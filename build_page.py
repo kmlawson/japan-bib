@@ -124,9 +124,16 @@ def render(lines):
             close_para()
             depth = 1 + (len(m.group(1).expandtabs(4)) >= 2)
             text = m.group(2)
+            own_pill = False
             if depth == 1:
                 pills = PILLS_MARK in text            # only a list asked to be bubbles becomes bubbles
                 text = text.replace(PILLS_MARK, "").rstrip()
+                own_pill = pills and not text.rstrip().endswith(":")   # the bullet itself is the bubble
+            if own_pill:
+                close_lists()
+                out.append('<ul class="pills">' + pill_item(text) + "</ul>")
+                pills = False
+                continue
             while stack < depth:
                 if stack and out and out[-1].endswith("</li>"):
                     out[-1] = out[-1][:-len("</li>")]   # reopen the item this list belongs to
@@ -219,6 +226,8 @@ def build(md_path, out_path, bump=True):
                    'title="The whole list as a PDF, alphabetical by author">PDF</a>')
     buttons.append('<a class="jump dl" href="downloads/japan-bib.md" download '
                    'title="The whole list as Markdown, alphabetical by author">MD</a>')
+    buttons.append('<a class="jump dl" href="list.sqlite" download '
+                   'title="The database itself, as SQLite (table books)">SQLITE</a>')
 
     parts = [f'''<!doctype html>
 <html lang="en">

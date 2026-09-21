@@ -80,7 +80,7 @@ See also:
 
 # Maps
 
-- [An Interactive Map of Japanese Empire](https://froginawell.net/reference/japanese-empire/)
+- [An Interactive Map of Japanese Empire](https://froginawell.net/reference/japanese-empire/) <!--pills-->
 - [Nichibunken Digital Map Collection](https://lapis.nichibun.ac.jp/chizu/index.html)
     - [Yoshida Hatsusaburō Bird’s-eye View Maps](https://www.nichibun.ac.jp/en/db/category/choukan/)
 - [David Rumsey Map Collection](https://www.davidrumsey.com/)

@@ -221,6 +221,7 @@ footer.site ul { padding-left: 20px; }
       <button type="button" class="jump search" data-target="search">Digitized Books</button>
       <a class="jump dl" href="downloads/japan-bib.pdf" download title="The whole list as a PDF, alphabetical by author">PDF</a>
       <a class="jump dl" href="downloads/japan-bib.md" download title="The whole list as Markdown, alphabetical by author">MD</a>
+      <a class="jump dl" href="list.sqlite" download title="The database itself, as SQLite (table books)">SQLITE</a>
     </div>
   </nav>
   <section class="md" id="s-english-language-periodicals" hidden>
@@ -307,8 +308,8 @@ footer.site ul { padding-left: 20px; }
   <section class="md" id="s-maps" hidden>
     <h2 tabindex="0" role="button" title="Hide this section">Maps</h2>
     <div class="body">
+<ul class="pills"><li><a class="pill-link" href="https://froginawell.net/reference/japanese-empire/" target="_blank" rel="noopener">An Interactive Map of Japanese Empire</a></li></ul>
 <ul>
-<li><a href="https://froginawell.net/reference/japanese-empire/" target="_blank" rel="noopener">An Interactive Map of Japanese Empire</a></li>
 <li><a href="https://lapis.nichibun.ac.jp/chizu/index.html" target="_blank" rel="noopener">Nichibunken Digital Map Collection</a>
 <ul>
 <li><a href="https://www.nichibun.ac.jp/en/db/category/choukan/" target="_blank" rel="noopener">Yoshida Hatsusaburō Bird’s-eye View Maps</a></li>
@@ -479,6 +480,7 @@ footer.site ul { padding-left: 20px; }
   </div>
 </main>
 <footer>
+  <p><b>Note:</b> The database is made up mostly of books, pamphlets, and standalone reports etc. as they are easier to locate and link to.</p>
   <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, the prefixes <code>author:</code>, <code>title:</code>, <code>source:</code> (the bibliography an entry comes from, e.g. <code>source:borton</code>) and <code>other:</code>, and <code>-word</code> to exclude. With something typed in the search box the best matches come first - the whole phrase in the title, then the words in the title and how close together they are, then the author. Click a column to sort by it instead, or a row for full details. By default only books with a copy online are listed - put <code>type:article</code>, <code>type:chapter</code>, <code>type:periodical</code> or <code>type:all</code> in the search box for the rest, and set <b>Show</b> to All for entries with no copy.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
@@ -503,7 +505,7 @@ footer.site ul { padding-left: 20px; }
     <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
       at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
       sources.</p>
-    <p class="version">Version 1.0006 · Last Updated: 21 September 2026 ·
+    <p class="version">Version 1.0007 · Last Updated: 21 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>
