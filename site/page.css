@@ -75,6 +75,8 @@ section.md .body em { font-style: italic; }
 section#search { padding-top: 10px; }
 section#search h2#home { font: 700 22px/1.25 var(--serif); margin: 18px 0 4px; }
 
+footer.credit { padding: 14px 0 38px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 18px; }
+footer.credit p { margin: 10px 0 0; }
 footer.site { padding: 18px 0 40px; font-size: 14px; color: var(--muted); }
 footer.site a { color: var(--link); }
 footer.site ul { padding-left: 20px; }

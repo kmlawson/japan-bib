@@ -44,7 +44,7 @@ async function load() {
   $("type").value = "book";   // books by default; articles, chapters and periodicals are a menu away
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("subtitle").textContent = `${ALL.length.toLocaleString()} entries · ${withIA.toLocaleString()} with an online copy` + (nOpen + nBor ? ` (${nOpen.toLocaleString()} open, ${nBor.toLocaleString()} borrow only)` : "") + ` · sources: ${srcs.join(", ") || "—"}`;
-  $("foot").innerHTML = "Entries were transcribed by eye from printed bibliographies; archive.org links are title/author matches (candidates, not verified identical editions); links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
+  $("foot").innerHTML = "Links marked ✓ were checked by hand, National Diet Library links were supplied from its digital collections, French works were looked for on Gallica (Bibliothèque nationale de France), and entries with no copy anywhere else were looked for on <a href=\"https://onlinebooks.library.upenn.edu/\" target=\"_blank\" rel=\"noopener\">The Online Books Page</a>; copies from either are freely readable. " +
     "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
 }

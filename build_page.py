@@ -234,7 +234,12 @@ def build(md_path, out_path):
 {app_html}
   </section>''')
 
-    parts.append('''</div>
+    parts.append('''  <footer class="credit">
+    <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
+      at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
+      sources.</p>
+  </footer>
+</div>
 <script src="vendor/sql-wasm.js"></script>
 <script>
 // Each button opens or closes its section; a section's own heading closes it. The search is always
