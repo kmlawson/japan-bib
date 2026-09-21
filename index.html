@@ -106,7 +106,8 @@ footer ul.bib li{margin-bottom:4px}
     </div>
     <div class="row2">
       <label>Year <input id="y1" type="number" min="1500" max="2000" placeholder="from"> – <input id="y2" type="number" min="1500" max="2000" placeholder="to"></label>
-      <label>Source <select id="source"><option value="">All</option></select></label>
+      <label>Host <select id="host" title="Where the online copy is held">
+        <option value="">All</option><option value="IA">Internet Archive</option><option value="G">Gallica</option><option value="NDL">National Diet Library</option></select></label>
       <label>Type <select id="type"><option value="">All</option></select></label>
       <label>Language <select id="lang" title="Language of the work"><option value="">All</option></select></label>
       <label>Show <select id="show" title="Which entries to list">
@@ -137,7 +138,7 @@ footer ul.bib li{margin-bottom:4px}
 </main>
 <footer>
   <p id="subtitle">Loading database…</p>
-  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
+  <p>Words are ANDed; diacritics and case are ignored (<code>soseki</code> finds Sōseki). Use quotes for phrases, <code>author:</code> / <code>title:</code> prefixes, and <code>-word</code> to exclude. Click a column to sort, a row for full details. <b>Host</b> narrows to copies held at one place; the bibliography an entry comes from is in its details, and can be searched for by name. By default only books with a copy online are listed (change <b>Type</b> for articles, chapters and periodicals, <b>Show</b> for entries with no copy): <span class="badge open" style="margin-left:0">read ↗</span> opens a freely readable copy, <span class="badge borrow" style="margin-left:0">borrow ↗</span> one that needs a (free) archive.org loan; the prefix says who holds it (IA archive.org, G Gallica, NDL National Diet Library, OB The Online Books Page); ✓ marks a link that was checked by hand, the others are automatic title matches.</p>
   <p id="foot"></p>
   <p>In addition to drawing on database searches and my own Zotero library, many of the sources were found in:</p>
   <ul class="bib">
@@ -193,7 +194,6 @@ async function load() {
   });
   db.close();
   const srcs = [...new Set(ALL.flatMap(r => r.source.split(/\s*;\s*/)).filter(Boolean))].sort();
-  for (const s of srcs) { const o = document.createElement("option"); o.value = s; o.textContent = s; $("source").appendChild(o); }
   const langCount = {};
   for (const r of ALL) langCount[r.language] = (langCount[r.language] || 0) + 1;
   for (const l of Object.keys(langCount).filter(Boolean).sort((a, b) => langCount[b] - langCount[a])) {
@@ -222,15 +222,21 @@ function warning(lang) {
     w.hidden = false;
   } else w.hidden = true;
 }
+// who holds a copy, by the host of its URL: the short code shown in the link column and used by the Host filter
+const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
+                [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "HT"],
+                [/gutenberg\.org\//, "PG"]];
+const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
+
 function apply(resetPage = true) {
   const terms = parseQuery($("q").value), fld = $("field").value;
   const y1 = parseInt($("y1").value) || null, y2 = parseInt($("y2").value) || null;
-  const shw = $("show").value, src = $("source").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
+  const shw = $("show").value, hst = $("host").value, typ = $("type").value, lng = $("lang").value, und = $("undated").checked;
   const key = f => f === "author" ? "fa" : f === "title" ? "ft" : f === "other" ? "fo" : "fall";
   VIEW = ALL.filter(r => {
     if (r.year_num == null) { if (!und || y1 || y2) return false; }
     else { if (y1 && r.year_num < y1) return false; if (y2 && r.year_num > y2) return false; }
-    if (src && !r.source.split(/\s*;\s*/).includes(src)) return false;
+    if (hst && !r.linkList.some(u => holder(u) === hst)) return false;
     if (typ && r.type !== typ) return false;
     if (lng && r.language !== lng) return false;
     if (shw === "noia" ? r.nlinks : shw !== "all" && !r.nlinks) return false;
@@ -263,10 +269,6 @@ function render(terms) {
   const pp = parseInt($("pp").value) || Math.max(1, VIEW.length), pages = Math.max(1, Math.ceil(VIEW.length / pp));
   page = Math.min(page, pages - 1);
   const slice = VIEW.slice(page * pp, (page + 1) * pp);
-  const HOLDER = [[/archive\.org\//, "IA"], [/gallica\.bnf\.fr\//, "G"], [/dl\.ndl\.go\.jp\//, "NDL"],
-                  [/onlinebooks\.library\.upenn\.edu\//, "OB"], [/hathitrust\.org\//, "HT"],
-                  [/gutenberg\.org\//, "PG"]];
-  const holder = u => (HOLDER.find(([rx]) => rx.test(u || "")) || [null, ""])[1];
   const badge = a => a ? `<span class="badge ${a}" title="${{open: "can be read freely online", borrow: "can be borrowed on archive.org (free account)", restricted: "only for print-disabled readers", unknown: "access not checked"}[a] || ""}">${a === "restricted" ? "limited" : a}</span>` : "";
   const typeChip = r => r.type !== "book" ? ` <span class="chip">${esc(r.type)}</span>` : "";
   $("rows").innerHTML = slice.map((r, i) => `<tr data-i="${page * pp + i}" class="acc-${r.access}">
@@ -300,7 +302,7 @@ function hashString(id) {
   const p = new URLSearchParams();
   const put = (k, v, d) => { if (v !== d && v !== "" && v != null) p.set(k, v); };
   put("q", $("q").value, ""); put("f", $("field").value, "all"); put("y1", $("y1").value, ""); put("y2", $("y2").value, "");
-  put("src", $("source").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
+  put("host", $("host").value, ""); put("type", $("type").value === "" ? "all" : $("type").value, "book"); put("lang", $("lang").value, ""); put("show", $("show").value, "ia"); put("pp", $("pp").value, "all");
   put("und", $("undated").checked ? "" : 0, ""); put("s", sortKey ? (sortDir < 0 ? "-" : "") + sortKey : "", ""); put("p", page || "", "");
   if (id) p.set("id", id);
   const s = p.toString(); return s ? "#" + s : "";
@@ -309,7 +311,7 @@ function writeHash() { history.replaceState(null, "", location.pathname + locati
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   $("q").value = p.get("q") || ""; $("field").value = p.get("f") || "all"; $("y1").value = p.get("y1") || ""; $("y2").value = p.get("y2") || "";
-  if (p.get("src")) $("source").value = p.get("src"); const ty = p.get("type"); $("type").value = ty == null ? "book" : (ty === "all" ? "" : ty); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
+  if (p.get("host")) $("host").value = p.get("host"); const ty = p.get("type"); $("type").value = ty == null ? "book" : (ty === "all" ? "" : ty); if (p.get("lang")) $("lang").value = p.get("lang"); $("show").value = p.get("show") || (p.get("noia") ? "noia" : "ia"); if (!$("show").value) $("show").value = "ia"; if (p.get("pp")) $("pp").value = p.get("pp");
   $("undated").checked = p.get("und") !== "0"; page = parseInt(p.get("p")) || 0;
   const s = p.get("s"); if (s) { sortDir = s[0] === "-" ? -1 : 1; sortKey = s.replace(/^-/, ""); }
 }
@@ -322,8 +324,8 @@ function openFromHash(id) {
 
 let tmr; const debounced = () => { clearTimeout(tmr); tmr = setTimeout(() => apply(), 120); };
 $("q").addEventListener("input", debounced);
-for (const id of ["field", "y1", "y2", "source", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
-$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("source").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
+for (const id of ["field", "y1", "y2", "host", "type", "lang", "undated", "pp", "show"]) $(id).addEventListener("input", () => apply());
+$("reset").onclick = () => { $("q").value = ""; $("field").value = "all"; $("y1").value = $("y2").value = ""; $("host").value = ""; $("type").value = "book"; $("lang").value = ""; $("show").value = "ia"; $("undated").checked = true; sortKey = null; apply(); $("q").focus(); };
 $("prev").onclick = () => { page--; render(); writeHash(); scrollTo({ top: 0 }); };
 $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 }); };
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
