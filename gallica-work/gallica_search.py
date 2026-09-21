@@ -112,11 +112,17 @@ def targets(db, language):
 
 
 def done():
+    """What has been searched already, by what the entry is rather than by its row id: ids move
+    whenever the database is rebuilt with new sources, and an id reused for another book would
+    otherwise be passed over."""
+    sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
+    from language import key as rowkey
     d = set()
     if os.path.exists(OUT):
         for line in open(OUT, encoding="utf-8"):
             try:
-                d.add(json.loads(line)["id"])
+                r = json.loads(line)
+                d.add(rowkey(r.get("author"), r.get("title"), r.get("year")))
             except Exception:
                 pass
     return d
@@ -129,8 +135,9 @@ if __name__ == "__main__":
     ap.add_argument("--language", default="French")
     ap.add_argument("--db", default=os.path.join(HERE, "..", "list.sqlite"))
     args = ap.parse_args()
+    from language import key as rowkey
     have = done()
-    todo = [r for r in targets(args.db, args.language) if r[0] not in have]
+    todo = [r for r in targets(args.db, args.language) if rowkey(r[1], r[2], r[3]) not in have]
     if args.limit:
         todo = todo[:args.limit]
     print(f"{len(have)} already searched, {len(todo)} to go, delay {args.delay}s "

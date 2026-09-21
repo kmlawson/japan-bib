@@ -1,64 +1,96 @@
-# id	ark	yes|no|edition  - hand verdicts on the Gallica candidates (gallica_score.py)
-789	https://gallica.bnf.fr/ark:/12148/bpt6k6581080z	yes
-952	https://gallica.bnf.fr/ark:/12148/bpt6k1054965	yes
-964	https://gallica.bnf.fr/ark:/12148/bpt6k56842774	yes
-965	https://gallica.bnf.fr/ark:/12148/bpt6k54394748	yes
-1191	https://gallica.bnf.fr/ark:/12148/bpt6k1253165n	yes
-1225	https://gallica.bnf.fr/ark:/12148/bpt6k5548672b	yes
-1543	https://gallica.bnf.fr/ark:/12148/bpt6k64392g	yes
-2787	https://gallica.bnf.fr/ark:/12148/bpt6k9622177b	yes
-3577	https://gallica.bnf.fr/ark:/12148/bpt6k1183475n	yes
-3735	https://gallica.bnf.fr/ark:/12148/bpt6k34136425	yes
-4008	https://gallica.bnf.fr/ark:/12148/bpt6k6581785f	yes
-4979	https://gallica.bnf.fr/ark:/12148/bpt6k5675508z	yes
-5137	https://gallica.bnf.fr/ark:/12148/bpt6k371915k	yes
-5147	https://gallica.bnf.fr/ark:/12148/btv1b10505584r	yes
-5580	https://gallica.bnf.fr/ark:/12148/bpt6k96010685	yes
-7127	https://gallica.bnf.fr/ark:/12148/cb32720607b/date	yes
-8159	https://gallica.bnf.fr/ark:/12148/bpt6k9607655g	yes
-252	https://gallica.bnf.fr/ark:/12148/bpt6k9602964x	edition
-377	https://gallica.bnf.fr/ark:/12148/bpt6k34136581	edition
-379	https://gallica.bnf.fr/ark:/12148/bpt6k96796195	edition
-501	https://gallica.bnf.fr/ark:/12148/bpt6k5675598c	edition
-946	https://gallica.bnf.fr/ark:/12148/bpt6k54409947	edition
-1051	https://gallica.bnf.fr/ark:/12148/bpt6k6202561q	edition
-1148	https://gallica.bnf.fr/ark:/12148/bpt6k34135860	edition
-1226	https://gallica.bnf.fr/ark:/12148/bpt6k5807967c	edition
-1404	https://gallica.bnf.fr/ark:/12148/bpt6k10605543	edition
-1408	https://gallica.bnf.fr/ark:/12148/bpt6k9682049b	edition
-3004	https://gallica.bnf.fr/ark:/12148/bpt6k1183482s	edition
-3453	https://gallica.bnf.fr/ark:/12148/bpt6k2556932	edition
-4837	https://gallica.bnf.fr/ark:/12148/bpt6k9686399h	edition
-5280	https://gallica.bnf.fr/ark:/12148/bpt6k4500041x	edition
-5285	https://gallica.bnf.fr/ark:/12148/bpt6k56034883	edition
-259	https://gallica.bnf.fr/ark:/12148/bpt6k371916z	no
-516	https://gallica.bnf.fr/ark:/12148/bpt6k9679989v	no
-546	https://gallica.bnf.fr/ark:/12148/bpt6k9600432m	no
-652	https://gallica.bnf.fr/ark:/12148/bpt6k375420k	no
-744	https://gallica.bnf.fr/ark:/12148/bpt6k33527333	no
-879	https://gallica.bnf.fr/ark:/12148/bpt6k3338683z	no
-1213	https://gallica.bnf.fr/ark:/12148/bpt6k9634033q	no
-1228	https://gallica.bnf.fr/ark:/12148/bpt6k1054588v	no
-1249	https://gallica.bnf.fr/ark:/12148/bpt6k9686015s	no
-1509	https://gallica.bnf.fr/ark:/12148/bpt6k9614229z	no
-1630	https://gallica.bnf.fr/ark:/12148/bpt6k1417402s	no
-1760	https://gallica.bnf.fr/ark:/12148/bd6t541988816	no
-1925	https://gallica.bnf.fr/ark:/12148/bpt6k6264434r	no
-2463	https://gallica.bnf.fr/ark:/12148/bpt6k9607540p	no
-2471	https://gallica.bnf.fr/ark:/12148/bpt6k58469356	no
-2624	https://gallica.bnf.fr/ark:/12148/bpt6k96056w	no
-2745	https://gallica.bnf.fr/ark:/12148/bpt6k379059w	no
-3069	https://gallica.bnf.fr/ark:/12148/bpt6k9811378b	no
-3317	ark:/30098/hg6	no
-3702	https://gallica.bnf.fr/ark:/12148/bpt6k65605350	no
-3793	https://gallica.bnf.fr/ark:/12148/bpt6k6579164d	no
-4388	https://gallica.bnf.fr/ark:/12148/bpt6k3136944	no
-4571	https://gallica.bnf.fr/ark:/12148/bpt6k9915932	no
-4876	https://gallica.bnf.fr/ark:/12148/bpt6k62108726	no
-5197	https://gallica.bnf.fr/ark:/12148/bpt6k3322890n	no
-5248	https://gallica.bnf.fr/ark:/12148/bpt6k1269165s	no
-5839	https://gallica.bnf.fr/ark:/12148/cb328086803/date	no
-5911	https://gallica.bnf.fr/ark:/12148/bpt6k9634024r	no
-6365	https://gallica.bnf.fr/ark:/12148/bpt6k6201273k	no
-6698	https://gallica.bnf.fr/ark:/12148/bpt6k1183491r	no
-6750	https://gallica.bnf.fr/ark:/12148/bpt6k9614229z	no
+# Hand verdicts on the Gallica candidates. Key = author|title|year folded to letters and digits
+# (language.key), so a verdict holds however the rows are renumbered, and an ark.
+# key<TAB>ark<TAB>yes|no|edition<TAB>title (the title is only there to read by)
+audsley george ashdown jt auth|la ceramique japonaise par g a audsley et james lord bowes edition francaise tr de m p louisy|1877	https://gallica.bnf.fr/ark:/12148/bpt6k9602964x	edition	La céramique japonaise, par G. A. Audsley et James Lord Bowe
+bellessort andre|le nouveau japon|1926	https://gallica.bnf.fr/ark:/12148/bpt6k34136581	edition	Le nouveau Japon.
+bellessort andre|saint francois xavier l apotre des indes et du japon|1923	https://gallica.bnf.fr/ark:/12148/bpt6k96796195	edition	Saint Francois Xavier; l'apôtre des Indes et du Japon.
+boissonade gustave emile|projet de code penal pour l empire du japon presente au senat par le ministre de la justice le 8e mois de la 10e annee de meiji 1877|1879	https://gallica.bnf.fr/ark:/12148/bpt6k5675598c	edition	Projet de code pénal pour l'Empire du Japon. Présenté au Sén
+bonneau georges|japon et mandchourie|1932	https://gallica.bnf.fr/ark:/12148/bpt6k9679989v	no	Japon et Mandchourie.
+bourgois gaston|langue japonaise caracteres ideographiques dictionnaire et methode d etude|1908	https://gallica.bnf.fr/ark:/12148/bpt6k9600432m	no	Langue japonaise: caractères idéographiques; dictionnaire et
+bujac e|la guerre sino japonaise|1896	https://gallica.bnf.fr/ark:/12148/bpt6k375420k	no	La guerre sino-japonaise.
+challaye felicien|contes et legendes du japon|1938	https://gallica.bnf.fr/ark:/12148/bpt6k33527333	no	Contes et légendes du Japon.
+charlevoix pierre francois xavier|histoire de l establissement de progres et de la decadence du christianisme dans l empire du japon ou l on voit les differentes revolutions qui ont agite cette monarchie pendant plus d un siecle|n d	https://gallica.bnf.fr/ark:/12148/bpt6k6581080z	yes	Histoire de l'establissement, de progrés et de la décadence 
+clavery edouard|extreme orient chine japon 1939|1939	https://gallica.bnf.fr/ark:/12148/bpt6k3338683z	no	Extrême-Orient: Chine-Japon 1939.
+cordier henri|bibliotheca japonica dictionnaire bibliographique des ouvrages relatifs a l empire japonais ranges par ordre chronologique jusqu a 1870 suivi d un appendice renfermant la liste alphabetique des principaux ouvrages parus de 1870 a 1912|1931	https://gallica.bnf.fr/ark:/12148/bpt6k54409947	edition	Bibliotheca japonica; dictionnaire bibliographique des ouvra
+cortambert richard ed|impressions d un japonais en france suivies des impressions des annamites en europe|1864	https://gallica.bnf.fr/ark:/12148/bpt6k1054965	yes	Impressions d'un Japonais en France suivies des impressions 
+courant maurice|bibliographie coreene supplement jusqu en 1899|1901	https://gallica.bnf.fr/ark:/12148/bpt6k54394748	yes	Bibliographie coréene: Supplement, jusqu'en 1899.
+courant maurice|bibliographie coreene|1894 96	https://gallica.bnf.fr/ark:/12148/bpt6k56842774	yes	Bibliographie coréene.
+dautremer joseph|l empire japonais et sa vie economique|1919	https://gallica.bnf.fr/ark:/12148/bpt6k6202561q	edition	L'Empire japonais et sa vie économique.
+depping guillaume|le japon|1889	https://gallica.bnf.fr/ark:/12148/bpt6k34135860	edition	Le Japon.
+dollfus jean|catalogue des objets d art chinois et japonais porcelaines gres emaux coloisonnes bronzes et objets varies de la chine collections de m j d|1912	https://gallica.bnf.fr/ark:/12148/bpt6k1253165n	yes	Catalogue des objets d'art chinois et japonais porcelaines &
+duboscq andre|le probleme du pacifique|1927	https://gallica.bnf.fr/ark:/12148/bpt6k9634033q	no	Le problème du Pacifique.
+dupont e|le essence forestieres du japon|1880	https://gallica.bnf.fr/ark:/12148/bpt6k5548672b	yes	Le essence forèstieres du Japon.
+durand fardel laure|de marseille a shanghai et yedo|1887	https://gallica.bnf.fr/ark:/12148/bpt6k5807967c	edition	De Marseille à Shanghai et Yedo.
+duret theodore|l art japonais les livres illustres les albums imprimes hokusai|1882	https://gallica.bnf.fr/ark:/12148/bpt6k1054588v	no	L'art japonais: les livres illustres, les albums imprimes Ho
+eggermont i|voyage autour du globe japon|1900	https://gallica.bnf.fr/ark:/12148/bpt6k9686015s	no	Voyage autour du globe: Japon.
+florian jean pierre claris de|fables choisies illustrees par des artistes japonais sous la direction de p barboutau|1895	https://gallica.bnf.fr/ark:/12148/bpt6k10605543	edition	Fables choisies. Illustrées par des artistes japonais sous l
+focillon henri|hokousai|1925	https://gallica.bnf.fr/ark:/12148/bpt6k9682049b	edition	Hokousaï.
+fujita t|legendes japonaises|1922	https://gallica.bnf.fr/ark:/12148/bpt6k9614229z	no	Légendes japonaises.
+fullerton georgiana|episode de l histoire du japon au xvi siecle traduit de l anglais par w fitzgerald|n d	https://gallica.bnf.fr/ark:/12148/bpt6k64392g	yes	Episode de l'histoire du Japon au XVI siecle. Traduit de l'a
+gollier theophile|le japon economique|1906	https://gallica.bnf.fr/ark:/12148/bpt6k1417402s	no	Le Japon économique.
+grousset rene|les civilisations de l orient t 4 le japon|1930	https://gallica.bnf.fr/ark:/12148/bd6t541988816	no	Les civilisations de l'Orient. T.4: Le Japon.
+hayashi tadamasa|collection hayashi objets d art et peintures de la chine et du japon|1902 3	https://gallica.bnf.fr/ark:/12148/bpt6k6264434r	no	Collection Hayashi: Objets d'art et peintures de la Chine et
+japan laws statutes etc|code civil de l empire du japon livres iv v famille et successions tr par l lonholm et jules adam|1902	https://gallica.bnf.fr/ark:/12148/bpt6k9607540p	no	Code civil de l'Empire du Japon, livres IV-V: famille et suc
+japan laws statutes etc|code de procedure penale|1892	https://gallica.bnf.fr/ark:/12148/bpt6k58469356	no	Code de procédure pénale.
+japan treaties etc|recueil des traites et conventions conclus entre l empire du japon et les puissances etrangeres|1918	https://gallica.bnf.fr/ark:/12148/bpt6k96056w	no	Recueil des traités et conventions conclus entre l'Empire du
+jonas f m|netsuke|1928	https://gallica.bnf.fr/ark:/12148/bpt6k379059w	no	Netsuké.
+kaigun gunreibu|operations maritimes de la guerre russo japonaise historique official publie par l etat major general de la marine japonaise 2e et 3e parties|1911	https://gallica.bnf.fr/ark:/12148/bpt6k9622177b	yes	Opérations maritimes de la guerre russo-japonaise, historiqu
+kipling rudyard|lettres du japon tr par louis fabulet et arthur austin jackson|1921	https://gallica.bnf.fr/ark:/12148/bpt6k1183482s	edition	Lettres du Japon. Tr. par Louis Fabulet et Arthur Austin-Jac
+kobayashi j|le conflit sino japonais et la societe des nations the sino japanese dispute and the league of nations|1932	https://gallica.bnf.fr/ark:/12148/bpt6k9811378b	no	Le conflit sino-japonais et la Societe des Nations. The Sino
+labroue emile|l empire du japon avec preface de m p foncin|1889	ark:/30098/hg6	no	L'Empire du Japon. Avec preface de M. P. Foncin.
+lesouef a|catalogue des livres et manuscrits japonais collectionnes par a lesouef|1887	https://gallica.bnf.fr/ark:/12148/bpt6k2556932	edition	Catalogue des livres et manuscrits japonais, collectionnés p
+lynch george|coree chine et mandchurie les convoitises russes et japonaises the path of empire traduit de l anglais par g giluncy|1904	https://gallica.bnf.fr/ark:/12148/bpt6k1183475n	yes	Corée, Chine et Mandchurie. Les convoitises russes et japona
+martynov e i|la guerre russo japonaise souvenirs d un colonel d infanterie tr du russe par a h|1911	https://gallica.bnf.fr/ark:/12148/bpt6k65605350	no	La guerre russo-japonaise. Souvenirs d'un colonel d'infanter
+matsukata masayoshi|memoire sur l impot foncier au japon par marquis masayoshi matsukata tr du japonais par yamada torakiti|1878	https://gallica.bnf.fr/ark:/12148/bpt6k34136425	yes	Mémoire sur l'impôt foncier au Japon, par marquis Masayoshi 
+maybon albert jt author|le japon par a et j maybon illus en couleurs de t kourimoto|1939	https://gallica.bnf.fr/ark:/12148/bpt6k6579164d	no	Le Japon, par A. et J. Maybon. Illus. en couleurs de T. Kour
+monbusho|catalogue des objets envoyes a l exposition universelle de paris mai 1878 par le ministere de l instruction publique du japon|n d	https://gallica.bnf.fr/ark:/12148/bpt6k6581785f	yes	Catalogue dés objets envoyés a l'exposition Universelle de P
+niox general|la guerre russo japonaise chroniques|1906	https://gallica.bnf.fr/ark:/12148/bpt6k3136944	no	La guerre Russo-japonaise. Chroniques.
+noshomusho|notice des objets exposes exposition universelle de 1900 a paris|1900	https://gallica.bnf.fr/ark:/12148/bpt6k9915932	no	Notice des objets exposés; Exposition Universelle de 1900 à 
+pages leon|histoire de la religion chretienne au japon depuis 1598 jusqu a 1651 comprenant les faits relatifs aux deux cent cinq martyrs beatifies le 7 juillet 1867|1901	https://gallica.bnf.fr/ark:/12148/bpt6k9686399h	edition	Histoire de la religion chrétienne au Japon depuis 1598 jusq
+paris exposition universelle 1900|l agriculture au japon|1900	https://gallica.bnf.fr/ark:/12148/bpt6k62108726	no	L'agriculture au Japon.
+pierart a|de l influnce des combats livres sous port arthur sur la construction des forts d apres von schwarz|1908	https://gallica.bnf.fr/ark:/12148/bpt6k5675508z	yes	De l'influnce des combats. Livrés sous Port-Arthur sur la co
+recouly raymond|dix mois de guerre en manchourie impressions d un temoin|n d	https://gallica.bnf.fr/ark:/12148/bpt6k371915k	yes	Dix mois de guerre en Manchourie; impressions d'un témoin.
+regamey felix|le japon en image dessins d apres nature et documents originaux|1904	https://gallica.bnf.fr/ark:/12148/btv1b10505584r	yes	Le Japon en image; dessins d'apres nature et documents origi
+richard paul|au japon|1917	https://gallica.bnf.fr/ark:/12148/bpt6k3322890n	no	Au Japon.
+romanowski g|l armee japonaise son recrutement son organisation et ses reglements tr du russe par g wehrlin et a le merre|1912	https://gallica.bnf.fr/ark:/12148/bpt6k1269165s	no	L'armée japonaise; son recrutement, son organisation et ses 
+rosny leon de|elements de la grammaire japonaise langue vulgaire|1897	https://gallica.bnf.fr/ark:/12148/bpt6k4500041x	edition	Éléments de la grammaire japonaise. Langue vulgaire.
+rosny leon de|guide de la conversation japonaise precede d une introduction sur la prononciation en usage a yedo|1883	https://gallica.bnf.fr/ark:/12148/bpt6k56034883	edition	Guide de la conversation japonaise précédé d'une introductio
+serrurier lindor|bibliotheque japonaise catalogue raisonne des livres et des manuscrits japonais enregistres a la bibliotheque de l universite de leyde|1896	https://gallica.bnf.fr/ark:/12148/bpt6k96010685	yes	Bibliothèque japonaise. Catalogue raisonné des livres et des
+steinilber oberlin e|le livre des no drames legendaires du vieux japon|1929	https://gallica.bnf.fr/ark:/12148/cb328086803/date	no	Le livre des Nô; drames légendaires du vieux Japon.
+suematsu baron kencho|la russie et le japon tr par frederic repin|1904	https://gallica.bnf.fr/ark:/12148/bpt6k9634024r	no	La Russie et le Japon. Tr. par Frédéric Repin.
+tokyo koto kogyo gakko|resume historique et statistique|1900	https://gallica.bnf.fr/ark:/12148/bpt6k6201273k	no	Résumé historique et statistique.
+vignier charles et inada m|kiyonaga buncho sharaku catalogue de l exposition d estampes japonaises au musee des arts decoratifs|1911	https://gallica.bnf.fr/ark:/12148/bpt6k9607655g	yes	Kiyonaga, Buncho, Sharaku, Catalogue de l'exposition d'estam
+vildrac charles|d un voyage au japon|1927	https://gallica.bnf.fr/ark:/12148/bpt6k1183491r	no	D'un voyage au Japon.
+wakatsuki fukujiro tr|legendes japonaises|1923	https://gallica.bnf.fr/ark:/12148/bpt6k9614229z	no	Légendes japonaises.
+|autour de la guerre russo japonaise|1904	https://gallica.bnf.fr/ark:/12148/bpt6k371916z	no	Autour de la guerre russo-japonaise.
+|bulletin de l ecole francaise d extreme orient befeo|1901	https://gallica.bnf.fr/ark:/12148/cb32720607b/date	yes	Bulletin de l'Ecole Française d'Extrême-Orient (BEFEO)
+bersier eug comp|l empire des sources du soleil ou le japon ouvert|1860	https://gallica.bnf.fr/ark:/12148/bpt6k55485453	yes	L'Empire des sources du soleil, ou le Japon ouvert.
+bruley des varnnes l abbe g|le japon d aujourd hui extraits du journal intime|1893	https://gallica.bnf.fr/ark:/12148/bpt6k96340329	yes	Le Japon d'aujourd'hui. Extraits du journal intime.
+daage colmet|catalogue des objets d art du japon collections colmet daage|1912	https://gallica.bnf.fr/ark:/12148/bpt6k12492378	yes	Catalogue des objets d'art du Japon: collections Colmet Daag
+drevet louis eugene|petit jap deviendra grand l expansion japonaise en extreme orient par leo byram|1908	https://gallica.bnf.fr/ark:/12148/bpt6k9681002m	yes	Petit Jap deviendra grand! L'expansion japonaise en Extrême-
+grousset paschal|autour d un lycee japonais|1886	https://gallica.bnf.fr/ark:/12148/bpt6k68850w	yes	Autour d'un lycée japonais
+hancock h irving|coups de combat du jiu jitsu procedes japonais d attaque et de defense pour le combat individuel par l ferus et j pesseaud|1909	https://gallica.bnf.fr/ark:/12148/bd6t5931809q	no	Coups de Combat du Jiu-jitsu. Procédés japonais d'attaque et
+hancock h irving|jiu jitsu methode d entrainement et de combat qui a fait des japonais les adversaires les plus redoutables du monde trad par l ferrus et j pesseaud|1905	https://gallica.bnf.fr/ark:/12148/bpt6k9600076d	no	Jiu-jitsu. Méthode d'entrainement et de combat qui à fait de
+hancock h irving|le jiu jitsu et la femme entrainement phisique feminin trad de l ferrus et j pesseaud|1906	https://gallica.bnf.fr/ark:/12148/bd6t5774838r	no	Le jiu-jitsu et la femme; entraînement phisique féminin. Tra
+harmand|jiu jitsu methode d entrainement japonaise|1906	https://gallica.bnf.fr/ark:/12148/bpt6k9600076d	no	Jiu-jitsu; méthode d'entraînement japonaise.
+ihara saikaku|contes d amour des samourais xii siecle japonais tr du texte original par ken sato|1927	https://gallica.bnf.fr/ark:/12148/bpt6k9600038q	yes	Contes d'amour des samouraïs. XII siécle japonais. Tr. du te
+iwagaki matsunae|la mythologie des japonais d apres le koku si ryaku ou abrege des histoires du japon tr par e burnouf|1875	https://gallica.bnf.fr/ark:/12148/bpt6k96811449	yes	La mythologie des japonais d'après le Koku-si-ryaku, ou abré
+japan laws statutes etc|code civil de l empire du japon promulges le 28 avril 1896 tr par i motono et m tomii|1898	https://gallica.bnf.fr/ark:/12148/bpt6k9607540p	yes	Code civil de l'Empire du Japon. Promulges le 28 avril 1896.
+japan laws statutes etc|code civil de l empire du japon promulges le 28 avril 1896 tr par i motono et m tomii|1900	https://gallica.bnf.fr/ark:/12148/bpt6k9607540p	yes	Code civil de l'Empire du Japon. Promulges le 28 avril 1896.
+japan laws statutes etc|code penal de l empire du japon trad par l h lonholm|1907	https://gallica.bnf.fr/ark:/12148/bpt6k9609018r	yes	Code pénal de l'Empire du Japon. Trad. par L. H. Lönholm.
+japan laws statutes etc|projet de code de procedure criminelle pour l empire du japon par ministere de la justice|1879	https://gallica.bnf.fr/ark:/12148/bpt6k6580634g	yes	Projet de code de procedure criminelle pour l'Empire du Japo
+martin henry|l art japonais|1926	https://gallica.bnf.fr/ark:/12148/bpt6k9651296j	yes	L'art japonais.
+monchaville m|le japon d outre mer|1931	https://gallica.bnf.fr/ark:/12148/bpt6k11948123	yes	Le Japon d'outre-mer.
+nordenskiold a e adolf erik|voyage de la vega autour de l asie et de l europe 1883 1885 2 vols|1883	https://gallica.bnf.fr/ark:/12148/bpt6k6569247z	yes	Voyage de la Vega autour de l'Asie et de l'Europe.1883-1885.
+ostrorog comte leon|conference de l amicale conference sur la renaissance du japon|1911	https://gallica.bnf.fr/ark:/12148/bpt6k5624272d	yes	Conférence de l'Amicale. Conférence sur la renaissance du Ja
+pelletan edouard comp|aux victimes de la guerre russo japonaise un groupe d artistes|1904	https://gallica.bnf.fr/ark:/12148/bpt6k1055898k	yes	Aux victimes de la guerre russo-japonaise; un groupe d'artis
+shibusawa baron eiichi|le japon a ses allies|1917	https://gallica.bnf.fr/ark:/12148/bpt6k9680772c	yes	Le Japon à ses alliés.
+suematsu baron kencho|comment la russie amena la guerre traduit par frederic pepin|1905	https://gallica.bnf.fr/ark:/12148/bpt6k96263867	yes	Comment la Russie amena la guerre. Traduit par Frédéric Pépi
+suematsu baron kencho|l empire du soleil levant traduit par la princesse ferdinand de faucigny lucinge|1906	https://gallica.bnf.fr/ark:/12148/bpt6k3414123d	yes	L'Empire du soleil levant. Traduit par la Princesse Ferdinan
+takeda izumo|tchou chin goura ou une vengeance japonaise tr francaise de albert dousdebes|1886	https://gallica.bnf.fr/ark:/12148/bpt6k690607	yes	Tchou-Chin-Goura ou une vengeance japonaise. Tr. francaise d
+teishinsho|resume historique et statistique du service des postes au japon|1899	https://gallica.bnf.fr/ark:/12148/bpt6k6201273k	yes	Résumé historique et statistique du service des postes au Ja
+yamada kiku|la vie du general nogi|1931	https://gallica.bnf.fr/ark:/12148/bpt6k4800973q	yes	La vie du Général Nogi.
+yamada kiku|le shoji intimites et profils japonais|1927	https://gallica.bnf.fr/ark:/12148/bpt6k10040524	yes	Le Shoji. Intimités et profils japonais.
+|contes du vieux japon tr de joseph dautremer|1885 1903	https://bibliotheques-specialisees.paris.fr/ark:/73873/pf0001148271	yes	Contes du vieux Japon. Tr. de Joseph Dautremer.
+|exposition de la gravure japonaise a l ecole nationale des beaux arts a paris du 25 avril au 22 mai catalogue|1890	https://gallica.bnf.fr/ark:/12148/bpt6k5715233k	yes	Exposition de la gravure japonaise à l'Ecole nationale des b
+|recit de la vie et de la mort des 26 martyrs du japon by m l|1865	https://gallica.bnf.fr/ark:/12148/bpt6k9680982f	yes	Récit de la vie et de la mort des 26 martyrs du Japon, by M.

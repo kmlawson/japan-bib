@@ -43,3 +43,35 @@ g7n01	«
 g7n05	»
 g7n0a	'
 g8n2e	me
+# A second reading of the images, for the codes that turned up once the whole catalogue was in.
+# g0ng.. is a ring above; g1n.. the ligatures; g8n.. the small raised letters of an abbreviation
+# (M^me, S^r); g7n.. more quotation marks; g94../g96../g93.. are Chinese characters.
+g0nql	ł
+g0noz	ż
+g0nga	å
+g0ngA	Å
+g1nOE	Œ
+g1nAE	Æ
+g8n0f	e
+g8n02	r
+g8n15	o
+g8n13	R
+g8n1a	ie
+g8n22	er
+g8n20	R.
+g8n43	r.
+g8n24	T.
+g8n23	TE
+g8n27	E
+g8n34	ME
+g7n00	„
+g7n0c	«
+g7n06	'
+g7n0b	»
+g9423	藏
+g9607	養
+g9301	平
+g9609	繁
+g9421	藝
+# The Cyrillic (g3n..) and Chinese (g9...) codes are left as tokens: the records that use them are
+# Russian or Japanese-script titles, which the published database does not carry.

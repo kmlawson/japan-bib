@@ -4,7 +4,7 @@
 A hit is accepted automatically only when the title words of the entry are all present in the
 Gallica title, the author's surname appears in the record, and the dates agree within three years.
 Everything else is listed for hand review (gallica_review.txt); hand verdicts live in
-gallica_decisions.tsv (id <TAB> ark <TAB> yes|no).
+gallica_decisions.tsv, keyed to what the entry is rather than to its row id.
 
     gallica_score.py [--review]
 """
@@ -86,13 +86,24 @@ def score(rec, hit):
     return pts, why
 
 
+def rowkey(rec):
+    """What the entry is, folded to letters and digits: a verdict keyed this way holds however the
+    database is renumbered, and covers a second search of the same book."""
+    sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
+    from language import key
+    return key(rec.get("author"), rec.get("title"), rec.get("year"))
+
+
 def decisions():
+    """{(key, ark): yes|no|edition}"""
     d = {}
     if os.path.exists(DEC):
         for line in open(DEC, encoding="utf-8"):
+            if line.startswith("#"):
+                continue
             p = line.rstrip("\n").split("\t")
-            if len(p) >= 3 and p[0].isdigit():
-                d[(int(p[0]), p[1])] = p[2].strip().lower()
+            if len(p) >= 3 and p[0].strip():
+                d[(p[0].strip(), p[1].strip())] = p[2].strip().lower()
     return d
 
 
@@ -111,7 +122,7 @@ def accepted():
         rec = json.loads(line)
         hand = False
         for h in rec.get("hits") or []:
-            v = dec.get((rec["id"], h["ark"]))
+            v = dec.get((rowkey(rec), h["ark"]))
             if v in ("yes", "edition"):
                 (links if v == "yes" else other)[rec["id"]] = (h["ark"], year_of(h))
                 hand = True
@@ -119,7 +130,7 @@ def accepted():
         if hand:
             continue
         b = best(rec)
-        if b and b[1] >= 3 and dec.get((rec["id"], b[0]["ark"])) != "no":
+        if b and b[1] >= 3 and dec.get((rowkey(rec), b[0]["ark"])) != "no":
             links[rec["id"]] = (b[0]["ark"], year_of(b[0]))
     return links, other
 
