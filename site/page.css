@@ -11,7 +11,10 @@ header.site h1:hover { color: inherit; }
 header.site p.lede { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
 
 /* the row of buttons: one per section of the page, the last one for the search */
-nav.jumps { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 18px; border-bottom: 1px solid var(--line); }
+/* the section buttons wrap across as many lines as they need; the search button sits on its own line under them */
+nav.jumps { display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+            padding: 6px 0 18px; border-bottom: 1px solid var(--line); }
+nav.jumps .sections { display: flex; flex-wrap: wrap; gap: 8px; }
 nav.jumps button {
   font: 600 14px/1.2 var(--serif); padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px;
   background: var(--panel); color: var(--ink); cursor: pointer;
@@ -21,7 +24,7 @@ nav.jumps button:hover { border-color: var(--link); color: var(--link); }
 nav.jumps button[aria-expanded="true"] { background: var(--hit); border-color: var(--link); color: var(--link); }
 /* the way into the search: the one solid, bolder button on the page */
 nav.jumps button.search {
-  margin-left: auto; background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
+  background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
   font-weight: 700; letter-spacing: .01em; box-shadow: 0 1px 2px rgba(18, 83, 158, .25);
 }
 nav.jumps button.search:hover { filter: brightness(1.08); color: var(--accent-ink); border-color: var(--accent); }
@@ -51,5 +54,4 @@ footer.site ul { padding-left: 20px; }
 
 @media (max-width: 640px) {
   header.site h1 { font-size: 24px; }
-  nav.jumps button.search { margin-left: 0; }
 }
