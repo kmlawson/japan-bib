@@ -59,9 +59,28 @@ def esc_runs(text):
     return t
 
 
+PILL = re.compile(r"^(.*?)(\s+[-–—]\s+.*)?$", re.S)
+
+
+def pill_item(text):
+    """A nested item under a heading that ends in a colon: the link becomes a small bubble, and
+    whatever the line says after it stays beside the bubble as a quiet note."""
+    m = LINK.match(text.strip())
+    if not m:
+        return "<li>" + inline(text) + "</li>"
+    rest = text.strip()[m.end():].lstrip(" -–—\u2013")
+    note = f'<span class="pill-note">{inline(rest)}</span>' if rest.strip() else ""
+    return (f'<li><a class="pill-link" href="{html.escape(m.group(2), quote=True)}" target="_blank" '
+            f'rel="noopener">{esc_runs(m.group(1))}</a>{note}</li>')
+
+
 def render(lines):
-    """A section's body: bullet lists (one level of nesting), sub-headings and paragraphs."""
+    """A section's body: bullet lists (one level of nesting), sub-headings and paragraphs.
+
+    A bullet that ends in a colon and is followed by indented bullets is taken as a heading for them:
+    those become a row of small bubbles (ul.pills) rather than an ordinary list."""
     out, stack, para = [], 0, []
+    pills = False
 
     def close_para():
         if para:
@@ -73,6 +92,8 @@ def render(lines):
         while stack > to:
             out.append("</ul>")
             stack -= 1
+            if stack:                      # the nested list lives inside its parent item
+                out.append("</li>")
 
     for raw in lines:
         line = raw.rstrip()
@@ -83,11 +104,16 @@ def render(lines):
         if m:
             close_para()
             depth = 1 + (len(m.group(1).expandtabs(4)) >= 2)
+            text = m.group(2)
+            if depth == 1:
+                pills = text.rstrip().endswith(":")
             while stack < depth:
-                out.append("<ul>")
+                if stack and out and out[-1].endswith("</li>"):
+                    out[-1] = out[-1][:-len("</li>")]   # reopen the item this list belongs to
+                out.append('<ul class="pills">' if (depth == 2 and pills) else "<ul>")
                 stack += 1
             close_lists(depth)
-            out.append("<li>" + inline(m.group(2)) + "</li>")
+            out.append(pill_item(text) if (depth == 2 and pills) else "<li>" + inline(text) + "</li>")
             continue
         m = re.match(r"^(#{2,6})\s+(.*)$", line)
         if m:

@@ -207,6 +207,7 @@ function render(terms) {
     <td class="year">${esc(r.year)}</td><td class="ed">${esc(r.edition)}</td><td class="vol">${esc(r.volume)}</td>
     <td class="ia">${r.nlinks ? `<a class="pill ${r.access}" href="${esc(r.linkList[0])}" target="_blank" rel="noopener" title="${r.access === "borrow" ? "can be borrowed on archive.org (free account)" : r.access === "open" ? "can be read freely online" : "online copy"}${r.checked ? " – link checked by hand" : " – automatic title match, not verified"}">${holder(r.linkList[0]) ? holder(r.linkList[0]) + ": " : ""}${r.access === "borrow" ? "borrow" : r.access === "open" ? "read" : "view"} ↗${r.checked ? " ✓" : ""}</a>${r.nlinks > 1 ? ` <span class="chip">+${r.nlinks - 1}</span>` : ""}` : (r.links === null ? '<span class="chip">not searched</span>' : r.otherEd ? '<span class="chip" title="archive.org has this title only in an edition dated more than 3 years away - see the entry">other ed.</span>' : "")}</td></tr>`).join("");
   $("empty").hidden = VIEW.length > 0;
+  if ($("dlg").open) for (const el of document.querySelectorAll("tbody span.Z3988")) el.className = "Z3988off";
   zoteroLook();                      // the COinS in these rows are new to the page
   $("count").textContent = `${VIEW.length.toLocaleString()} of ${ALL.length.toLocaleString()} entries` + (byMatch ? " · best match first (click a column to sort instead)" : "");
   $("pageinfo").textContent = `Page ${page + 1} / ${pages}`; document.querySelector(".pager").hidden = pages === 1;
@@ -227,6 +228,7 @@ function show(i) {
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
   if (!$("dlg").open) $("dlg").showModal();
+  coinsMode(true);                   // offer this entry alone while it is open
   history.replaceState(null, "", location.pathname + location.search + hashString(r.id));
 }
 function hashString(id) {
@@ -276,6 +278,7 @@ $("next").onclick = () => { page++; render(); writeHash(); scrollTo({ top: 0 });
 document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) { if (sortDir === 1) sortDir = -1; else { sortKey = null; sortDir = 1; } } else { sortKey = k; sortDir = 1; } apply(); });
 $("rows").addEventListener("click", e => { if (e.target.closest("a")) return; const tr = e.target.closest("tr"); if (tr) show(parseInt(tr.dataset.i)); });
 $("dclose").onclick = () => $("dlg").close();
+$("dlg").addEventListener("close", () => coinsMode(false));   // the whole list again
 $("dlg").addEventListener("close", writeHash);
 $("dlg").addEventListener("click", e => { if (e.target === $("dlg")) $("dlg").close(); });
 $("dprev").onclick = () => show(cur - 1); $("dnext").onclick = () => show(cur + 1);
@@ -291,6 +294,15 @@ $("csv").onclick = () => {
 };
 // COinS (the Z3988 span) so that Zotero's connector can take an entry straight off the page: one in
 // every row of the table and one in the open entry. Empty by design - everything is in the title.
+// While an entry is open, the page should offer that one record rather than the whole list: Zotero
+// prefers COinS over other metadata and takes every Z3988 span it finds, so the spans in the rows are
+// set aside (their class changed) until the entry is closed again.
+function coinsMode(single) {
+  const off = single ? "Z3988" : "Z3988off", on = single ? "Z3988off" : "Z3988";
+  for (const el of document.querySelectorAll("tbody span." + off)) el.className = on;
+  zoteroLook();
+}
+
 function coins(r) {
   const { address, publisher, container } = imprintOf(r);
   const article = r.type === "article" || r.type === "chapter";

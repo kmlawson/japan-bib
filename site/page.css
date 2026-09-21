@@ -53,6 +53,17 @@ section.md .body ul { margin: 8px 0; padding-left: 22px; }
 section.md .body li { margin: 4px 0; }
 section.md .body li ul { margin: 2px 0; }
 section.md .body a { color: var(--link); }
+/* a bullet ending in a colon turns its indented list into a row of small bubbles */
+section.md .body ul.pills { display: flex; flex-wrap: wrap; gap: 6px 10px; list-style: none; padding-left: 0; margin: 6px 0 12px; }
+section.md .body ul.pills li { margin: 0; display: inline-flex; align-items: baseline; gap: 6px; max-width: 100%; }
+section.md .body a.pill-link {
+  display: inline-block; padding: 3px 11px; border-radius: 999px; text-decoration: none;
+  font: 600 13.5px/1.4 var(--serif); color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--panel));
+}
+section.md .body a.pill-link:hover { background: color-mix(in srgb, var(--accent) 24%, var(--panel)); border-color: var(--accent); }
+section.md .body .pill-note { font-size: 12.5px; color: var(--muted); }
 section.md .body p { margin: 10px 0; }
 section.md .body em { font-style: italic; }
 
