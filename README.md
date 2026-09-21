@@ -1,136 +1,116 @@
 # japan-bib
 
-A browsable database of Western-language works on Japan published 1850–1955, compiled from printed
-bibliographies, with candidate links to scans on archive.org.
+A searchable database of Western-language works on Japan published 1850–1955, compiled from printed
+bibliographies and library catalogues, with links to copies that can be read online. It is published as
+a static page — the browser loads SQLite and queries the database itself — at
+<https://kmlawson.github.io/japan-bib/>, where it sits under a list of primary sources for modern
+Japanese history.
 
-**Browse:** open the GitHub Pages site for this repository (`index.html`) — search (diacritics ignored),
-filter by year / source / type / language / archive.org availability (the list opens on the entries that have an
-archive.org copy, with `open` and `borrow` badges; choose *Show: All entries* for everything), sort, open an entry for full details, export CSV.
+As things stand: **10,917 entries, 4,042 with an online copy** (3,562 freely readable, 480 borrowable).
 
-## Data
+How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
+
+## Where the entries come from
+
+| source | what was taken |
+|---|---|
+| *Union Catalog of Books on Japan in Western Languages*, ed. Naomi Fukuda (1968) | its book entries, transcribed to 1955 |
+| Borton, Elisséeff, Lockwood and Pelzel, *A Selected List of Books and Articles on Japan* (1954) | every numbered entry to 1960: books, articles, chapters, with Borton's annotations |
+| Dower with George, *Japanese History and Culture from Ancient to Modern Times* (2nd ed., 1995) | works first published 1850–1960 |
+| Nachod, *Bibliography of the Japanese Empire 1906–1926* (1928) | its book entries; articles and Russian-language works were read but not kept |
+| Asiatic Society of Japan, *Catalogue of the Books and Manuscripts in the Library* (1888) | its Japan-related books, periodicals excepted |
+| Henshall, *Historical Dictionary of Japan to 1945* (2014) | works first published 1850–1955 |
+| Nichibunken, 日本関係欧文図書目録 | the works it lists for 1850–1900 |
+| National Diet Library digital collections | items supplied as a list of links, described from the NDL's own metadata |
+| *Japan Online*, a Zotero collection | books whose online copies were checked by hand, open and borrow-only |
+| Items chosen by hand | archive.org, the National Library of Norway, Europeana, Alvin, HathiTrust, the Wolfsonian, BNE Digital |
+
+Copies were also looked for at **archive.org** (every book), **Gallica** (the French entries), **The
+Online Books Page** (everything with no copy yet), **Hispana** and **BNE Digital** (the Spanish
+entries).
+
+Only works first published 1850–1955, and undated ones, are published; entries outside that range were
+transcribed and are kept in the working copy. The compilers' own annotations are kept in the working
+copy too, and stripped from what is published.
+
+## How the sources were read
+
+Every scanned bibliography was **transcribed by eye from page images** — no OCR, no PDF text layer, no
+image-description service, for me or for the sub-agents who read parts of the ranges. A detail that
+could not be read is left empty with a note saying so; a printed error is transcribed as printed and
+flagged rather than corrected. Each page becomes one JSONL file, checked by a validator that also
+makes sure every entry number on a page is accounted for. Henshall's bibliography is born-digital and
+was parsed; the library catalogues answer machine interfaces and were read from those.
+
+The page transcriptions, the scans and the lookup caches stay local: they are not in this repository.
+
+## The database
 
 `list.sqlite`, table `books`:
 
 | column | content |
 |---|---|
-| `author`, `title` | as printed in the source bibliography |
-| `year` | as printed (`1874-75`, `n.d.`); `year_num` = first year as an integer (NULL if undated) |
+| `author`, `title` | as the source prints them. English titles are set in title case, without the catalogue's final stop |
+| `year` | as printed (`1874-75`, `n.d.`); `year_num` is the first year as an integer, NULL when undated |
 | `edition`, `volume` | edition statement; volume statement or designation |
-| `links` | URLs of online copies (archive.org, or dl.ndl.go.jp for items from source 5), one per line (`''` = searched, none found; NULL = undated, not searched) |
-| `other` | imprint, extent, series, library holdings, catalogue page, journal reference, the bibliographer's annotation, cross-references to the other bibliographies, transcription notes |
-| `source` | the bibliographies that list the work, `; `-separated |
-| `access` | how the best linked copy can be read (National Diet Library items are freely readable): `open` (freely readable), `borrow` (controlled digital lending, free account), `''` (no link). Items that can be neither read nor borrowed (print-disabled readers only, or gone) are not linked at all. `links_access` gives the same flag for each URL in `links`, in the same order; open copies are listed first |
-| `links_checked` | `1` for a link checked by hand or supplied directly (sources 4 and 5), else `0`, same order as `links`. Hand-checked links are always kept and listed first, with the access they were checked to have |
-| `language` | language of the work: taken from the source's statement where there is one, otherwise worked out from the title (`union-catalog-work/language.py`; the decisions made by hand are in `language_fixes.tsv`) |
-| `type` | `book`, `periodical`, `article` (in a journal) or `chapter` (part of a book) |
+| `links` | copies online, one URL per line (`''` = searched, nothing found; NULL = undated, not searched) |
+| `access` | how the best copy can be read: `open`, `borrow` (controlled lending, free account), `''`. Copies that can be neither read nor borrowed are not linked at all. `links_access` gives the same for each URL, in order |
+| `links_checked` | `1` for a link checked by hand, else `0`, in the same order; hand-checked links come first |
+| `other` | imprint, extent, series, holdings, catalogue page, journal reference, cross-references to the other bibliographies, notes |
+| `source` | the bibliographies and catalogues that list the work, `; `-separated |
+| `language` | from the source's own statement where there is one, otherwise worked out from the title (`union-catalog-work/language.py`; hand decisions in `language_fixes.tsv`) |
+| `type` | `book`, `periodical`, `article`, `chapter` |
 
-`books_fts` is an FTS5 index over author, title and other.
+`books_fts` is an FTS5 index over author, title and other. Latin and Vietnamese entries are left out of
+the published copy (Latin for the time being); the working copy keeps them, so it is reversible by
+editing `HIDE_LANGUAGES` in `build_db.py`.
 
-Latin and Vietnamese entries are left out of the published `list.sqlite` (Latin only for the time being);
-the working copy keeps them, so the choice is reversible by editing `HIDE_LANGUAGES` in `build_db.py`.
+**Duplicates.** A record from a later source is compared with what is already there — same surname,
+matching title proper, years within three — and a match adds the source name and an "Also in …"
+cross-reference rather than a new row.
 
-The annotations written by the compilers of the printed bibliographies (Borton's comments on each work,
-and the same text where it appears in an "Also in …" cross-reference) are **not published**: they are kept
-in the working copy of the database but stripped from `list.sqlite` and from the site.
+**Links.** archive.org matches are found by title and author: a copy dated within three years of the
+printed year is linked as the same book, others are noted in `other` as `IA other editions`. Entries
+with no candidate get a looser second pass (title key words, no author, four years), with the doubtful
+ones judged by hand. Links from Gallica, the Online Books Page, Hispana and the rest were scored the
+same way, and every doubtful case was settled by hand in a decisions file beside the script that found
+it. Hand decisions are keyed to author|title|year folded to letters and digits, not to a row id, so
+they survive a rebuild.
 
-Sources so far:
+## Building
 
-1. *Union Catalog of Books on Japan in Western Languages* (ed. Naomi Fukuda) — book entries (transcribed to 1955).
-2. Hugh Borton, Serge Elisséeff, William W. Lockwood and John C. Pelzel, *A Selected List of Books and
-   Articles on Japan in English, French and German*
-   (rev. ed., 1954) — all numbered entries (transcribed to 1960): books, journal articles and chapters, with
-   Borton's annotations.
-3. The bibliography of Kenneth Henshall, *Historical Dictionary of Japan to 1945* (2014) — works first
-   published 1850–1955 (including those cited from a modern reprint).
-4. *Japan Online*, a Zotero collection of books on Japan whose online copies (nearly all on archive.org) were
-   checked by hand, exported in two parts: openly readable and borrow-only.
-5. Items from the **National Diet Library** digital collections (dl.ndl.go.jp), supplied as a list of links
-   and described from the NDL's own OAI-PMH metadata.
+    python3 union-catalog-work/build_db.py     # list.sqlite, and the working copy list-full.sqlite
+    python3 union-catalog-work/build_list.py   # list.md and the working notes
+    python3 next-bib-work/build_list2.py
+    python3 build_page.py                      # index.html, and the two downloads with it
 
-Only works first published 1850–1955 (and undated ones) are in the database; later entries were
-transcribed but are left out at build time.
+`build_page.py` assembles `index.html` from `page/modern-japan.md` (the list of primary sources) and
+`site/app.html`, `site/app.css`, `site/app.js`, `site/page.css` (the search and the look of the page);
+`--from PATH` copies in a newer markdown first, `--no-bump` leaves the version number alone, and
+`--no-downloads` skips rebuilding `downloads/japan-bib.md` and `.pdf`. **`index.html` is generated —
+edit the parts in `site/`, not the page.** A bullet ending in `<!--pills-->` turns its indented list,
+or itself, into small link bubbles.
 
-Scanned sources were transcribed by eye from page images (no OCR); unreadable details are left blank and
-noted. Henshall's bibliography is a born-digital text and was parsed from it.
+## The work folders
 
-**Hand-checked links.** A Zotero item that is already in the database (its archive.org item is already linked
-from an entry describing the same work, or same author and title with years within three) is merged into that
-entry: the fuller of the two descriptions is shown, the other is kept as a note, and the hand-checked link goes
-first. Where the hand-made record shows that an automatic link pointed at a different work, that link is removed.
+Each source has a folder with the scripts that read it, its validator, and the decisions made by hand:
 
-**Duplicates.** Before a record from a later source is added it is compared with what is already in the
-database: same author surname, same title proper, and publication years no more than three years apart
-count as the same book. Such a record does not get a new row — the existing row gains the source name and
-an "Also in …" cross-reference (with Borton's annotation) in `other`.
+- `union-catalog-work/` — the Union Catalog, the language rules, and `build_db.py`, which assembles everything
+- `next-bib-work/` — Borton and Henshall, and the archive.org access classification
+- `dower-work/`, `asj-work/`, `bje-work/` — Dower & George, the Asiatic Society catalogue, Nachod
+- `zotero-work/`, `extra-work/`, `libraries-work/` — the collections and items chosen by hand
+- `ndl-work/`, `nichibun-work/` — the National Diet Library, Nichibunken
+- `gallica-work/`, `onlinebooks-work/`, `hispana-work/`, `bne-work/` — the searches for copies
 
-**archive.org links** are title/author matches found with the `ia` command-line tool — candidates, not
-verified identical editions. An item dated within three years of the printed year is linked as the same
-book (`links`); items with the same author and title but another date are listed in `other` as
-`IA other editions`. Only books are looked up, not articles or chapters.
-Entries with no candidate at all get a second, looser pass: key words of the title proper only, no author,
-item dated within four years. Clear matches are taken automatically; edge cases (short titles, another
-creator) were judged by hand. Rows linked this way say `IA match: loose` in `other`.
+`bne-work/chrome.py` drives an ordinary Chrome window through AppleScript, because the Biblioteca
+Nacional de España refuses every script: curl, full browser headers and headless Chrome alike get 403.
+It needs View ▸ Developer ▸ Allow JavaScript from Apple Events.
 
-The scans themselves and the per-page transcription files are not part of this repository.
+## Conventions
 
-## Gallica
-
-`gallica-work/gallica_search.py` asks the BnF's SRU API for the French-language entries that have no copy yet (one query at a time, nothing identifying sent); `gallica_score.py` scores the candidates and `gallica_decisions.tsv` holds the verdicts made by hand. `gallica_merge.py` attaches the accepted copies when the database is built - they are public-domain scans, so they count as `open`.
-
-## Dower & George
-
-`dower-work/` holds the entries read by eye from Dower & George, *Japanese History and Culture from Ancient to Modern Times* (2nd ed., 1995), one JSONL file per page (kept local), the validator, and `dower_merge.py`, which puts them into the database. It runs after every other source so that existing row ids do not move; `ia_lookup3.py` looks the new books up on archive.org. Six pages of the scan are failed exposures and could not be read - see `dower-work/DOWER_NOTES.md`.
-
-## The Online Books Page
-
-`onlinebooks-work/ob_search.py` searches onlinebooks.library.upenn.edu for the entries that still have no copy (one search every five seconds, the Crawl-delay their robots.txt asks for; HathiTrust copies are not kept). `ob_score.py` scores the candidates, `ob_decisions.tsv` holds the verdicts made by hand, and `ob_merge.py` attaches the accepted copies when the database is built.
-
-The published database is limited to works dated **1850-1955**, and that applies to every source, including items picked by hand (post-1950 books in the Zotero collection, one 1957 NDL title, Medhurst 1830): they stay in the working copy `union-catalog-work/list-full.sqlite` but are not published.
-
-## Titles and dates
-
-English titles are stored in title case and without the full stop the catalogues print at the end (`titlecase_en` / `trim_stop` in `build_db.py`); titles in other languages are left as the source has them. A title the source garbles can be corrected in `union-catalog-work/title_fixes.tsv`.
-
-Rows dated later than `LAST_YEAR` are now deleted from the published database *after* the ids are given out, so moving the cut does not renumber anything. Hand decisions and the copies found on Gallica and The Online Books Page are keyed to author|title|year folded to letters and digits (`language.key`), not to the id, so they survive a rebuild.
-
-## Items added by hand
-
-`extra-work/ids.txt` lists archive.org items chosen by hand. `extra_fetch.py` fetches their metadata (plain HTTPS, nothing identifying sent), and `extra_merge.py` attaches each one to the entry it belongs to or adds a row for it, with source `KML Additions` and the link marked as checked by hand.
-
-## Other libraries
-
-`libraries-work/ids.txt` lists items chosen by hand at the National Library of Norway, Europeana and Alvin (Uppsala). `lib_fetch.py` reads each catalogue through its public interface - api.nb.no, data.europeana.eu as JSON-LD, and the Alvin record page, since Alvin answers no API for a single record - and `lib_merge.py` attaches or adds them, with source `KML Additions` and the link marked as checked by hand. Corrections to a catalogue record are listed in `FIX` in that file, each with its reason.
-
-HathiTrust is not searched automatically: it answers automated requests with 403. Links to it come
-only from the compiler's own Zotero collection, where each one was checked to be readable anywhere
-(`zotero_parse.py --add HathiOpen.rdf open`).
-
-## The Asiatic Society of Japan's library catalogue (1888)
-
-`asj-work/` holds the entries read by eye from the *Catalogue of the Books and Manuscripts in the Library of the Asiatic Society of Japan* (Tōkyō, 1888), pages 5-34 of the scan: one JSONL file per page (kept local), the validator, and `asj_merge.py`, which chooses what goes into the database - no periodicals, nothing undated, only works dated 1850-1955 and only those to do with Japan. The transcriber marked each entry true/false/uncertain; the uncertain ones are settled in `japan_decided.tsv`, with the reason. `ia_lookup4.py` looks the new books up on archive.org.
-
-## The page
-
-How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
-
-`index.html` is built, not edited. `build_page.py` puts it together from
-
-- `page/version.txt` — the build number shown at the foot of the page, raised by one on each build (`build_page.py --no-bump` rebuilds without raising it).
-- `page/modern-japan.md` — the list of primary sources. Edit this and run `python3 build_page.py` again;
-  `build_page.py --from /path/to/modern-japan.md` copies a newer copy in first.
-- `site/app.html`, `site/app.css`, `site/app.js` — the search itself, exactly as it was as a page of its own.
-- `site/page.css` — the look of the page around it.
-
-A bullet ending in `<!--pills-->` turns its indented list into a row of small link bubbles; every other indented list stays an ordinary list.
-
-Every `# heading` in the markdown becomes a section with a button at the top of the page, in the order written; a last, solid button leads to the search. Only the buttons and the search show when the page opens: a button reveals its section, and the button again (or the section's heading) hides it. The first `# heading` is the page title; the list of sections under it is left out, since the buttons say the same thing, and what follows (the "See also" links) goes to the foot of the page.
-
-The result list can be saved as CSV or as BibTeX (`@book`, `@article`, `@incollection`), and every row carries a COinS span, so Zotero's connector can take an entry from the page without any export at all.
-
-## Nachod's Bibliography of the Japanese Empire (1928)
-
-`bje-work/` holds the entries read by eye from Oskar Nachod, *Bibliography of the Japanese Empire 1906-1926* (London: Goldston, 1928), pages 150-392 of the scan - 3,906 entries over 243 pages, one JSONL file per page (kept local). Only books are taken: journal articles, Russian-language works and anything before 1850 are recorded as one-line skips, so that every entry number can still be accounted for. `validate5.py` checks the run, `bje_merge.py` puts the books into the database and `ia_lookup5.py` searches archive.org for them.
-
-## Other libraries searched
-
-`nichibun-work/` reads Nichibunken's catalogue of Western-language books on Japan; `hispana-work/` searches Hispana, Spain's aggregator, and follows each record to the library that holds the scan; `bne-work/` drives an ordinary Chrome window through AppleScript, because the Biblioteca Nacional de España refuses every script (`chrome.py` needs View > Developer > Allow JavaScript from Apple Events).
+- Nothing identifying goes into the repository or into a request: the scripts send a plain descriptive
+  User-Agent, with no contact address and no account.
+- HathiTrust is not searched automatically — it answers scripts with 403 — and its links appear only
+  where the compiler checked that the copy can be read outside the United States.
+- A link that turns out to be wrong or unreadable is named in a decisions file with the reason, so a
+  rebuild does not bring it back.
