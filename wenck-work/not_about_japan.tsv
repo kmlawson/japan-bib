@@ -135,3 +135,43 @@ verne jules|de geografiska upptackternas historia fran aldsta tider till slutet 
 vollmer wilhelm|pittoresk beskrifning ofver jordens kanda lander och folkslag med sarskildt afseende pa de nyaste upptacktsresorna af w f a zimmermann pseud ofversattning|1861 62	Vollmer, Wilhelm | Pittoresk beskrifning öfver jordens kända länder och folkslag, med sär | 1861-62
 winqvist p o|forsok till en geografisk statistisk jordbeskrifning i sammandrag efter nyare uppgifter|1850	Winqvist, P. O. | Försök till en geografisk-statistisk jordbeskrifning i sammandrag, eft | 1850
 dreyer w|naturfolkens lif popular etnografi ofvers af j f nystrom|18 98 1899	Dreyer, W. | Naturfolkens lif. Populär etnografi. Öfvers. af J. F. Nyström | 18[98], 1899
+# Borderline cases the compiler ruled out on review (2026-09-22): mission periodicals, museum guides, sale catalogues, Japanese-made textbooks on other subjects
+|zeitschrift fur missionskunde und religionswissenschaft|n d	- | Zeitschrift für Missionskunde und Religionswissenschaft | n.d.
+|zeitschrift fur missionskunde und vergleichende religionswissenschaft|1894 1905	- | Zeitschrift für Missionskunde und vergleichende Religionswissenschaft | 1894-1905
+|die evangelischen missionen|n d	- | Die Evangelischen Missionen | n.d.
+|evangelisches missions magazin|n d	- | Evangelisches Missions Magazin | n.d.
+|journal des missions evangeliques protestants|n d	- | Journal des Missions évangéliques [protestants] | n.d.
+|foi et vie revue de protestantisme francais a paris|n d	- | Foi et Vie. Revue de protestantisme français à Paris | n.d.
+|church missionary intelligencer|n d	- | Church Missionary Intelligencer | n.d.
+|gleanings a monthly magazine of the baptist missions|n d	- | Gleanings. A Monthly Magazine of the Baptist Missions | n.d.
+|hirtenrufe kleine missionsschriften des allgemeinen evangelisch protestantischen missionsvereins|1898 1900	- | Hirtenrufe. Kleine Missionsschriften des allgemeinen evangelisch-prote | 1898-1900
+|statistics of missions|n d	- | Statistics of Missions | n.d.
+|reports of the s p g|n d	- | Reports of the S.P.G. | n.d.
+congres penitentiaire international|bulletin du congres penitentiaire international|n d	Congrès pénitentiaire international | Bulletin du Congrès pénitentiaire international | n.d.
+|gewerblicher rechtsschutz und urheberrecht zeitschrift des deutschen vereins zum schutz des gewerblichen eigentums|1899	- | Gewerblicher Rechtsschutz und Urheberrecht [Zeitschrift des deutschen  | 1899
+raleigh t|an outline of the law of property|2551 1891	Raleigh, T. | An Outline of the Law of Property | 2551 [1891]
+lera c a|nacionales por naturalizacion|1903	Lera, C. A. | Nacionales por naturalizacion | 1903
+hetherington j h|the trial for shooting george gower robinson|1892	Hetherington, J. H. | The Trial for Shooting George Gower Robinson | 1892
+detroit mich|a brief history of the detroit museum of art and its collections|1902	Detroit Mich. | A Brief History of the Detroit Museum of Art and Its Collections | 1902
+hamburg|fuhrer durch die sammlungen des hamburgischen museums fur kunst und gewerbe zugleich ein handbuch der geschichte des kunstgewerbes herausgegeben von dr justus brinckmann|1894	Hamburg | Führer durch die Sammlungen des Hamburgischen Museums für Kunst und Ge | 1894
+hamburg museum fur kunst und gewerbe|zur feier des 25 jahrigen bestehens dargestellt von freunden und schulern justus brickmann s|1902	Hamburg: Museum für Kunst und Gewerbe | Zur Feier des 25 jährigen Bestehens dargestellt von Freunden und Schül | 1902
+london horniman museum|guide for the use of visitors|no date	London.—Horniman Museum | Guide for the Use of Visitors | (no date)
+london horniman museum|an account of the horniman free museum and recreation grounds forest hill|1901	London, Horniman Museum | An Account of the Horniman Free Museum and Recreation Grounds, Forest  | 1901
+paris musee guimet|petit guide illustre nouvellement recensue par l de milloue|1903	Paris: Musée Guimet | Petit guide illustré, nouvellement recensué par L. de Milloué | 1903
+paris ecole nationale des beaux arts|exposition de la gravure sur bois mai 1902 catalogue avec notices historiques et critiques par h bouchot g claudin j masson h beraldi et s bing|1902	Paris: Ecole Nationale des Beaux-Arts | Exposition de la gravure sur bois. .... Mai, 1902. Catalogue, avec not | 1902
+bishop h r|the art collection formed by h h bishop executors sale january 17th to 20th 22nd to 27th 1906|1906	Bishop, H. R. | The Art Collection Formed by....H. H. Bishop Executors' ....Sale Janua | 1906
+h|catalogue des collections d antiquites et de curiosites de m le chevalier h a harlem de mme la veuve h a la haye de feu mme la veuve rodenhuis nee zylstra a apeldoorn et de feu m l a apeldoorn vente 26 28 avril 1898 a amsterdam|1898	H. ...... | Catalogue des collections d'antiquités et de curiosités de M. le cheva | 1898
+leroux e paris|catalogues of public sales held by e leroux in paris 1891 1900|1891 1900	Leroux, E., Paris | Catalogues of Public Sales held by E. Leroux in Paris, 1891-1900 | 1891-1900
+hart e|catalogue of another of his collections sold at public auction by sotheby wilkinson hodge in london july 1898|1898	Hart, E. | Catalogue of Another of His Collections Sold at Public Auction by Soth | 1898
+onda sh|deutsches medizinisch pharmaceutisches lesebuch fur die hoheren medizinischen studenten|1900 02	Onda, Sh. | Deutsches medizinisch-pharmaceutisches Lesebuch für die höheren medizi | 1900-02
+onda s und g kobayashi|deutsche medicinische und pharmaceutische sprache|1901	Onda, S. und G. Kobayashi | Deutsche medicinische und pharmaceutische Sprache | 1901
+onda s|leitfaden fur die medicinische und pharmaceutische deutsche grammatik fur die hoheren schulen vol i|1901	Onda, S. | Leitfaden für die medicinische und pharmaceutische deutsche Grammatik  | 1901
+hirano k|pharmaceutisches worterbuch zusammenstellung von lateinischen deutschen und englischen pharmaceutischen worten|1902	Hirano, K. | Pharmaceutisches Wörterbuch. Zusammenstellung von lateinischen, deutsc | 1902
+kawamura m l mijasi|lexicon medicum zusammenstellung von lateinischen deutschen sowie wichtigen englischen und franzoesischen medicinischen ausdrucken|1899	Kawamura, M., & L. Mijasi | Lexicon medicum. Zusammenstellung von lateinischen, deutschen, sowie w | 1899
+kodoma n|vocabulary of physiological terms for the use of schools and colleges|24th year of meiji	Kodoma, N. | Vocabulary of Physiological Terms for the Use of Schools and Colleges | 24th year of Meiji
+akiyama a|a handbook for all the technical terms and phrases in commerce|31st year of meiji	Akiyama, A. | A Handbook for All the Technical Terms and Phrases in Commerce | 31st year of Meiji
+bunt g m|police manual and reference medium for foreigners no 2|1900	Bunt, G. M. | Police Manual and Reference Medium for Foreigners, No. 2 | 1900
+|manual of english words and phrases especially compiled for the imperial gendarmerie|1900	- | Manual of English Words and Phrases Especially Compiled for the Imperi | 1900
+|series of conversation for use of the inspectors of the imperial custom house|1904	- | Series of Conversation for Use of the Inspectors of the Imperial Custo | 1904
+taguchi k|festschrift zum 61 geburtstage|1899	Taguchi, K. | Festschrift zum 61. Geburtstage | 1899
+|studien kritische von plein air|1904	- | Studien Kritische von "Plein air." | 1904
