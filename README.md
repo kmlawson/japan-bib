@@ -6,7 +6,7 @@ a static page — the browser loads SQLite and queries the database itself — a
 <https://kmlawson.github.io/japan-bib/>, where it sits under a list of primary sources for modern
 Japanese history.
 
-As things stand: **10,917 entries, 4,042 with an online copy** (3,562 freely readable, 480 borrowable).
+As things stand: **13,011 entries, 4,477 with an online copy** (3,997 freely readable, 480 borrowable).
 
 How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
 
@@ -18,6 +18,7 @@ How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
 | Borton, Elisséeff, Lockwood and Pelzel, *A Selected List of Books and Articles on Japan* (1954) | every numbered entry to 1960: books, articles, chapters, with Borton's annotations |
 | Dower with George, *Japanese History and Culture from Ancient to Modern Times* (2nd ed., 1995) | works first published 1850–1960 |
 | Nachod, *Bibliography of the Japanese Empire 1906–1926* (1928) | its book entries; articles and Russian-language works were read but not kept |
+| Wenckstern, *A Bibliography of the Japanese Empire*, vol. II: 1894–1906 (1907), with its supplement to Pagès and Palmgren's Swedish list | its book entries, pamphlets and reports; articles were read but not kept, and the chapters not about Japan (works by Japanese on other subjects, medical dissertations) are left out |
 | Asiatic Society of Japan, *Catalogue of the Books and Manuscripts in the Library* (1888) | its Japan-related books, periodicals excepted |
 | Henshall, *Historical Dictionary of Japan to 1945* (2014) | works first published 1850–1955 |
 | Nichibunken, 日本関係欧文図書目録 | the works it lists for 1850–1900 |
@@ -27,7 +28,7 @@ How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
 
 Copies were also looked for at **archive.org** (every book), **Gallica** (the French entries), **The
 Online Books Page** (everything with no copy yet), **Hispana** and **BNE Digital** (the Spanish
-entries).
+entries), and **Europeana** (the Wenckstern entries with no copy yet).
 
 Only works first published 1850–1955, and undated ones, are published; entries outside that range were
 transcribed and are kept in the working copy. The compilers' own annotations are kept in the working
@@ -97,10 +98,10 @@ Each source has a folder with the scripts that read it, its validator, and the d
 
 - `union-catalog-work/` — the Union Catalog, the language rules, and `build_db.py`, which assembles everything
 - `next-bib-work/` — Borton and Henshall, and the archive.org access classification
-- `dower-work/`, `asj-work/`, `bje-work/` — Dower & George, the Asiatic Society catalogue, Nachod
+- `dower-work/`, `asj-work/`, `bje-work/`, `wenck-work/` — Dower & George, the Asiatic Society catalogue, Nachod, Wenckstern
 - `zotero-work/`, `extra-work/`, `libraries-work/` — the collections and items chosen by hand
 - `ndl-work/`, `nichibun-work/` — the National Diet Library, Nichibunken
-- `gallica-work/`, `onlinebooks-work/`, `hispana-work/`, `bne-work/` — the searches for copies
+- `gallica-work/`, `onlinebooks-work/`, `hispana-work/`, `bne-work/`, `europeana-work/` — the searches for copies
 
 `bne-work/chrome.py` drives an ordinary Chrome window through AppleScript, because the Biblioteca
 Nacional de España refuses every script: curl, full browser headers and headless Chrome alike get 403.

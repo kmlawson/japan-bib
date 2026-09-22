@@ -58,6 +58,10 @@ sys.path.insert(0, os.path.join(HERE, "..", "nichibun-work"))
 import nichi_merge as NICHI  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "bje-work"))
 import bje_merge as BJE  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "wenck-work"))
+import wenck_merge as WEN  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "europeana-work"))
+import eu_merge as EU  # noqa: E402
 
 DB = os.path.join(HERE, "..", "list.sqlite")        # published: without the bibliographers' annotations
 DB_FULL = os.path.join(HERE, "list-full.sqlite")    # our own copy: everything, stays out of the repository
@@ -311,6 +315,8 @@ if __name__ == "__main__":
     print(f"Nichibunken catalogue: {n_dup2} entries already in the database, {n_new2} added")
     b_dup, b_new = BJE.apply(rows)            # Nachod's Bibliography of the Japanese Empire 1906-1926
     print(f"Nachod (1928): {b_dup} entries already in the database, {b_new} added")
+    w_dup, w_new = WEN.apply(rows)            # Wenckstern's Bibliography of the Japanese Empire, vol. II (1907)
+    print(f"Wenckstern (1907): {w_dup} entries already in the database, {w_new} added")
     n_later = sum(1 for x in rows if x[3] is not None and x[3] > LAST_YEAR)
     print(f"dated later than {LAST_YEAR} (kept in the working copy, left out of the published one): {n_later}")
     # Gallica copies for the French entries. Keyed by row position, so it has to come after the
@@ -320,6 +326,9 @@ if __name__ == "__main__":
           + (f", {len(moved)} skipped because the row had moved: {moved[:8]}" if moved else ""))
     n_his, lost_his = HIS.apply(rows)         # copies in Spanish libraries, found through Hispana
     print(f"Hispana: {n_his} copies linked" + (f", {len(lost_his)} entries not found" if lost_his else ""))
+    n_eu, n_eued, lost_eu = EU.apply(rows)     # copies on Europeana, searched for the Wenckstern entries
+    print(f"Europeana: {n_eu} copies linked, {n_eued} other editions noted"
+          + (f", {len(lost_eu)} entries not found" if lost_eu else ""))
     n_ob, n_obed, moved_ob = OB.apply(rows)
     print(f"Online Books: {n_ob} copies linked, {n_obed} other editions noted"
           + (f", {len(moved_ob)} skipped because the row had moved: {moved_ob[:8]}" if moved_ob else ""))
