@@ -13,7 +13,10 @@ rather than trusted:
   * a book must be dated 1850-1955 (in practice 1850-1907), or carry no date at all;
   * Cyrillic in the author or title, or a remark saying the work is in Russian, is left out;
   * chapter XXI, "Works written by Japanese scholars in European languages on subjects not relating
-    to Japan in particular", is left out whole: the compiler asked for works on Japan only.
+    to Japan in particular", and section XIII e (dissertations by Japanese medical men in Germany) are
+    left out whole, and so is every entry keyed in not_about_japan.tsv: general works with a chapter
+    on Japan, books on the Russian side of the war, foreign consular series. The compiler asked for
+    works on Japan only.
 
 Duplicates are found as for the other bibliographies (next-bib-work/merge.py): same surname, matching
 title proper, years within three.
@@ -34,6 +37,7 @@ CACHE7 = os.path.join(HERE, "ia_cache7.jsonl")
 FIRST_YEAR, LAST_YEAR = 1850, 1955
 CYRILLIC = re.compile(r"[Ѐ-ӿ]")
 RUSSIAN_NOTE = re.compile(r"in russian|russisch", re.I)
+NOT_ABOUT_JAPAN = os.path.join(HERE, "not_about_japan.tsv")
 NOT_ON_JAPAN = re.compile(r"^XXI\. |^XIII\. Medicine / e\. ")   # sections left out whole: chapter XXI, and XIII e
 # (dissertations by Japanese medical men in Germany, "not referring to Medicine in Japan")
 
@@ -45,6 +49,17 @@ def printed(page):
     if page >= 509:
         return page - 508, "Pagès supplement"
     return page - 20, ""
+
+
+def excluded():
+    """The keys (language.key) of the entries the compiler ruled not to be about Japan."""
+    sys.path.insert(0, os.path.join(HERE, "..", "union-catalog-work"))
+    out = set()
+    if os.path.exists(NOT_ABOUT_JAPAN):
+        for line in open(NOT_ABOUT_JAPAN, encoding="utf-8"):
+            if line.strip() and not line.startswith("#"):
+                out.add(line.split("\t")[0].strip())
+    return out
 
 
 def entries():
@@ -63,9 +78,12 @@ def entries():
 
 def wanted():
     """The books that go into the database, in the shape next-bib-work/merge.py works with."""
-    out = []
+    from language import key as rowkey
+    out, drop = [], excluded()
     for r in entries():
         if r.get("skip") or NOT_ON_JAPAN.match(r.get("section") or ""):
+            continue
+        if rowkey(r.get("author"), r.get("title"), r.get("year")) in drop:
             continue
         y = r.get("year_num")
         if y is not None and not (FIRST_YEAR <= y <= LAST_YEAR):
