@@ -74,6 +74,20 @@ HIDE_LANGUAGES = {
     "Vietnamese",   # not a Western language
     "Latin",        # hidden for now at the user's request (scientific and church works)
 }
+# Entries ruled not to be about Japan, from any bibliography (keys as in language.key). Like the hidden
+# languages they are deleted from the published copy after the ids are given out; the working copy keeps them.
+NOT_ABOUT_JAPAN = os.path.join(HERE, "not_about_japan.tsv")
+
+
+def not_about_japan():
+    out = set()
+    if os.path.exists(NOT_ABOUT_JAPAN):
+        for line in open(NOT_ABOUT_JAPAN, encoding="utf-8"):
+            if line.strip() and not line.startswith("#"):
+                out.add(line.split("\t", 1)[0])
+    return out
+
+
 VOL_EXTENT = re.compile(r"\(?\d+\)?\s*(?:v\.|vols?\.|sets\.|pts?\. in \d+\s*v\.)(?:\s*in\s*\d+\.?)?(?:\s*\([^)]*\))?", re.I)
 VOL_TITLE = re.compile(r"\b(?:v\.|vol\.|Bd\.|Band|Tome|Tom|t\.|T\.|Deel|Pt\.|pt\.|Part|Book|Chast'|Heft|Fasciculus|no\.)\s*[IVX\d]+(?:\s*[-–,]\s*[IVX\d]+)*\b")
 
@@ -237,6 +251,7 @@ def write_db(path, rows, keep_annotations):
     out = [r if keep_annotations else (r[:7] + [strip_annotations(r[7])] + r[8:]) for r in rows]
     fx = language_fixes()
     out = [r + [fx.get(language_key(r[0], r[1], r[2])) or guess_language(r[1], r[7])[0]] for r in out]
+    keys = [language_key(r[0], r[1], r[2]) for r in out]    # before the title is recased or fixed
     tf = title_fixes()
     for r in out:                                             # display form of the title: see the note above
         r[1] = tf.get(language_key(r[0], r[1], r[2]), r[1])
@@ -248,6 +263,10 @@ def write_db(path, rows, keep_annotations):
                     sorted(HIDE_LANGUAGES))
         con.execute("DELETE FROM books WHERE year_num IS NOT NULL AND (year_num > ? OR year_num < 1850)",
                     (LAST_YEAR,))
+        drop = not_about_japan()
+        gone = [(i + 1,) for i, k in enumerate(keys) if k in drop]   # ids run 1.. in insertion order
+        con.executemany("DELETE FROM books WHERE id=?", gone)
+        print(f"left out as not about Japan (not_about_japan.tsv): {len(gone)} of {len(drop)} keys matched")
     con.execute("INSERT INTO books_fts(rowid,author,title,other) SELECT id,author,title,other FROM books")
     con.executescript("""
         CREATE INDEX idx_author ON books(author COLLATE NOCASE);

@@ -100,6 +100,7 @@
 !/bne-work/bne_merge.py
 !/bne-work/cards.txt
 !/union-catalog-work/title_fixes.tsv
+!/union-catalog-work/not_about_japan.tsv
 !/ndl-work/
 /ndl-work/*
 !/ndl-work/ndl_fetch.py

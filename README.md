@@ -6,7 +6,7 @@ a static page — the browser loads SQLite and queries the database itself — a
 <https://kmlawson.github.io/japan-bib/>, where it sits under a list of primary sources for modern
 Japanese history.
 
-As things stand: **12,859 entries, 4,436 with an online copy** (3,956 freely readable, 480 borrowable).
+As things stand: **12,829 entries, 4,424 with an online copy** (3,944 freely readable, 480 borrowable).
 
 How to publish, and what the site actually needs, is in [DEPLOY.md](DEPLOY.md).
 

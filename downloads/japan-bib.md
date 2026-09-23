@@ -1,5 +1,5 @@
 % Western-language works on Japan, 1850–1955
-% Version 1.0015 · 22 September 2026
+% Version 1.0017 · 23 September 2026
 
 # Primary sources
 
@@ -253,8 +253,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **(Kuropatkin.).** *Memorie del generale Kuropatkin, trad. dall' originale russo, da un ufficiale italiano*. 1910, Italian. Mailand, Treves. [Nachod (1928); no. 10572]
 
 **(Loenholm, L. H.).** *Die neuen japanischen und koreanischen Gesetze über Patente, Handelsmarken, Muster und Gebrauchsmuster nebst Ausführungsverordnungen und allen dazu gehörigen Eintragungs- und Kostengesetzen*. 1909, German. Yokohama, Geiser & Gilbert. [Nachod (1928); no. 10998]
-
-**(Logé).** *Feuilles éparses de littératures étranges. Aus dem Englischen übersetzt von Marc Logé*. 1911, French. Mercure de France. [Nachod (1928); no. 10765]
 
 **(Macdonald, Caroline.).** *A Gentleman in Prison. the Story of Tokichi Ishii*. 1922, English. New York, Doran. read at Internet Archive: <https://archive.org/details/agentlemaninpri00macdgoog> read at Internet Archive: <https://archive.org/details/gentlemaninpriso0000unse> read at Internet Archive: <https://archive.org/details/bwb_KV-541-264> read at Internet Archive: <https://archive.org/details/gentlemaninpriso0000unse_z1j2> read at Internet Archive: <https://archive.org/details/gentlemaninpriso00ishi> read at Internet Archive: <https://archive.org/details/cu31924030310183> read at Internet Archive: <https://archive.org/details/gentlemaninpris00ishi> read at Internet Archive: <https://archive.org/details/gentlemaninpriso00ishiuoft> [Nachod (1928); no. 10919]
 
@@ -584,8 +582,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Al'gin, A.** *Kratkii putevoditel' po Nagasaki, Iaponiia*. 1906, Russian. Nagasaki, Toyusha. [Union Catalog (Fukuda); no. 110]
 
 **al., Carl Friedrich et, ed.** *American Experiences in Military Government in World War II*. 1948, English. Holt. [Dower & George (1995); no. 9841]
-
-**Albaret, Emilia Cuchet.** *Au pays des petites joies. Poèmes. Livre premiere: le jardin aux pivoines*. n.d., French. Genève, Editions du Bouquet d'Images. [Union Catalog (Fukuda); no. 100]
 
 **Albatross, pseud.** *Japan and the Defence of Australia*. 1935, English. Melbourne, Robertson and Mullens. [Union Catalog (Fukuda); no. 101]
 
@@ -1988,8 +1984,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Blakeney, Ben Bruce.** *Rokudaime*. 1949, article, English. [Borton et al. (1954); no. 8632]
 
-**Blakeney, Raymond Bernard.** *A Course in the Analysis of Chinese Characters*. 1926, English. Shanghai, Commercial Press. [Union Catalog (Fukuda); no. 502]
-
 **Blakeney, William.** *On the Coasts of Cathay and Cipango Forty Years Ago; A Record of Surveying Service in the China, Yellow and Japan Seas and on the Seabord of Korea and Manchuria*. 1902, English. London, Elliot Stock. read at Internet Archive, checked by hand: <https://archive.org/details/oncoastscathaya01blakgoog> read at Internet Archive: <https://archive.org/details/india.history.resource.84681> read at Internet Archive: <https://archive.org/details/oncoastscathaya00blakgoog> [Union Catalog (Fukuda); KML Zotero; Wenckstern (1907); no. 503]
 
 **Blaker, Richard.** *The Needle-Watcher*. 1932, 2d ed., English. London, William Heinemann. [Union Catalog (Fukuda); no. 504]
@@ -3049,8 +3043,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Ch'iu, K'ai-ming.** *A Classification Scheme for Chinese and Japanese Books. with the Assistance of H. Y. Feng and Zunvair Yue*. 1943, Preliminary lithoprint ed., English. Washington, Committee on Far Eastern Studies, American Council of Learned Societies. [Union Catalog (Fukuda); no. 889]
 
-**Chabanne, G. et A. Choulet.** *Culture des chrysanthèmes à la grande fleur et à la taille basse*. 1901, French. Paris. [Wenckstern (1907); no. 12598]
-
 **Chaikin, Vladimir.** *V Strane Volshebnoi Shazki; Pytevye Zametki O Poezdki V Iaponiiu S Illiustratsiami*. 1928, English. Varshava. [Union Catalog (Fukuda); no. 794]
 
 **Chaillet, J. B.** *Mgr. Petitjean (1829—1884) et la Résurrection Catholique du Japon au XIX Siècle*. 1922, French. Montceau-les-Mines, M. P. Chaillet. [Nachod (1928); no. 10927]
@@ -3723,11 +3715,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Cordier, Henri.** *Les débuts des relations des Russes avec l'extrême-orient*. 1925, French. Paris, Champion. [Nachod (1928); no. 10393]
 
-**Cordier, Henri.** *Centenaire de Marco Polo. Conférence faite à la Société d'Etudes Italiennes le Mercredi 18 Decembre 1895 à la Sorbonne*. 1896, French. Paris, Ernest Leroux. read at Internet Archive: <https://archive.org/details/centenairedemar01cordgoog> read at Internet Archive: <https://archive.org/details/centenairedemar00cordgoog> read at Internet Archive: <https://archive.org/details/centenairedemar02cordgoog> [Union Catalog (Fukuda); no. 1008]
-
 **Cordier, Henri.** *Bibliotheca japonica; dictionnaire bibliographique des ouvrages relatifs à l'Empire japonais, rangés par ordre chronologique jusqu'à 1870, suivi d'un appendice renfermant la liste alphabétique des principaux ouvrages parus de 1870 à 1912*. 1912, French. Paris, Imprimerie Nationale. read at Internet Archive: <https://archive.org/details/b31349663> read at Internet Archive: <https://archive.org/details/bibliothecajapon0008henr> [Union Catalog (Fukuda); Borton et al. (1954); no. 1006]
-
-**Cordier, Henri.** *Ser Marco Polo; Notes and Addenda to Sir Henry Yule's Edition, Containing the Results of Recent Research and Discovery*. 1920, English. London, John Murray. read at Internet Archive: <https://archive.org/details/sermarcopolonote00cord> read at Internet Archive: <https://archive.org/details/SerMarcoPolo> read at Internet Archive: <https://archive.org/details/gri_33125011818537> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.176285> read at Internet Archive: <https://archive.org/details/sermarcopolonote00corduoft> read at Internet Archive: <https://archive.org/details/sermarcopolo0000henr> [Union Catalog (Fukuda); Nachod (1928); no. 1009]
 
 **Cordier, Henri.** *Bibliotheca japonica; dictionnaire bibliographique des ouvrages relatifs à l'Empire japonais, rangés par ordre chronologique jusqu'à 1870, suivi d'un appendice renfermant la liste alphabétique des principaux ouvrages parus de 1870 à 1912*. 1931, Reprint ed., French. Tokyo, Ookayama Shoten. [Union Catalog (Fukuda); no. 1007]
 
@@ -3762,8 +3750,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Cotteau, Edmond.** *De Paris au Japon a travers la Sibérie*. 1883, French. read at Internet Archive: <https://archive.org/details/ldpd_11894503_000> [Nichibunken catalogue; no. 10137]
 
 **Cotteau, Edmond.** *Un touriste dans l'Extrême Orient, Japon, Chine, Indo-chine et Tonkin*. 1884, French. Paris, LIBRAIRIE HACHETTE ET Cie, Droits de propriété et de traduction réserves. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k5425179s> [Nichibunken catalogue; no. 10142]
-
-**Cotton, Arthur.** *The Study of Living Languages*. 1857, English. Madras, Graves. read at Internet Archive: <https://archive.org/details/studyoflivinglan00cott> [Union Catalog (Fukuda); no. 1016]
 
 **Coucheron-Aamot.** *Kriget mellan Japan och Kina jämte kortfattad skildring af östra Asiens historia*. 1897, Swedish. Stockholm. [Wenckstern (1907); no. 12971]
 
@@ -3850,8 +3836,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Cram, Ralph Adams.** *Impressions of Japanese Architecture and the Allied Arts*. 1930, 1930 ed., English. Boston, Marshall Jones. read at Internet Archive: <https://archive.org/details/impressionsjapa01cramgoog> read at Internet Archive: <https://archive.org/details/bwb_C0-AZS-508> read at Internet Archive: <https://archive.org/details/impressionsjapa00cramgoog> read at Internet Archive: <https://archive.org/details/impressionsofjap0000cram_g3i1> [Union Catalog (Fukuda); Borton et al. (1954); no. 1041]
 
 **Cramer, Anneliese.** *Die Beziehungen zwischen England und Japan von 1894-1902*. 1935, German. Zeulenroda, Bernhard Sporn. [Union Catalog (Fukuda); no. 1042]
-
-**Crane, D. B.** *Chrysanthemums for Garden and Greenhouses, Edited by T. W. Sanders*. 1905, English. London. [Wenckstern (1907); no. 12600]
 
 **Cranmer-Byng, Launcelot A. ed.** *Women and Wisdom of Japan, Ed. by L. Cranmer-Byng and S. A. Kapadia. with an Introduction by Shingoro Takahashi*. 1905, English. London, John Murray. read at Internet Archive, checked by hand: <https://archive.org/details/womenandwisdomj00takagoog> read at Internet Archive: <https://archive.org/details/bub_gb_QZE-obdFjGwC> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.80188> read at Internet Archive: <https://archive.org/details/womenwisdomofjap00kaib> read at Internet Archive: <https://archive.org/details/womenwisdomofjap00kaib_0> read at Internet Archive: <https://archive.org/details/india.history.resource.91283> [Union Catalog (Fukuda); KML Zotero; no. 1043]
 
@@ -4173,8 +4157,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Day, Murray S.** *Report of the Trigonometrical Survey of Hokkaido (Yezo)*. 1876, English. New York. [Asiatic Society of Japan (1888); no. 9931]
 
 **Day, Murray S.** *Report of the Trigonometrical Survey of the Island of Hokkaido for 1875*. 1876, English. N. Y., Francis Hart. [Union Catalog (Fukuda); no. 1142]
-
-**Daya, W.** *Der Aufmarsch im Osten. Russisch-Asien als deutsches Kriegs- und Wirtschaftsziel*. 1920, German. Dachau bei München, Einhorn-Verlag. [Nachod (1928); no. 10668]
 
 **Daye, Pierre.** *Le Japon et son destin*. 1928, French. Paris, Librairie Académique. [Union Catalog (Fukuda); no. 1143]
 
@@ -4961,8 +4943,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Engelhardt, E.** *Japans Weltpolitik um den Stillen Ozean*. 1916, German. Dresden, Globus. [Nachod (1928); no. 10432]
 
-**Enoch, C. R.** *The Secret of the Pacific: A Discussion of the Origin of the Early Civilizations of America, the Toltecs, Aztecs, Mayas, Incas, and Their Predecessors, and of the Possibilities of Asiatic Influence Thereon*. 1912, English. London, T. Fisher Unwin. [Nachod (1928); no. 10385]
-
 **Enomoto, Kikaku.** *Les haikai de Kikakou. Textes et commentaires japonais traduit pour la premiere fois par Kuni Matsuo et Steinilber Oberlin*. 1927, French. Paris, Editions G. Cres. [Union Catalog (Fukuda); no. 1360]
 
 **Enosawa, Hisashi.** *Handbook of Schools, Colleges and Universities in Japan*. 1941, English. Tokyo, Japan Publicity Agency. [Union Catalog (Fukuda); no. 1361]
@@ -4990,8 +4970,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Erskine, William Hugh.** *Japanese Customs; Their Origin and Value*. 1933, 4th ed., English. [Union Catalog (Fukuda); no. 1369]
 
 **Erskine, William Hugh.** *Japanese Festival and Calendar Lore*. 1933, English. Tokyo, Kyobunkwan. borrow at Internet Archive: <https://archive.org/details/japanesefestival0000ersk> [Union Catalog (Fukuda); Borton et al. (1954); no. 1370]
-
-**Escalada.** *San Francisco Javier y su Castillo*. 1918, Spanish. Pamplona, Huarte y Coronas. [Nachod (1928); no. 10929]
 
 **Escalle.** *La bataille du Cha-ho, en collaboration avec le Lieut. Guerara et L. Ruinet*. 1911, French. Paris. [Nachod (1928); no. 10547]
 
@@ -7252,8 +7230,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Haushofer, Karl.** *I: Japans Ausdehnungsbestrebungen. — II: Japan im Weltkrieg. — III: Japans Vormacht-Stellung im Osten*. 1920, German. Berlin / Leipzig, Walther Rothschild. [Nachod (1928); no. 10437]
 
-**Haushofer, Karl.** *Der Wiederaufstieg Süd-Ost-Asiens zur Selbstbestimmung*. 1923, German. München, Rösl. [Nachod (1928); no. 10695]
-
 **Haushofer, Karl.** *Geopolitik des pazifischen Ozeans. Studien über die Wechselbeziehungen zwischen Geographie und Geschichte*. 1924, German. Berlin, K. Vowinckel. [Nachod (1928); no. 10696]
 
 **Haushofer, Karl.** *Karl Haushofer - Japan Und Die Japaner*. 1933, German. read at Internet Archive, checked by hand: <https://archive.org/details/karl-haushofer-japan-und-die-japaner-1933> [KML Zotero; no. 8890]
@@ -7494,8 +7470,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Hearn, Lafcadio.** *Japan, an Attempt at Interpretation*. 1924, 1924 ed., English. read at Internet Archive: <https://archive.org/details/japananattemptat05979gut> [Union Catalog (Fukuda); no. 2097]
 
-**Hearn, Lafcadio.** *Bidasari: Erzählungen aus allen Welten. Ausgewählt und übertragen von Franz Fein*. 1925, German. Leipzig, Grethlein. [Union Catalog (Fukuda); no. 2067]
-
 **Hearn, Lafcadio.** *Occidental Gleanings; Sketches and Essays, Now Collected by Albert Mordell*. 1925, 2 v., English. N. Y., Dodd, Mead. read at Internet Archive: <https://archive.org/details/bwb_W9-CQC-356_2> read at Internet Archive: <https://archive.org/details/bwb_P9-AZU-293_1> read at Internet Archive: <https://archive.org/details/bwb_W9-CQC-357_1> read at Internet Archive: <https://archive.org/details/bwb_S0-BPZ-426> read at Internet Archive: <https://archive.org/details/occidentalgleani0002lafc> [Union Catalog (Fukuda); no. 2148]
 
 **Hearn, Lafcadio.** *Editorials. Ed. by Charles W. Hutson*. 1926, English. Boston, Houghton Mifflin. read at Internet Archive: <https://archive.org/details/bwb_S0-BPZ-403> [Union Catalog (Fukuda); no. 2073]
@@ -7642,8 +7616,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Henderson, Harold Gould.** *Handbook of Japanese Grammar*. 1945, English. London, George Allen and Unwin. [Union Catalog (Fukuda); Borton et al. (1954); no. 2191]
 
-**Henke, F. Goodrich.** *The Philosophy of Wang Yang-Ming. Translated from the Chinese*. 1916, English. Chicago, Open Court Publishing Company. read at Internet Archive: <https://archive.org/details/philosophyofwang00wanguoft> read at Internet Archive: <https://archive.org/details/cu31924032290771> read at Internet Archive: <https://archive.org/details/philosophyofwang00wangiala> read at Internet Archive: <https://archive.org/details/thephilosophyofw00henkuoft> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.45247> [Nachod (1928); no. 10908]
-
 **Henle, Fritz.** *Das ist Japan: Volk und Landschaft. Text von Takayasu Senzoku*. 1937, German. Harzburg, Heering. [Union Catalog (Fukuda); Borton et al. (1954); no. 2193]
 
 **Henle, Fritz.** *This is Japan*. 1937, English. Harzburg, Heering. [Union Catalog (Fukuda); no. 2194]
@@ -7723,8 +7695,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Hewes, Laurence I., Jr.** *Japan - Land and Men; An Account of the Japanese Land Reform Program, 1945-51*. 1955, English. Ames, Iowa State College Press. borrow at Internet Archive, checked by hand: <https://archive.org/details/japanlandmenacco0000hewe> [Union Catalog (Fukuda); KML Zotero; Dower & George (1995); no. 2218]
 
 **Heyden, Van der. jt. author.** *Vödasbuk Volapükik-Yapänik 世界語辭林 fa Dr. Van der Heyden e Hayato Sasaki*. 1889, Volapük. Tokyo, H. Matsushita. [Union Catalog (Fukuda); no. 2219]
-
-**Heyneck, Otto.** *Das Buch vom Chrysanthemum für Gärthner und Liebhaber*. 1922, German. Frankfurt an der Oder, Trowitzsch und Sohn. [Union Catalog (Fukuda); no. 2220]
 
 **Hibbett, Howard S.** *Ejima Kiseki (1667-1736) and His Katagi-Mono*. 1951, article, English. [Borton et al. (1954); no. 8548]
 
@@ -8301,8 +8271,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Hunter, F. W.** *Catalogue of....Japanese Lacquers, Metal Work, Ivory Carvings, and Other Rare Objects*. 1903, English. New York. [Wenckstern (1907); no. 12463]
 
 **Hunter, Frederick W.** *Japanese Colour Prints; The Important Collection of Frederick W. Hunter, Esq. of New York*. 1912, English. N. Y., Walpole Galleries. [Union Catalog (Fukuda); no. 2382]
-
-**Hunter, W. W.** *Comparative Dictionary of the [Non-Aryan] Languages of India, and High Asia*. 1868, English. London. read at Internet Archive: <https://archive.org/details/bwb_Y0-CGK-213> read at Internet Archive: <https://archive.org/details/hunter-a-comparative-dictionary-of-the-non-aryan-languages-of-india-and-high-asia> [Wenckstern (1907); no. 11598]
 
 **Huntington, E.** *West of the Pacific. Impressions of a Journey to Japan, Korea, China, Java and Australia*. 1925, English. New York, Scribners Sons. [Nachod (1928); no. 10805]
 
@@ -11592,8 +11560,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Lamarre, Clovis. jt. author.** *La Chine et le Japon et l'exposition de 1878, par Clovis Lamarre et F. de Fontpertuis*. 1878, French. Paris, Ch. Delagrave. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k65779849> [Union Catalog (Fukuda); Nichibunken catalogue; no. 3565]
 
-**Lambel, A. de.** *Au pays du soleil. Un livre pour des enfants*. 1900, French. Paris. [Wenckstern (1907); no. 11089]
-
 **Lambel, Comte de.** *L'apôtre des Indes et du Japon ou vie de St. François Xavier*. 1900, French. Tournai. [Wenckstern (1907); no. 11327]
 
 **Lambert, Théodore.** *Motifs décoratifs tirés des pochoirs japonais*. 1878, French. Paris, Librairie Générale De L'Architecture Et Des Arts Décoratifs. [Nichibunken catalogue; no. 10090]
@@ -12789,8 +12755,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Mathews, Basil Joseph.** *World Tides in the Far East*. 1933, English. London, Edinburgh House Press. borrow at Internet Archive: <https://archive.org/details/worldtidesinfare0000unse_m9t1> [Union Catalog (Fukuda); no. 3975]
 
-**Mathews, F. S.** *The Golden Flower; Chrysanthemum Verses*. no date [1890], English. Boston. [Wenckstern (1907); no. 11092]
-
 **Mathews, Shailer. jt. ed.** *The Friendship of America for Japan. Letters from President Woodrow Wilson, Secretary William Jennings Bryan and Many Representative Americans to the Christian Embassy to Japan Sent by the Federal Council of the Churches of Christ in America, Ed. by Shailer Mathews and Sidney L. Gulick*. n.d., English. n.p.. [Union Catalog (Fukuda); no. 3976]
 
 **Matignon, J. J.** *L'Orient lointain; Chine, Corée, Mongolie et Japon. Impressions et souvenire de séjour et de tourisme*. 1903, French. Paris, A. Stock. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k5426295j> [Union Catalog (Fukuda); Wenckstern (1907); no. 3978]
@@ -13070,8 +13034,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **McGovern, William Montgomery.** *Modern Japan; Its Political, Military, and Industrial Organization*. 1920, English. London, Unwin. read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.54145> read at Internet Archive: <https://archive.org/details/modernjapan015041mbp> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.173321> [Union Catalog (Fukuda); no. 3858]
 
 **McGovern, William Montgomery.** *An Introduction to Mahayana Buddhism. with Especial Reference to Chinese and Japanese Phases*. 1922, English. London, Kegan Paul, Trench, Trubner. read at Internet Archive: <https://archive.org/details/introductiontoma00mcgo> read at Internet Archive: <https://archive.org/details/bwb_KU-245-632> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.68164> read at Internet Archive: <https://archive.org/details/in.gov.ignca.19655> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.70156> [Union Catalog (Fukuda); Nachod (1928); no. 3856]
-
-**McGovern, William Montgomery.** *A Manual of Buddhist Philosophy*. 1923, English. London, Kegan Paul, Trench, Trübner. read at Internet Archive: <https://archive.org/details/buddhistphiloso01mcgouoft> read at Internet Archive: <https://archive.org/details/dli.csl.4753> read at Internet Archive: <https://archive.org/details/manualofbuddhist0000mcgo> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.90244> read at Internet Archive: <https://archive.org/details/dli.csl.3820> read at Internet Archive: <https://archive.org/details/manualofbuddhist00mcgo> [Union Catalog (Fukuda); Nachod (1928); no. 3857]
 
 **McGovern, William Montgomery.** *Colloquial Japanese*. 1934, 1934 ed., English. read at Internet Archive: <https://archive.org/details/dli.ernet.238244> [Union Catalog (Fukuda); no. 3855]
 
@@ -15184,8 +15146,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Noguchi, Shōzō.** *Die Entwicklung des Versicherungsgedankens in Japan*. 1926, German. Göttingen. [Union Catalog (Fukuda); no. 4789]
 
-**Noguchi, Y.** *The Voices of the Valley*. 1897, English. San Francisco. [Wenckstern (1907); no. 11636]
-
 **Noguchi, Yonejirō.** *The American Diary of a Japanese Girl, by Miss Morning Glory*. 1902, 1902 ed., English. N. Y., Frederick A. Stokes. read at Internet Archive: <https://archive.org/details/americandiaryaj01nogugoog> read at Internet Archive: <https://archive.org/details/americandiaryofj00noguiala> read at Internet Archive: <https://archive.org/details/americandiaryaj00nogugoog> [Union Catalog (Fukuda); no. 4791]
 
 **Noguchi, Yonejirō.** *From the Eastern Sea*. 1903, English. Tokyo, Fuzanbo. read at Internet Archive: <https://archive.org/details/fromeasternsea00nogu> [Union Catalog (Fukuda); Wenckstern (1907); no. 4795]
@@ -15536,8 +15496,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Nuttonson, M. Y.** *Ecological Crop Geography and Field Practices of Japan, Japan's Natural Vegetation, and Agro-Climatic Analogues in North America*. 1951, English. Washington, D.C., American Institute of Crop Ecology. read at Internet Archive: <https://archive.org/details/ecologicalcropge00nutt> [Union Catalog (Fukuda); no. 4938]
 
-**Nyanatiloka. ed.** *Das wort des Buddha; eine Übersicht über das ethisch-philosophische System des Buddha, in den Worten des Sutta-Pitaka, zusammengestellt, übersetzt und erläutert von Nyanatiloka*. 1923, 2te Aufl., German. München, Oskar Schloss. [Union Catalog (Fukuda); no. 4939]
-
 **Nyman, Th.** *Nägro Bilder ur Japans historia, trenne föredrag*. 1907, German. Stockholm. [Union Catalog (Fukuda); no. 4940]
 
 **Nypels, G.** *Japan-Nederland in Oost-Azië*. 1899, English. Haarlem, De Erven Loosjes. [Nichibunken catalogue; Wenckstern (1907); no. 10318]
@@ -15647,7 +15605,7 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Ogino, Hideko Sellés.** *El Japon*. 1929, Spanish. Barcelona, Cervantes. [Union Catalog (Fukuda); no. 4975]
 
-**Ogrizek, Doré. ed.** *Le Japón. Textes de Madeleine Paul David et al*. 1954, French. Paris, Odé. [Union Catalog (Fukuda); no. 4976]
+**Ogrizek, Doré. ed.** *Le Japón. Textes de Madeleine Paul David et al*. 1954, Spanish. Paris, Odé. [Union Catalog (Fukuda); no. 4976]
 
 **Ogura Yémon.** *Nihongwaishi, Histoire Independente du Japon, Livre Sécond*. 1884, French. Paris. [Asiatic Society of Japan (1888); no. 9945]
 
@@ -17344,8 +17302,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Reiss, Karl.** *Untersuchung über fossile Hölzer aus Japan*. 1907, German. Rostock. read at Internet Archive: <https://archive.org/details/untersuchungberf00reis> [Union Catalog (Fukuda); no. 5548]
 
-**Reist, Werner.** *Menschen und Maschinen. Roman*. 1936, German. Zürich, Füssli. [Union Catalog (Fukuda); no. 5549]
-
 **Reiter, H. W. jt. author.** *The Merry Gentlemen of Japan. A Children's Story, Adopted from the Gilbert Ans Sullivan Opera "the Mikado", by H. W. Reiter and Shepard Chartoc*. 1935, English. New York, Bass Publishers. [Union Catalog (Fukuda); no. 5550]
 
 **Rekuri, R.** *Desiat' mesiatsev na Iaponski-Russkoi voine; bezpristrastnye ocherki i vpechatleniia frantsuzskago voennago korrespondenta. Perev. N. L.*. 1908, Russian. St. Peterburg. [Union Catalog (Fukuda); no. 5551]
@@ -17437,8 +17393,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Reynoso, D. Francisco de.** *En la corte del Mikado. Bocetos Japanese*. 1904, Spanish. Madrid, Bailly-Bailliere E. Hijos. read at Internet Archive: <https://archive.org/details/enlacortedelmik00reyngoog> [Union Catalog (Fukuda); Wenckstern (1907); no. 5578]
 
 **Rhea, George Bronson.** *The Case for Manchukuo*. 1935, English. Appleton-Century. [Dower & George (1995); no. 9698]
-
-**Rhodes, A. de la mission de la Cie de Jésus.** *Les voyages et missions en la Chine et autres royaumes de l'Orient*. 1854, French. Paris. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k54106202> read at Europeana: <https://www.europeana.eu/en/item/794/ark__12148_bpt6k54106202> [Wenckstern (1907); no. 12943]
 
 **Ribaud, M.** *Japonais et Ainos dans le Yéso [Hokkaïdo] Un été au Japon boréal*. 1897, French. Paris et Lyon. read at Gallica: <https://gallica.bnf.fr/ark:/12148/bpt6k371147w> read at Europeana: <https://www.europeana.eu/en/item/794/ark__12148_bpt6k371147w> [Wenckstern (1907); no. 12876]
 
@@ -17617,8 +17571,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Rōdōshō.** *Working Conditions in the Japanese Textile Industry*. 1955, English. Tokyo, Ministry of Labor. [Union Catalog (Fukuda); no. 5639]
 
 **Rodriguez, João.** *Carta anua da Vice-provincia do Japao do ano de 1604. Integra inedita agora revelada e prefaciada por Antonio Baiao*. 1932, Portuguese. Coimbra, Universidade. read at Internet Archive: <https://archive.org/details/MN41411ucmf_4> [Union Catalog (Fukuda); no. 5640]
-
-**Roerich, Nicholas.** *Realm of Light*. 1931, English. New York, Roerich Museum Press. read at roerich.org: <http://www.roerich.org/roerich-writings-realm-of-light.php> [Union Catalog (Fukuda); no. 5641]
 
 **Roesler, Hermann.** *Entwurf eines Handels-Gesetzbuchs für Japan mit Commentar*. 1884, 3 v., German. Tokyo. [Union Catalog (Fukuda); no. 5642]
 
@@ -18281,8 +18233,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Saunders, K. J.** *Epochs in Buddhist History. the Haskell Lectures 1921*. 1924, English. Chicago, University Press. read at Internet Archive: <https://archive.org/details/epochsinbuddhist00saun_0> read at Internet Archive: <https://archive.org/details/epochsinbuddhist0000kenn_j1i5> read at Internet Archive: <https://archive.org/details/epochsinbuddhist00saun> read at Internet Archive: <https://archive.org/details/epochsinbuddhist0000kenn_s0t8> read at Internet Archive: <https://archive.org/details/epochsinbuddhist0000kenn_m6l1> read at Internet Archive: <https://archive.org/details/epochsinbuddhist0000kenn> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.57158> read at Internet Archive: <https://archive.org/details/in.gov.ignca.2473> read at Internet Archive: <https://archive.org/details/epochsinbudhisth035244mbp> [Nachod (1928); no. 10901]
 
-**Saunders, K. J.** *Lotuses of the Mahāyāna*. 1924, English. London, J. Murray. read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.280824> read at Internet Archive: <https://archive.org/details/pli.kerala.rare.26179> [Nachod (1928); no. 10902]
-
 **Sauter, J. A.** *Das Problem Japans. Übersetzt aus dem englischen*. 1902, German. Leipzig, K. F. Koehler. [Union Catalog (Fukuda); no. 5861]
 
 **Sauter, J. A. tr.** *Die Isolierung Japans. Eine Darstellung der politischen Lage Japans nach dem Kriege. (Von einen früheren Legationsrat im Fernen Osten). Auf dem englischen übertragen*. 1919, German. Charlottenburg, Deutsche Verlagsgesellschaft für Politik und Geschichte. [Union Catalog (Fukuda); Nachod (1928); no. 5860]
@@ -18518,8 +18468,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Schön, J.** *Militairgeographische Übersicht des Kriegschauplatzes in Ostasien*. 1904, German. Wien. [Wenckstern (1907); no. 11930]
 
 **Schön, Joseph.** *Der Kriegsschauplatz in Ostasien. Geographische Beschreibung und Würdigung*. 1904, 2. vermehrte Aufl., German. Berlin, Friedrich Luckhardt. [Union Catalog (Fukuda); Wenckstern (1907); no. 5909]
-
-**Schrameier, W.** *Kiautschou, seine Entwicklung und Bedeutung. Ein Rückblick*. 1915, German. Berlin, Curtius. [Nachod (1928); no. 10646]
 
 **Schraubstadter, Carl William.** *Care and Repair of Japanese Prints*. 1948, English. Cornwall-on-Hudson, N. Y., Idlewild Press. [Union Catalog (Fukuda); no. 5910]
 
@@ -20232,8 +20180,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Tachibana Shoten.** *Putevoditel' Iaponiia*. 1932, Russian. Tokyo, Tachibana Shoten. [Union Catalog (Fukuda); no. 6493]
 
-**Tachibana, S.** *The Ethics of Buddhism*. 1926, English. London, Oxford Univ. Press. read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.33646> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.189317> [Union Catalog (Fukuda); no. 6492]
-
 **Tada, Kanai.** *The Praises of Amida; Seven Buddhist Sermons. Tr. by Arthur Lloyd*. 1907, English. Tokyo, Kyobunkwan. read at Internet Archive: <https://archive.org/details/praisesamidasev00lloygoog> read at Internet Archive: <https://archive.org/details/thepraisesofamid00kanauoft> read at Internet Archive: <https://archive.org/details/praisesamidasev01lloygoog> read at Internet Archive: <https://archive.org/details/praisesofamidase00kana> read at Internet Archive: <https://archive.org/details/praisesofamidase00kanarich> read at Internet Archive: <https://archive.org/details/thepraisesofamid00tadauoft> [Union Catalog (Fukuda); Nachod (1928); no. 6494]
 
 **Tada, Kanai.** *The Praises of Amida. the Buddhist Sermons of K. Tada. Tr. by Arthur Lloyd*. 1934, English. Kyoto, Bukkyo Bunka Society. [Union Catalog (Fukuda); no. 6495]
@@ -20959,8 +20905,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Thomas, Dorothy Swaine.** *Some Social Aspects of Japanese-American Demography*. 1950, article, English. [Borton et al. (1954); no. 8277]
 
 **Thomas, Dorothy Swaine.** *Japanese American Evacuation and Resettlement*. 1946-54, 3 v., English. Berkeley, Univ. of California Press. read at Internet Archive: <https://archive.org/details/japaneseamerican00thomrich> [Union Catalog (Fukuda); no. 6750]
-
-**Thomas, Edward J.** *The Life of Buddha as Legend and History*. 1927, English. London, Kegan Paul, Trench Trubner. read at Internet Archive: <https://archive.org/details/dli.ministry.16304> read at Internet Archive: <https://archive.org/details/bwb_W8-BHA-192> [Union Catalog (Fukuda); no. 6753]
 
 **Thomas, Edward J.** *The History of Buddhist Thought*. 1933, English. London, Kegan Paul, Trench, Trubner. read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.168576> read at Internet Archive: <https://archive.org/details/in.ernet.dli.2015.188970> read at Internet Archive: <https://archive.org/details/in.gov.ignca.554> [Union Catalog (Fukuda); no. 6752]
 
@@ -23283,8 +23227,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 
 **Wratzke, O.** *Im französischen Solde. Erinnerungen aus seinem französischen Legionärsleben in Algerien, Formosa, Tonkin, bearbeitet von Richard Wagner*. 1897, German. Berlin. [Wenckstern (1907); no. 12909]
 
-**Wright, Dudley.** *A Manual of Buddhism*. 1912, English. London, Kegan Paul, Trench, Trubner. read at Internet Archive: <https://archive.org/details/in.gov.ignca.2507> [Union Catalog (Fukuda); no. 7449]
-
 **Wright, Frank Lloyd.** *The Japanese Prints. an Interpretation*. 1912, English. Chicago, Ralph Fletcher Seymour. [Union Catalog (Fukuda); no. 7450]
 
 **Wright, H. C. Seppings.** *With Togo; The Story of Seven Months' Active Service under His Command*. 1905, 4th ed., English. London, Hurst and Blackett. read at Internet Archive: <https://archive.org/details/cu31924023037561> read at Internet Archive: <https://archive.org/details/withtogostoryse00wriggoog> read at Internet Archive: <https://archive.org/details/withtogostoryofs00wriguoft> [Union Catalog (Fukuda); no. 7452]
@@ -23814,8 +23756,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
 **Zepelin, C. v.** *Der Ferne Osten. Seine Geschichte, seine Entwicklung in der neuesten Zeit und seine Lage nach dem Russisch-Japanischen Kriege, Teil 1*. 1907, German. Berlin, Zuckschwerdt & Co.. [Nachod (1928); no. 10759]
 
 **Zeyer, Julius.** *Gompači a Komurasaki. Žaponský román. Treti Nezmenené Vydáni*. 1906, Czech. Praze, České Graf. Akc. Spolecnosti "Unie". [Union Catalog (Fukuda); Wenckstern (1907); no. 7615]
-
-**Zia, Z. K.** *The Confucian Civilization*. 1924, English. London, Kegan Paul. [Nachod (1928); no. 10909]
 
 **Zilliacus, Konni.** *Japanesiska Studier Och Skizzer*. 1896, English. Helsingfors . Wentzel Hagelstams Förlag. read at Internet Archive: <https://archive.org/details/gri_33125009813912> [Nichibunken catalogue; Wenckstern (1907); no. 10280]
 
