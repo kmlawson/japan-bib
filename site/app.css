@@ -38,6 +38,7 @@ button.primary{background:var(--accent);color:var(--accent-ink);border-color:var
 .row2 label[hidden]{display:none}
 .row2 select{min-width:0;max-width:100%}
 input[type=number]{width:84px}
+.ainote{margin:8px 0 0;font-size:13px;color:var(--muted)}
 .status{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 6px;color:var(--muted);font-size:13px}
 .pager{display:flex;gap:6px;align-items:center}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}

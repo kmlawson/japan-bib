@@ -270,10 +270,14 @@ def build(md_path, out_path, bump=True):
   </section>''')
 
     ver, today = version(bump), datetime.date.today().strftime("%d %B %Y").lstrip("0")
-    parts.append(f'''  <footer class="credit">
-    <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
-      at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
-      sources.</p>
+    parts.append(f'''  <footer class="credit" id="ai-use">
+    <p>The code and design for the website was created with the use of Anthropic Claude Opus 5.1 with Konrad M.
+      Lawson at the prompt. Over a thousand of the links and entries in the database began as entries in
+      Konrad's Zotero collection, but then Opus was used in extracting candidates for bibliographic entries
+      from some of the sources. Scripts were then used to query the search API for Internet Archive, and other
+      library databases to identify further open access links to works. The main priority was maximum access
+      of materials to researchers, not as an authoritative bibliographic reference: it is important that you
+      verify specific information in the entries in the original bibliographies and the sources themselves.</p>
     <p class="version">Version {ver} · Last Updated: {today} ·
       <a href="{REPO}" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>''')

@@ -46,6 +46,7 @@ button.primary{background:var(--accent);color:var(--accent-ink);border-color:var
 .row2 label[hidden]{display:none}
 .row2 select{min-width:0;max-width:100%}
 input[type=number]{width:84px}
+.ainote{margin:8px 0 0;font-size:13px;color:var(--muted)}
 .status{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 6px;color:var(--muted);font-size:13px}
 .pager{display:flex;gap:6px;align-items:center}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
@@ -495,6 +496,7 @@ footer.site ul { padding-left: 20px; }
       <label>Per page <select id="pp"><option>50</option><option>100</option><option>250</option><option selected>1000</option><option value="all">All</option></select></label>
     </div>
   </div>
+  <p class="ainote"><strong>Note:</strong> Read more on how LLMs were <a href="#ai-use">used</a> in the creation of this database.</p>
   <div id="warn" class="warn" hidden></div>
   <div class="status"><div id="count">Loading database…</div>
     <div class="right"><button id="csv" title="Download the current result list as CSV">Export CSV</button><button id="bib" title="Download the current result list as BibTeX">Export BibTeX</button>
@@ -537,11 +539,15 @@ footer.site ul { padding-left: 20px; }
     <a id="dsearch" target="_blank" rel="noopener"><button type="button">Search archive.org</button></a></div>
 </dialog>
   </section>
-  <footer class="credit">
-    <p>The code and design for the website was created with Anthropic Claude Opus 5.1 with Konrad M. Lawson
-      at the prompt. Opus was also used in extracting candidates for bibliographic entries from some of the
-      sources.</p>
-    <p class="version">Version 1.0017 · Last Updated: 23 September 2026 ·
+  <footer class="credit" id="ai-use">
+    <p>The code and design for the website was created with the use of Anthropic Claude Opus 5.1 with Konrad M.
+      Lawson at the prompt. Over a thousand of the links and entries in the database began as entries in
+      Konrad's Zotero collection, but then Opus was used in extracting candidates for bibliographic entries
+      from some of the sources. Scripts were then used to query the search API for Internet Archive, and other
+      library databases to identify further open access links to works. The main priority was maximum access
+      of materials to researchers, not as an authoritative bibliographic reference: it is important that you
+      verify specific information in the entries in the original bibliographies and the sources themselves.</p>
+    <p class="version">Version 1.0017 · Last Updated: 24 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>
@@ -1017,6 +1023,13 @@ function zoteroLook() {
 
 load().catch(err => { $("count").textContent = "Could not load the database: " + err; });
 })();
+
+// The "used" link in the note scrolls to the footer without replacing the search state kept in the hash.
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href="#ai-use"]');
+  const t = a && document.getElementById("ai-use");
+  if (t) { e.preventDefault(); t.scrollIntoView({ behavior: "smooth", block: "start" }); }
+});
 </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 % Western-language works on Japan, 1850–1955
-% Version 1.0017 · 23 September 2026
+% Version 1.0017 · 24 September 2026
 
 # Primary sources
 

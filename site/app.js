@@ -417,3 +417,10 @@ function zoteroLook() {
 
 load().catch(err => { $("count").textContent = "Could not load the database: " + err; });
 })();
+
+// The "used" link in the note scrolls to the footer without replacing the search state kept in the hash.
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href="#ai-use"]');
+  const t = a && document.getElementById("ai-use");
+  if (t) { e.preventDefault(); t.scrollIntoView({ behavior: "smooth", block: "start" }); }
+});
