@@ -27,6 +27,13 @@
   <div class="status"><div id="count">Loading database…</div>
     <div class="right"><button id="csv" title="Download the current result list as CSV">Export CSV</button><button id="bib" title="Download the current result list as BibTeX">Export BibTeX</button>
     <div class="pager"><button id="prev">‹ Prev</button><span id="pageinfo"></span><button id="next">Next ›</button></div></div></div>
+  <div id="loading" class="loading" role="status" aria-live="polite">
+    <div class="lmsg"><span class="spin" aria-hidden="true"></span><span id="lstep">Loading the search engine…</span></div>
+    <progress id="lbar"></progress>
+    <div id="ldetail" class="ldetail">The database of about 13,000 entries is roughly 10 MB, so the first load can take a moment on a slow connection.</div>
+    <button id="lretry" type="button" hidden>Try again</button>
+  </div>
+  <button id="lpill" class="lpill" type="button" hidden aria-hidden="true"><span class="spin"></span><span id="lpilltxt">Loading database…</span></button>
   <div class="tablewrap">
     <table>
       <thead><tr>

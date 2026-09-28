@@ -336,7 +336,7 @@ for (const h of document.querySelectorAll("section.md > h2")) {
 }
 </script>
 <script>
-''' + part("app.js").strip() + '''
+''' + part("app.js").strip().replace("__DB_BYTES__", str(os.path.getsize(os.path.join(HERE, "list.sqlite")))) + '''
 </script>
 </body>
 </html>

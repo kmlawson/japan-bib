@@ -17,9 +17,13 @@ $("theme").onclick = () => {
 };
 
 async function load() {
+  step("Loading the search engine…");
   const SQL = await initSqlJs({ locateFile: f => "vendor/" + f });
-  const buf = await (await fetch("list.sqlite", { cache: "no-cache" })).arrayBuffer();
-  const db = new SQL.Database(new Uint8Array(buf));
+  step("Downloading the database…");
+  const buf = await download("list.sqlite");
+  step("Preparing the entries…", null, "Almost there.");
+  await new Promise(r => setTimeout(r, 30));   // let the message paint before the heavy work
+  const db = new SQL.Database(buf);
   const cols = db.exec("PRAGMA table_info(books)")[0].values.map(v => v[1]);
   const res = db.exec("SELECT * FROM books ORDER BY id")[0];
   const ix = Object.fromEntries(res.columns.map((c, i) => [c, i]));
@@ -44,6 +48,44 @@ async function load() {
   const withIA = ALL.filter(r => r.nlinks).length, nOpen = ALL.filter(r => r.access === "open").length, nBor = ALL.filter(r => r.access === "borrow").length;
   $("foot").innerHTML = "The full data are in <a href=\"list.sqlite\">list.sqlite</a> (table <code>books</code>).";
   const wantId = parseInt(new URLSearchParams(location.hash.slice(1)).get("id")); readHash(); apply(false); openFromHash(wantId);
+  $("loading").hidden = true; pill();
+}
+
+// Loading panel: what is happening now, and how much of the database has arrived.
+const DB_BYTES = __DB_BYTES__;   // size of list.sqlite, written in when the page is built
+const mb = n => (n / 1048576).toFixed(1);
+// While the panel is scrolled out of sight (on a phone it sits below the section buttons), a small pill
+// at the bottom of the screen carries the same message; tapping it brings the panel into view.
+let panelSeen = true;
+if ("IntersectionObserver" in window) new IntersectionObserver(es => { panelSeen = es[0].isIntersecting; pill(); }).observe($("loading"));
+function pill() {
+  const p = $("lpill"), loading = !$("loading").hidden;
+  p.hidden = !loading || panelSeen; p.classList.toggle("err", $("loading").classList.contains("err"));
+}
+$("lpill").onclick = () => $("loading").scrollIntoView({ behavior: "smooth", block: "center" });
+function step(msg, frac, detail) {
+  $("lstep").textContent = msg; $("count").textContent = msg;
+  $("lpilltxt").textContent = frac == null ? msg : `${msg.replace("…", "")} ${Math.round(frac * 100)}%`; pill();
+  const bar = $("lbar"); if (frac == null) bar.removeAttribute("value"); else { bar.max = 1; bar.value = frac; }
+  if (detail != null) $("ldetail").textContent = detail;
+}
+// Read the download in chunks so progress can be shown. The server may compress the file, so the
+// Content-Length header is not always the real size; the size recorded at build time is the fallback.
+async function download(url) {
+  const resp = await fetch(url, { cache: "no-cache" });
+  if (!resp.ok) throw new Error(`The server answered ${resp.status}`);
+  const hdr = parseInt(resp.headers.get("Content-Length")) || 0;
+  const total = resp.headers.get("Content-Encoding") ? DB_BYTES : (hdr || DB_BYTES);
+  if (!resp.body || !resp.body.getReader) return new Uint8Array(await resp.arrayBuffer());
+  const reader = resp.body.getReader(), parts = []; let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read(); if (done) break;
+    parts.push(value); got += value.length;
+    const f = total ? Math.min(got / total, 1) : null;
+    step("Downloading the database…", f, total ? `${mb(got)} of ${mb(total)} MB (${Math.round(f * 100)}%)` : `${mb(got)} MB`);
+  }
+  const out = new Uint8Array(got); let o = 0; for (const p of parts) { out.set(p, o); o += p.length; }
+  return out;
 }
 
 function parseQuery(q) {
@@ -241,6 +283,7 @@ function render(terms) {
   document.querySelectorAll("th").forEach(th => th.querySelector(".arrow").textContent = th.dataset.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : "");
 }
 function citation(r) { return [r.author, r.title + (/[.?!]$/.test(r.title) ? "" : "."), r.edition, (r.other.match(/Imprint: ([^|]+)/) || [,""])[1].trim(), r.year].filter(Boolean).join(" ").replace(/\s+/g, " ") + "."; }
+let dlgHist = false;                 // true while the open entry has its own history entry
 function show(i) {
   if (i < 0 || i >= VIEW.length) return; cur = i; const r = VIEW[i];
   $("dtitle").innerHTML = esc(r.title) + coins(r);   // the open entry carries its COinS too
@@ -253,9 +296,11 @@ function show(i) {
     .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("dsearch").href = "https://archive.org/search?query=" + encodeURIComponent(`title:(${r.title.split(/[.;:]/)[0]})` + (r.author ? ` AND creator:(${r.author.split(",")[0]})` : ""));
   $("dprev").disabled = i === 0; $("dnext").disabled = i === VIEW.length - 1;
-  if (!$("dlg").open) $("dlg").showModal();
+  if (!$("dlg").open) {               // a history entry of its own, so the back button or gesture closes it
+    history.pushState({ dlg: 1 }, "", location.href); dlgHist = true; $("dlg").showModal();
+  }
   coinsMode(true);                   // offer this entry alone while it is open
-  history.replaceState(null, "", location.pathname + location.search + hashString(r.id));
+  history.replaceState(dlgHist ? { dlg: 1 } : null, "", location.pathname + location.search + hashString(r.id));
 }
 function hashString(id) {
   const p = new URLSearchParams();
@@ -317,7 +362,11 @@ document.querySelectorAll("th").forEach(th => th.onclick = () => { const k = th.
 $("rows").addEventListener("click", e => { if (e.target.closest("a")) return; const tr = e.target.closest("tr"); if (tr) show(parseInt(tr.dataset.i)); });
 $("dclose").onclick = () => $("dlg").close();
 $("dlg").addEventListener("close", () => coinsMode(false));   // the whole list again
-$("dlg").addEventListener("close", writeHash);
+$("dlg").addEventListener("close", () => { if (dlgHist) { dlgHist = false; history.back(); } else writeHash(); });
+addEventListener("popstate", () => {
+  if ($("dlg").open && !(history.state && history.state.dlg)) { dlgHist = false; $("dlg").close(); }
+  else if (!$("dlg").open) writeHash();   // back on the list: drop any #id= left from opening a linked entry
+});
 $("dlg").addEventListener("click", e => { if (e.target === $("dlg")) $("dlg").close(); });
 $("dprev").onclick = () => show(cur - 1); $("dnext").onclick = () => show(cur + 1);
 const copy = (t, b) => navigator.clipboard.writeText(t).then(() => { const o = b.textContent; b.textContent = "Copied ✓"; setTimeout(() => b.textContent = o, 1200); });
@@ -415,7 +464,15 @@ function zoteroLook() {
   }, wait);
 }
 
-load().catch(err => { $("count").textContent = "Could not load the database: " + err; });
+function start() {
+  $("loading").hidden = false; $("loading").classList.remove("err"); $("lretry").hidden = true;
+  load().catch(err => {
+    $("loading").classList.add("err"); $("lretry").hidden = false;
+    step("Could not load the database.", null, `${err && err.message || err}. Check your connection and try again.`); pill();
+  });
+}
+$("lretry").onclick = start;
+start();
 })();
 
 // The "used" link in the note scrolls to the footer without replacing the search state kept in the hash.

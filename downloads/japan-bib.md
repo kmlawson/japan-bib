@@ -1,5 +1,5 @@
 % Western-language works on Japan, 1850–1955
-% Version 1.0017 · 24 September 2026
+% Version 1.0018 · 28 September 2026
 
 # Primary sources
 
@@ -38,6 +38,7 @@ See also:
 
 ## Year Books and Directories
 
+- [Old Year Book Tables of East Asia](https://froginawell.net/reference/old-tables/)
 - *Japan Year Book*
     - [1905](https://archive.org/details/japan-year-book-1905) | [1906](https://archive.org/details/japan-year-book-1906) | [1907](https://archive.org/details/japan-year-book-1907) | [1907-9](https://archive.org/details/japan-year-book-1908-1909) | [1910](https://archive.org/details/japan-year-book-1910), [1911](https://archive.org/details/japan-year-book-1911) | [1912](https://archive.org/details/japan-year-book-1912) | [1913](https://archive.org/details/japan-year-book-1913) |  [1914](https://archive.org/details/japan-year-book-1914) | [1913-4](https://archive.org/details/japan-year-book-1913-1914) |  [1915](https://archive.org/details/japan-year-book-1915) |  [1916](https://archive.org/details/japan-year-book-1916) | [1917](https://archive.org/details/japan-year-book-1917) |  [1918](https://archive.org/details/japan-year-book-1918) |  [1919-20](https://archive.org/details/japan-year-book-1919-1920), [1920](https://archive.org/details/japan-year-book-1920) |  [1921-2](https://archive.org/details/japan-year-book-1921-1922) |  [1923](https://archive.org/details/japan-year-book-1923) |  [1924-5](https://archive.org/details/japan-year-book-1924-1925) |  [1926](https://archive.org/details/japan-year-book-1926) |  [1927](https://archive.org/details/japan-year-book-1927) |  [1928](https://archive.org/details/japan-year-book-1928) |  [1929](https://archive.org/details/japanyearbook00unkngoog/page/n37/mode/2up) |  [1930](https://archive.org/details/japan-year-book-1930) |  [1931](https://archive.org/details/japan-year-book-1931-partial) |  [1935](https://archive.org/details/japan-year-book-1935) [1937](https://archive.org/details/the-japan-year-book-1937) |  [1939-40](https://archive.org/details/japan-year-book-1939-1940) |  [1946-8](https://archive.org/details/japan-year-book-1946-1948)
 - *Japan-Manchoukuo Year Book* [1940](https://archive.org/details/japan-manchoukuo-year-book-1940)
@@ -91,6 +92,10 @@ See also:
 
 Your first stop should be the [Digital Resources and Projects on East Asia](https://prcurtis.com/DH/resources/) by Paula R. Curtis. There is an extensive table there which can be filtered by time period and area, among other things.
 
+- U.S. government documents related to Japan:
+  - [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://archive.org/search?query=subject%3A%22japan-internal-affairs%22)
+  - [Foreign Relations of the United States Ebooks](https://history.state.gov/historicaldocuments/ebooks)
+
 - [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
     - [The Opium War in Japanese Eyes](https://visualizingcultures.mit.edu/opium_wars_japan/index.html)
     - [Black Ships & Samura](https://visualizingcultures.mit.edu/black_ships_and_samurai/index.html)
@@ -131,7 +136,6 @@ Your first stop should be the [Digital Resources and Projects on East Asia](http
     - [Overseas Japanese-language Newspapers](https://www.nichibun.ac.jp/en/db/category/kaigai-hoji/)
     - [Western Books on Japan](https://www.nichibun.ac.jp/en/db/category/obun/)
 - [Nagasaki Foreign Settlement](https://froginawell.net/nagasaki/)
-- [Foreign Relations of the United States Ebooks](https://history.state.gov/historicaldocuments/ebooks)
 - [National Diet Library - Modern Japan in Archives](https://www.ndl.go.jp/modern/e/index.html)
 - [National Diet Library - Image Bank](https://www.ndl.go.jp/en/imagebank)
 - [Japan Air Raids](https://www.japanairraids.org/)
