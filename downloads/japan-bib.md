@@ -1,5 +1,5 @@
 % Western-language works on Japan, 1850–1955
-% Version 1.0018 · 28 September 2026
+% Version 1.0018 · 29 September 2026
 
 # Primary sources
 
@@ -93,7 +93,8 @@ See also:
 Your first stop should be the [Digital Resources and Projects on East Asia](https://prcurtis.com/DH/resources/) by Paula R. Curtis. There is an extensive table there which can be filtered by time period and area, among other things.
 
 - U.S. government documents related to Japan:
-  - [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://archive.org/search?query=subject%3A%22japan-internal-affairs%22)
+  - [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://froginawell.net/reference/japan-internal-affairs)
+    - files on Internet Archive: [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://archive.org/search?query=subject%3A%22japan-internal-affairs%22)
   - [Foreign Relations of the United States Ebooks](https://history.state.gov/historicaldocuments/ebooks)
 
 - [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)

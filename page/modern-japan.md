@@ -96,9 +96,10 @@ See also:
 Your first stop should be the [Digital Resources and Projects on East Asia](https://prcurtis.com/DH/resources/) by Paula R. Curtis. There is an extensive table there which can be filtered by time period and area, among other things. 
 
 - U.S. government documents related to Japan:
-  - [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://archive.org/search?query=subject%3A%22japan-internal-affairs%22)
+  - [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://froginawell.net/reference/japan-internal-affairs)<!--pills-->
+    - files on Internet Archive: [Records Department of State Relating to Internal Affairs of Japan 1930-1949](https://archive.org/search?query=subject%3A%22japan-internal-affairs%22)
   - [Foreign Relations of the United States Ebooks](https://history.state.gov/historicaldocuments/ebooks)
-
+  
 - [Visualizing Cultures](https://visualizingcultures.mit.edu/home/index.html)
     - [The Opium War in Japanese Eyes](https://visualizingcultures.mit.edu/opium_wars_japan/index.html)
     - [Black Ships & Samura](https://visualizingcultures.mit.edu/black_ships_and_samurai/index.html)
