@@ -183,7 +183,7 @@ section.md .body ul { margin: 8px 0; padding-left: 22px; }
 section.md .body li { margin: 4px 0; }
 section.md .body li ul { margin: 2px 0; }
 section.md .body a { color: var(--link); }
-/* a bullet ending in a colon turns its indented list into a row of small bubbles */
+/* a bullet marked <!--pills--> and ending in a colon turns its indented list into a row of small bubbles */
 section.md .body ul.pills { display: flex; flex-wrap: wrap; gap: 6px 10px; list-style: none; padding-left: 0; margin: 6px 0 12px; }
 section.md .body ul.pills li { margin: 0; display: inline-flex; align-items: baseline; gap: 6px; max-width: 100%; }
 section.md .body a.pill-link {
@@ -194,6 +194,9 @@ section.md .body a.pill-link {
 }
 section.md .body a.pill-link:hover { background: color-mix(in srgb, var(--accent) 24%, var(--panel)); border-color: var(--accent); }
 section.md .body .pill-note { font-size: 12.5px; color: var(--muted); }
+/* a bubble inside an ordinary list: no bullet, and whatever is indented under it sits just below */
+section.md .body li.pill-own { list-style: none; }
+section.md .body li.pill-own > ul.pills { margin: 4px 0 2px; }
 section.md .body p { margin: 10px 0; }
 section.md .body em { font-style: italic; }
 
@@ -360,8 +363,11 @@ footer.site ul { padding-left: 20px; }
 <ul>
 <li>U.S. government documents related to Japan:
 <ul>
-<li><a href="https://froginawell.net/reference/japan-internal-affairs" target="_blank" rel="noopener">Records Department of State Relating to Internal Affairs of Japan 1930-1949</a>&lt;!--pills--&gt;</li>
+<li class="pill-own"><ul class="pills"><li><a class="pill-link" href="https://froginawell.net/reference/japan-internal-affairs" target="_blank" rel="noopener">Records Department of State Relating to Internal Affairs of Japan 1930-1949</a></li></ul>
+<ul>
 <li>files on Internet Archive: <a href="https://archive.org/search?query=subject%3A%22japan-internal-affairs%22" target="_blank" rel="noopener">Records Department of State Relating to Internal Affairs of Japan 1930-1949</a></li>
+</ul>
+</li>
 <li><a href="https://history.state.gov/historicaldocuments/ebooks" target="_blank" rel="noopener">Foreign Relations of the United States Ebooks</a></li>
 </ul>
 </li>
@@ -581,7 +587,7 @@ footer.site ul { padding-left: 20px; }
       library databases to identify further open access links to works. The main priority was maximum access
       of materials to researchers, not as an authoritative bibliographic reference: it is important that you
       verify specific information in the entries in the original bibliographies and the sources themselves.</p>
-    <p class="version">Version 1.0018 · Last Updated: 29 September 2026 ·
+    <p class="version">Version 1.0019 · Last Updated: 30 September 2026 ·
       <a href="https://github.com/kmlawson/japan-bib" target="_blank" rel="noopener">Source and data on GitHub</a></p>
   </footer>
 </div>

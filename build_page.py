@@ -12,8 +12,9 @@ The page is made of four things, none of which this script edits by hand:
     site/app.css/.html/.js the search, exactly as it is - cut out of the old standalone page
     vendor/sql-wasm.*      the SQLite engine the search runs on
 
-A bullet ending in the marker `<!--pills-->` turns its indented list into a row of small bubbles; any
-other indented list stays an ordinary list.
+A bullet ending in the marker `<!--pills-->`, at any depth, becomes bubbles: if it ends in a colon its
+indented list turns into a row of small bubbles, otherwise the bullet itself becomes one. Any other
+indented list stays an ordinary list, nested as deep as it is indented.
 
 Each `# heading` in the markdown becomes a section of the page with a button of its own at the top,
 in the order they are written; a last button leads to the search. Nothing but the buttons and the
@@ -94,25 +95,73 @@ def pill_item(text):
 
 
 def render(lines):
-    """A section's body: bullet lists (one level of nesting), sub-headings and paragraphs.
+    """A section's body: bullet lists (nested to any depth), sub-headings and paragraphs.
 
-    A bullet whose line ends with the marker <!--pills--> turns its indented list into a row of small
-    bubbles (ul.pills) instead of an ordinary list; the marker itself never shows."""
-    out, stack, para = [], 0, []
-    pills = False
+    A bullet ending in the marker <!--pills--> becomes bubbles, at any depth: if its text ends in a
+    colon, its indented list becomes a row of small bubbles (ul.pills); otherwise the bullet itself is
+    the bubble, and anything indented under it stays an ordinary list beneath it. The marker itself
+    never shows."""
+    out, para, items = [], [], []          # items: [(indent, text), ...] of the list being read
 
     def close_para():
         if para:
             out.append("<p>" + inline(" ".join(para).strip()) + "</p>")
             para.clear()
 
-    def close_lists(to=0):
-        nonlocal stack
-        while stack > to:
-            out.append("</ul>")
-            stack -= 1
-            if stack:                      # the nested list lives inside its parent item
+    def tree():
+        """The bullets read so far as nodes {text, mark, kids}; a bullet is nested under the one
+        above it when it is indented further, whatever the number of spaces."""
+        root = {"kids": []}
+        stack = [(-1, root)]
+        for indent, text in items:
+            while indent <= stack[-1][0]:
+                stack.pop()
+            node = {"text": text.replace(PILLS_MARK, "").rstrip(), "mark": PILLS_MARK in text, "kids": []}
+            stack[-1][1]["kids"].append(node)
+            stack.append((indent, node))
+        return root["kids"]
+
+    def own_pill(n):
+        return n["mark"] and not n["text"].endswith(":")   # the bullet itself is the bubble
+
+    def item(n, as_pill):
+        head = pill_item(n["text"]) if as_pill else "<li>" + inline(n["text"]) + "</li>"
+        if not n["kids"]:
+            out.append(head)
+            return
+        out.append(head[:-len("</li>")])   # the nested list lives inside its parent item
+        sub(n["kids"], n["mark"])
+        out.append("</li>")
+
+    def sub(kids, pills):
+        out.append('<ul class="pills">' if pills else "<ul>")
+        for k in kids:
+            if not pills and own_pill(k):
+                out.append('<li class="pill-own"><ul class="pills">' + pill_item(k["text"]) + "</ul>")
+                if k["kids"]:
+                    sub(k["kids"], False)
                 out.append("</li>")
+            else:
+                item(k, pills)
+        out.append("</ul>")
+
+    def close_lists():
+        """Write out the list just read. A top-level bubble stands on its own, outside any list."""
+        run = []
+        def flush():
+            if run:
+                sub(run, False)
+                run.clear()
+        for n in tree():
+            if own_pill(n):
+                flush()
+                out.append('<ul class="pills">' + pill_item(n["text"]) + "</ul>")
+                if n["kids"]:
+                    sub(n["kids"], False)
+            else:
+                run.append(n)
+        flush()
+        items.clear()
 
     for raw in lines:
         line = raw.rstrip()
@@ -122,25 +171,7 @@ def render(lines):
         m = re.match(r"^(\s*)[-*+]\s+(.*)$", line)
         if m:
             close_para()
-            depth = 1 + (len(m.group(1).expandtabs(4)) >= 2)
-            text = m.group(2)
-            own_pill = False
-            if depth == 1:
-                pills = PILLS_MARK in text            # only a list asked to be bubbles becomes bubbles
-                text = text.replace(PILLS_MARK, "").rstrip()
-                own_pill = pills and not text.rstrip().endswith(":")   # the bullet itself is the bubble
-            if own_pill:
-                close_lists()
-                out.append('<ul class="pills">' + pill_item(text) + "</ul>")
-                pills = False
-                continue
-            while stack < depth:
-                if stack and out and out[-1].endswith("</li>"):
-                    out[-1] = out[-1][:-len("</li>")]   # reopen the item this list belongs to
-                out.append('<ul class="pills">' if (depth == 2 and pills) else "<ul>")
-                stack += 1
-            close_lists(depth)
-            out.append(pill_item(text) if (depth == 2 and pills) else "<li>" + inline(text) + "</li>")
+            items.append((len(m.group(1).expandtabs(4)), m.group(2)))
             continue
         m = re.match(r"^(#{2,6})\s+(.*)$", line)
         if m:

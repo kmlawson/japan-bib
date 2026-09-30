@@ -89,8 +89,8 @@ they survive a rebuild.
 `site/app.html`, `site/app.css`, `site/app.js`, `site/page.css` (the search and the look of the page);
 `--from PATH` copies in a newer markdown first, `--no-bump` leaves the version number alone, and
 `--no-downloads` skips rebuilding `downloads/japan-bib.md` and `.pdf`. **`index.html` is generated —
-edit the parts in `site/`, not the page.** A bullet ending in `<!--pills-->` turns its indented list,
-or itself, into small link bubbles.
+edit the parts in `site/`, not the page.** A bullet ending in `<!--pills-->`, at any depth, turns its
+indented list (if it ends in a colon) or itself into small link bubbles; lists nest as deep as they are indented.
 
 ## The work folders
 
